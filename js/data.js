@@ -1493,52 +1493,48 @@ const ONI = {
   // ── STROM ─────────────────────────────────────────────────
   strom: {
     generatoren: [
-      { id: "gen_hamster",    name: "Hamsterrad",              englisch: "Manual Generator",       watt: 400,   brennstoff: "Duplikant-Arbeit", pack: "vanilla",           dauerverbraucher: false },
-      { id: "gen_kohle",      name: "Kohlegenerator",          englisch: "Coal Generator",         watt: 600,   brennstoff: "1,2 kg Kohle/Zyklus", pack: "vanilla",        dauerverbraucher: true  },
-      { id: "gen_petrol",     name: "Petroleumgenerator",      englisch: "Petroleum Generator",    watt: 2000,  brennstoff: "2 kg Petroleum/Zyklus", pack: "vanilla",      dauerverbraucher: true  },
-      { id: "gen_erdgas",     name: "Erdgasgenerator",         englisch: "Natural Gas Generator",  watt: 800,   brennstoff: "90 g Erdgas/Sek", pack: "vanilla",            dauerverbraucher: true  },
-      { id: "gen_wasserstoff",name: "Wasserstoffgenerator",    englisch: "Hydrogen Generator",     watt: 800,   brennstoff: "100 g H₂/Sek", pack: "vanilla",              dauerverbraucher: true  },
-      { id: "gen_solar",      name: "Solarpanel",              englisch: "Solar Panel",            watt: 380,   brennstoff: "Sonnenlicht (Weltraum)", pack: "vanilla",      dauerverbraucher: false },
-      { id: "gen_dampf",      name: "Dampfturbine",            englisch: "Steam Turbine",          watt: 850,   brennstoff: "Dampf 125–200°C", pack: "vanilla",            dauerverbraucher: false },
-      { id: "gen_nuclear",    name: "Atomreaktor",             englisch: "Nuclear Reactor",        watt: 9000,  brennstoff: "Angereichertes Uran", pack: "spacedOut",       dauerverbraucher: true  }
+      { id:"gen_hamster",    name:"Hamsterrad",           englisch:"Manual Generator",      icon:"🏃", img:BASE_IMG+"Manual_Generator.png",      watt:400,  brennstoff:"Duplikant-Arbeit",        pack:"vanilla",          dauerverbraucher:false },
+      { id:"gen_kohle",      name:"Kohlegenerator",       englisch:"Coal Generator",         icon:"🪨", img:BASE_IMG+"Coal_Generator.png",        watt:600,  brennstoff:"1,2 kg Kohle/Zyklus",    pack:"vanilla",          dauerverbraucher:true  },
+      { id:"gen_petrol",     name:"Petroleumgenerator",   englisch:"Petroleum Generator",   icon:"⛽", img:BASE_IMG+"Petroleum_Generator.png",   watt:2000, brennstoff:"2 kg Petroleum/Zyklus",  pack:"vanilla",          dauerverbraucher:true  },
+      { id:"gen_erdgas",     name:"Erdgasgenerator",      englisch:"Natural Gas Generator", icon:"🔥", img:BASE_IMG+"Natural_Gas_Generator.png", watt:800,  brennstoff:"90 g Erdgas/Sek",        pack:"vanilla",          dauerverbraucher:true  },
+      { id:"gen_wasserstoff",name:"Wasserstoffgenerator", englisch:"Hydrogen Generator",    icon:"💠", img:BASE_IMG+"Hydrogen_Generator.png",    watt:800,  brennstoff:"100 g H₂/Sek",           pack:"vanilla",          dauerverbraucher:true  },
+      { id:"gen_solar",      name:"Solarpanel",           englisch:"Solar Panel",            icon:"☀️", img:BASE_IMG+"Solar_Panel.png",           watt:380,  brennstoff:"Sonnenlicht (Weltraum)", pack:"vanilla",          dauerverbraucher:false },
+      { id:"gen_dampf",      name:"Dampfturbine",         englisch:"Steam Turbine",          icon:"♨️", img:BASE_IMG+"Steam_Turbine.png",         watt:850,  brennstoff:"Dampf 125–200°C",        pack:"vanilla",          dauerverbraucher:false },
+      { id:"gen_nuclear",    name:"Atomreaktor",          englisch:"Nuclear Reactor",        icon:"☢️", img:BASE_IMG+"Nuclear_Reactor.png",       watt:9000, brennstoff:"Angereichertes Uran",    pack:"spacedOut",        dauerverbraucher:true  }
     ],
     verbraucher: [
-      // Lebenserhaltung
-      { id: "vb_elektrolyseur",    name: "Elektrolyseur",         kategorie: "🫁 Lebenserhaltung",    watt: 120,  pack: "vanilla", dauerverbraucher: true  },
-      { id: "vb_kohleabscheider",  name: "Kohlensäure-Abscheider",kategorie: "🫁 Lebenserhaltung",    watt: 120,  pack: "vanilla", dauerverbraucher: true  },
-      { id: "vb_oxyl",             name: "OXYL-Generator",        kategorie: "🫁 Lebenserhaltung",    watt: 120,  pack: "vanilla", dauerverbraucher: true  },
-      { id: "vb_wasseraufber",     name: "Wasseraufbereiter",     kategorie: "🫁 Lebenserhaltung",    watt: 120,  pack: "vanilla", dauerverbraucher: false },
-      // Nahrung
-      { id: "vb_mikrobenmatscher", name: "Mikrobenmatscher",      kategorie: "🍽️ Nahrungsproduktion", watt: 60,   pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_grill",            name: "Elektrogrill",          kategorie: "🍽️ Nahrungsproduktion", watt: 60,   pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_gasherd",          name: "Gasherd",               kategorie: "🍽️ Nahrungsproduktion", watt: 0,    pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_friteuse",         name: "Friteuse",              kategorie: "🍽️ Nahrungsproduktion", watt: 60,   pack: "frostyPlanet", dauerverbraucher: false },
-      { id: "vb_raeucherofen",     name: "Räucherofen",           kategorie: "🍽️ Nahrungsproduktion", watt: 0,    pack: "prehistoricPlanet", dauerverbraucher: false },
-      // Kühlung
-      { id: "vb_aquatuner",        name: "Aquatuner",             kategorie: "🧊 Temperatur",         watt: 1200, pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_thermo_reg",       name: "Thermo-Regler",         kategorie: "🧊 Temperatur",         watt: 960,  pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_kuehlschrank",     name: "Kühlschrank",           kategorie: "🧊 Temperatur",         watt: 120,  pack: "vanilla", dauerverbraucher: true  },
-      // Forschung & Produktion
-      { id: "vb_forschung",        name: "Forschungsstation",     kategorie: "🔬 Forschung & Bau",    watt: 100,  pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_fab_super",        name: "Supercomputer",         kategorie: "🔬 Forschung & Bau",    watt: 120,  pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_metallraffinerie", name: "Metallraffinerie",      kategorie: "🔬 Forschung & Bau",    watt: 1200, pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_glasofen",         name: "Glasofen",              kategorie: "🔬 Forschung & Bau",    watt: 800,  pack: "vanilla", dauerverbraucher: false },
-      // Hygiene
-      { id: "vb_dusche",           name: "Duschkabine",           kategorie: "🚿 Hygiene",            watt: 0,    pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_waschbecken",      name: "Waschbecken",           kategorie: "🚿 Hygiene",            watt: 0,    pack: "vanilla", dauerverbraucher: false },
-      // Beleuchtung
-      { id: "vb_lampe",            name: "Deckenlampe",           kategorie: "💡 Beleuchtung",        watt: 10,   pack: "vanilla", dauerverbraucher: true  },
-      { id: "vb_hakenlicht",       name: "Hakenlicht",            kategorie: "💡 Beleuchtung",        watt: 10,   pack: "vanilla", dauerverbraucher: true  },
-      { id: "vb_lichtstab",        name: "Leuchtstab",            kategorie: "💡 Beleuchtung",        watt: 10,   pack: "vanilla", dauerverbraucher: true  },
-      // Pumpen & Transport
-      { id: "vb_gaspumpe",         name: "Gaspumpe",              kategorie: "⚙️ Pumpen & Transport", watt: 240,  pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_fluessigpumpe",    name: "Flüssigkeitspumpe",     kategorie: "⚙️ Pumpen & Transport", watt: 240,  pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_kleingaspumpe",    name: "Kleine Gaspumpe",       kategorie: "⚙️ Pumpen & Transport", watt: 60,   pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_foerderband",      name: "Förderband (Pneumatik)",kategorie: "⚙️ Pumpen & Transport", watt: 120,  pack: "vanilla", dauerverbraucher: false },
-      // Sonstiges
-      { id: "vb_transformator",    name: "Transformator",         kategorie: "🔌 Sonstiges",          watt: 0,    pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_akku_klein",       name: "Kleiner Akku",          kategorie: "🔌 Sonstiges",          watt: 0,    pack: "vanilla", dauerverbraucher: false },
-      { id: "vb_akku_gross",       name: "Großer Akku",           kategorie: "🔌 Sonstiges",          watt: 0,    pack: "vanilla", dauerverbraucher: false }
+      { id:"vb_elektrolyseur",    name:"Elektrolyseur",          englisch:"Electrolyzer",            icon:"⚗️", img:BASE_IMG+"Electrolyzer.png",           kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"O₂+H₂ Erzeugung: 53 kg O₂/Zyklus. Braucht Wasser." },
+      { id:"vb_kohleabscheider",  name:"Kohlensäure-Abscheider", englisch:"Carbon Skimmer",          icon:"☁️", img:BASE_IMG+"Carbon_Skimmer.png",         kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"Entfernt CO₂ aus der Luft. Braucht Wasser." },
+      { id:"vb_oxyl",             name:"OXYL-Generator",         englisch:"Oxygen Diffuser",         icon:"🌀", img:BASE_IMG+"Oxygen_Diffuser.png",        kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"Einfache O₂-Quelle aus Algen. 90 g/s O₂." },
+      { id:"vb_wasseraufber",     name:"Wasseraufbereiter",      englisch:"Water Purifier",          icon:"💧", img:BASE_IMG+"Water_Purifier.png",         kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Reinigt Schmutzwasser zu Wasser." },
+      { id:"vb_mikrobenmatscher", name:"Mikrobenmatscher",       englisch:"Microbe Musher",          icon:"🧪", img:BASE_IMG+"Microbe_Musher.png",         kat:"🍽️ Nahrungsproduktion", watt:60,   pack:"vanilla",          dauerverbraucher:false, tipp:"Einfache Rezepte. Nur bei Bedarf aktiv." },
+      { id:"vb_grill",            name:"Elektrogrill",           englisch:"Electric Grill",          icon:"🔥", img:BASE_IMG+"Electric_Grill.png",         kat:"🍽️ Nahrungsproduktion", watt:60,   pack:"vanilla",          dauerverbraucher:false, tipp:"Mittlere Rezepte. Basis für Gasherd-Kombinationen." },
+      { id:"vb_gasherd",          name:"Gasherd",                englisch:"Gas Range",               icon:"🍽️",img:BASE_IMG+"Gas_Range.png",              kat:"🍽️ Nahrungsproduktion", watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom! Benötigt Erdgas oder Wasserstoff." },
+      { id:"vb_friteuse",         name:"Friteuse",               englisch:"Deep Fryer",              icon:"🛢️",img:BASE_IMG+"Deep_Fryer.png",             kat:"🍽️ Nahrungsproduktion", watt:60,   pack:"frostyPlanet",     dauerverbraucher:false, tipp:"Frosty Planet. Hochkalorische Rezepte mit Fett." },
+      { id:"vb_raeucherofen",     name:"Räucherofen",            englisch:"Smoker",                  icon:"💨", img:BASE_IMG+"Smoker.png",                 kat:"🍽️ Nahrungsproduktion", watt:0,    pack:"prehistoricPlanet",dauerverbraucher:false, tipp:"Kein Strom. PP-Exklusiv. Benötigt Torf/Holz." },
+      { id:"vb_aquatuner",        name:"Aquatuner",              englisch:"Thermo Aquatuner",        icon:"❄️", img:BASE_IMG+"Thermo_Aquatuner.png",       kat:"🧊 Temperatur",         watt:1200, pack:"vanilla",          dauerverbraucher:false, tipp:"Kühlt Flüssigkeiten -14°C/Durchgang. Schweres Kabel!" },
+      { id:"vb_thermo_reg",       name:"Thermo-Regler",          englisch:"Thermo Regulator",        icon:"🌡️",img:BASE_IMG+"Thermo_Regulator.png",       kat:"🧊 Temperatur",         watt:960,  pack:"vanilla",          dauerverbraucher:false, tipp:"Kühlt Gas -14°C/Durchgang." },
+      { id:"vb_kuehlschrank",     name:"Kühlschrank",            englisch:"Refrigerator",            icon:"🧊", img:BASE_IMG+"Refrigerator.png",           kat:"🧊 Temperatur",         watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"Verlängert Haltbarkeit von Nahrung massiv." },
+      { id:"vb_forschung",        name:"Forschungsstation",      englisch:"Research Station",        icon:"🔬", img:BASE_IMG+"Research_Station.png",       kat:"🔬 Forschung & Bau",    watt:100,  pack:"vanilla",          dauerverbraucher:false, tipp:"Basisforschung." },
+      { id:"vb_fab_super",        name:"Supercomputer",          englisch:"Super Computer",          icon:"🖥️",img:BASE_IMG+"Super_Computer.png",         kat:"🔬 Forschung & Bau",    watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Fortgeschrittene Forschung." },
+      { id:"vb_metallraffinerie", name:"Metallraffinerie",       englisch:"Metal Refinery",          icon:"🏭", img:BASE_IMG+"Metal_Refinery.png",         kat:"🔬 Forschung & Bau",    watt:1200, pack:"vanilla",          dauerverbraucher:false, tipp:"Schmilzt Erze. Schweres Kabel empfohlen!" },
+      { id:"vb_glasofen",         name:"Glasofen",               englisch:"Glass Forge",             icon:"🫧", img:BASE_IMG+"Glass_Forge.png",            kat:"🔬 Forschung & Bau",    watt:800,  pack:"vanilla",          dauerverbraucher:false, tipp:"Produziert Glas aus Sand." },
+      { id:"vb_polymerpresse",    name:"Polymerpresse",          englisch:"Polymer Press",           icon:"🔷", img:BASE_IMG+"Polymer_Press.png",          kat:"🔬 Forschung & Bau",    watt:240,  pack:"vanilla",          dauerverbraucher:false, tipp:"Plastik aus Petroleum." },
+      { id:"vb_dusche",           name:"Duschkabine",            englisch:"Shower",                  icon:"🚿", img:BASE_IMG+"Shower.png",                 kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Wasser → Schmutzwasser." },
+      { id:"vb_waschbecken",      name:"Waschbecken",            englisch:"Sink",                    icon:"🪣", img:BASE_IMG+"Sink.png",                   kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Hygienepunkt." },
+      { id:"vb_toilette",         name:"Plumpsklo",              englisch:"Outhouse",                icon:"🚽", img:BASE_IMG+"Outhouse.png",               kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Basistoilette." },
+      { id:"vb_spueltoilette",    name:"Spültoilette",           englisch:"Flush Toilet",            icon:"🚽", img:BASE_IMG+"Flush_Toilet.png",           kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Braucht Wasser." },
+      { id:"vb_lampe",            name:"Deckenlampe",            englisch:"Ceiling Light",           icon:"💡", img:BASE_IMG+"Ceiling_Light.png",          kat:"💡 Beleuchtung",        watt:10,   pack:"vanilla",          dauerverbraucher:true,  tipp:"4×4 Tiles. Pflicht für Dornenblüte (≥200 Lux)." },
+      { id:"vb_hakenlicht",       name:"Hakenlicht",             englisch:"Gantry Light",            icon:"🔦", img:BASE_IMG+"Gantry_Light.png",           kat:"💡 Beleuchtung",        watt:10,   pack:"vanilla",          dauerverbraucher:true,  tipp:"Hängelampe für Decken." },
+      { id:"vb_lichtstab",        name:"Leuchtstab",             englisch:"Floor Lamp",              icon:"🕯️",img:BASE_IMG+"Floor_Lamp.png",             kat:"💡 Beleuchtung",        watt:10,   pack:"vanilla",          dauerverbraucher:true,  tipp:"Bodenlampe. Breitere Ausleuchtung." },
+      { id:"vb_gaspumpe",         name:"Gaspumpe",               englisch:"Gas Pump",                icon:"💨", img:BASE_IMG+"Gas_Pump.png",               kat:"⚙️ Pumpen & Transport", watt:240,  pack:"vanilla",          dauerverbraucher:false, tipp:"500 g/s Gas. Nur bei Bedarf." },
+      { id:"vb_fluessigpumpe",    name:"Flüssigkeitspumpe",      englisch:"Liquid Pump",             icon:"💧", img:BASE_IMG+"Liquid_Pump.png",            kat:"⚙️ Pumpen & Transport", watt:240,  pack:"vanilla",          dauerverbraucher:false, tipp:"10 kg/s Flüssigkeit. Nur bei Bedarf." },
+      { id:"vb_kleingaspumpe",    name:"Kleine Gaspumpe",        englisch:"Mini Gas Pump",           icon:"🌬️",img:BASE_IMG+"Mini_Gas_Pump.png",          kat:"⚙️ Pumpen & Transport", watt:60,   pack:"vanilla",          dauerverbraucher:false, tipp:"125 g/s Gas. Günstig und kompakt." },
+      { id:"vb_foerderband",      name:"Pneumatischer Lader",    englisch:"Pneumatic Loader",        icon:"📦", img:BASE_IMG+"Pneumatic_Loader.png",       kat:"⚙️ Pumpen & Transport", watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Raketenfracht laden/entladen." },
+      { id:"vb_transformator",    name:"Transformator",          englisch:"Power Transformer",       icon:"🔌", img:BASE_IMG+"Power_Transformer.png",      kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Verbindet Kreise. Max. 1.000W." },
+      { id:"vb_transfomator_lg",  name:"Großer Transformator",   englisch:"Large Power Transformer", icon:"🔌", img:BASE_IMG+"Large_Power_Transformer.png",kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Max. 4.000W." },
+      { id:"vb_akku_klein",       name:"Kleiner Akku",           englisch:"Small Battery",           icon:"🔋", img:BASE_IMG+"Small_Battery.png",          kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kapazität: 10 kJ." },
+      { id:"vb_akku_gross",       name:"Smarter Akku",           englisch:"Smart Battery",           icon:"🔋", img:BASE_IMG+"Smart_Battery.png",          kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kapazität: 20 kJ. Automatisierbar." }
     ]
   }
 

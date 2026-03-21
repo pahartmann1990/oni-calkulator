@@ -9,8 +9,10 @@ const state = {
   ausgewaehltePflanzen: {},  // { pflanzeId: anzahl }
   ausgewaehlteTiere: {},     // { tierId: { haben: 0, wollen: 0 } }
   strom: {
-    generatoren: {},  // { id: { anzahl: 0, kreis: 1 } }
-    verbraucher: {}   // { id: { anzahl: 0, kreis: 1 } }
+    kreise: [
+      { nr: 1, name: "Stromkreis 1", eintraege: [] }
+    ],
+    _naechsteNr: 2
   }
 };
 
@@ -559,196 +561,184 @@ function renderMaterialien() {
 // TAB 5: STROM
 // ══════════════════════════════════════════════════════════
 
-function setStromAnzahl(typ, id, val) {
-  const n = Math.max(0, parseInt(val) || 0);
-  if (!state.strom[typ][id]) state.strom[typ][id] = { anzahl: 0, kreis: 1 };
-  state.strom[typ][id].anzahl = n;
-  renderStromTabelle();
+// ── STROM: GLOBALE HILFSFUNKTIONEN ────────────────────────
+function _alleStromItems() {
+  // Flat-Liste aller Generatoren + Verbraucher (nur aktive DLC)
+  const gens = ONI.strom.generatoren.filter(g => state.aktivePacks.has(g.pack))
+    .map(g => ({ ...g, typ: "gen" }));
+  const vbs  = ONI.strom.verbraucher.filter(v => state.aktivePacks.has(v.pack))
+    .map(v => ({ ...v, typ: "vb" }));
+  return [...gens, ...vbs];
 }
 
-function setStromKreis(typ, id, val) {
-  const k = Math.max(1, Math.min(10, parseInt(val) || 1));
-  if (!state.strom[typ][id]) state.strom[typ][id] = { anzahl: 0, kreis: 1 };
-  state.strom[typ][id].kreis = k;
-  renderStromTabelle();
+function _findStromItem(itemId) {
+  return _alleStromItems().find(x => x.id === itemId) || null;
+}
+
+function addStromKreis() {
+  const nr = state.strom._naechsteNr++;
+  state.strom.kreise.push({ nr, name: "Stromkreis " + nr, eintraege: [] });
+  renderStrom();
+}
+
+function deleteStromKreis(kreisIdx) {
+  if (state.strom.kreise.length <= 1) return; // Mind. 1 Kreis
+  state.strom.kreise.splice(kreisIdx, 1);
+  renderStrom();
+}
+
+function addStromEintrag(kreisIdx) {
+  const sel    = document.getElementById("strom-add-sel-" + kreisIdx);
+  const anzEl  = document.getElementById("strom-add-anz-" + kreisIdx);
+  if (!sel || !anzEl) return;
+  const itemId = sel.value;
+  const anzahl = Math.max(1, parseInt(anzEl.value) || 1);
+  if (!itemId) return;
+  state.strom.kreise[kreisIdx].eintraege.push({ itemId, anzahl });
+  renderStrom();
+}
+
+function removeStromEintrag(kreisIdx, eintragIdx) {
+  state.strom.kreise[kreisIdx].eintraege.splice(eintragIdx, 1);
+  renderStrom();
+}
+
+function updateStromAnzahl(kreisIdx, eintragIdx, val) {
+  const n = Math.max(0, parseInt(val) || 0);
+  if (n === 0) {
+    state.strom.kreise[kreisIdx].eintraege.splice(eintragIdx, 1);
+  } else {
+    state.strom.kreise[kreisIdx].eintraege[eintragIdx].anzahl = n;
+  }
+  renderStrom();
+}
+
+function _stromImg(item) {
+  if (!item) return "";
+  return `<img src="${item.img}" alt="${item.name}" class="strom-maschinen-img"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+          <span class="strom-maschinen-fallback" style="display:none">${item.icon || "⚡"}</span>`;
 }
 
 function renderStrom() {
   const container = document.getElementById("strom-inhalt");
   if (!container) return;
 
-  // ─ Generatoren-Liste ─
-  const genHTML = `
-    <div class="card-title" style="margin-bottom:12px">⚡ Generatoren</div>
-    ${ONI.strom.generatoren
-      .filter(g => state.aktivePacks.has(g.pack))
-      .map(g => {
-        const s = state.strom.generatoren[g.id] || { anzahl: 0, kreis: 1 };
-        return `
-          <div class="strom-item">
-            <div class="strom-name">${g.name}
-              <div style="font-size:10px;color:var(--text-dim)">${g.brennstoff}</div>
-            </div>
-            <div class="strom-watt">+${g.watt}W</div>
-            <input type="number" class="strom-anzahl" min="0" max="100" value="${s.anzahl}"
-                   oninput="setStromAnzahl('generatoren','${g.id}',this.value)" placeholder="0">
-            <select class="strom-kreis-sel" onchange="setStromKreis('generatoren','${g.id}',this.value)">
-              ${Array.from({length:10},(_,i)=>i+1).map(k => `<option value="${k}" ${s.kreis===k?"selected":""}>K${k}</option>`).join("")}
-            </select>
-          </div>`;
-      }).join("")}`;
-
-  // ─ Verbraucher-Liste nach Kategorie ─
-  const kategorien = [...new Set(ONI.strom.verbraucher.map(v => v.kategorie))];
-  const vbHTML = `
-    <div class="card-title" style="margin-bottom:8px">🔌 Verbraucher</div>
-    <div style="font-size:11px;color:var(--text-dim);margin-bottom:10px;display:flex;gap:12px">
-      <span>⏱️ = Dauerhafter Verbraucher (läuft konstant)</span>
-      <span>⚡ = Gelegenheitsverbraucher (nur bei Bedarf)</span>
-    </div>
-    ${kategorien.map(kat => {
-      const items = ONI.strom.verbraucher.filter(v => v.kategorie === kat && state.aktivePacks.has(v.pack));
-      if (items.length === 0) return "";
-      return `
-        <div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 4px">${kat}</div>
-        ${items.map(v => {
-          const s = state.strom.verbraucher[v.id] || { anzahl: 0, kreis: 1 };
-          const dauerHinweis = v.dauerverbraucher
-            ? `<span class="strom-typ-dauer" title="Läuft dauerhaft">⏱️</span>`
-            : `<span class="strom-typ-gelegenheit" title="Läuft nur bei Bedarf">⚡</span>`;
-          return `
-            <div class="strom-item">
-              <div class="strom-name">${v.name} ${dauerHinweis}</div>
-              <div class="strom-watt" style="color:${v.watt===0?"var(--text-dim)":"var(--red)"}">
-                ${v.watt > 0 ? "-"+v.watt+"W" : "0W"}
-              </div>
-              <input type="number" class="strom-anzahl" min="0" max="100" value="${s.anzahl}"
-                     oninput="setStromAnzahl('verbraucher','${v.id}',this.value)" placeholder="0">
-              <select class="strom-kreis-sel" onchange="setStromKreis('verbraucher','${v.id}',this.value)">
-                ${Array.from({length:10},(_,i)=>i+1).map(k => `<option value="${k}" ${s.kreis===k?"selected":""}>K${k}</option>`).join("")}
-              </select>
-            </div>`;
-        }).join("")}`;
-    }).join("")}`;
-
-  container.innerHTML = `
-    <div class="strom-layout">
-      <div id="gen-liste">${genHTML}</div>
-      <div id="vb-liste">${vbHTML}</div>
-    </div>
-    <div id="strom-tabelle"></div>`;
-
-  renderStromTabelle();
-}
-
-function renderStromTabelle() {
-  const container = document.getElementById("strom-tabelle");
-  if (!container) return;
-
-  // Pro Kreis: Produktion und Verbrauch sammeln
-  const kreise = {};
-  for (let k = 1; k <= 10; k++) kreise[k] = { produktion: 0, verbrauch: 0, maxEinzelGen: 0 };
-
-  ONI.strom.generatoren.forEach(g => {
-    const s = state.strom.generatoren[g.id];
-    if (!s || s.anzahl === 0) return;
-    const k = s.kreis;
-    const watt = g.watt * s.anzahl;
-    kreise[k].produktion += watt;
-    if (g.watt > kreise[k].maxEinzelGen) kreise[k].maxEinzelGen = g.watt;
+  const alleItems = _alleStromItems();
+  // Dropdown-Optionen nach Kategorie gruppieren
+  const kategorien = {};
+  alleItems.forEach(x => {
+    const kat = x.kat || (x.typ === "gen" ? "⚡ Generatoren" : "🔌 Sonstiges");
+    if (!kategorien[kat]) kategorien[kat] = [];
+    kategorien[kat].push(x);
+  });
+  // Generatoren immer zuerst
+  const genKat = "⚡ Generatoren";
+  if (!kategorien[genKat]) kategorien[genKat] = [];
+  ONI.strom.generatoren.filter(g => state.aktivePacks.has(g.pack)).forEach(g => {
+    if (!kategorien[genKat].find(x => x.id === g.id))
+      kategorien[genKat].push({ ...g, typ: "gen" });
   });
 
-  ONI.strom.verbraucher.forEach(v => {
-    const s = state.strom.verbraucher[v.id];
-    if (!s || s.anzahl === 0) return;
-    const k = s.kreis;
-    kreise[k].verbrauch += v.watt * s.anzahl;
-  });
-
-  // Nur Kreise mit Aktivität anzeigen
-  const aktiveKreise = Object.entries(kreise).filter(([, k]) => k.produktion > 0 || k.verbrauch > 0);
-
-  if (aktiveKreise.length === 0) {
-    container.innerHTML = `
-      <div class="strom-zusammenfassung">
-        <div class="tipp-box">
-          <span class="tipp-icon">💡</span>
-          <span>Gib Anzahl bei Generatoren und Verbrauchern ein um die Stromkreis-Bilanz zu berechnen.</span>
-        </div>
-      </div>`;
-    return;
+  function dropdownOptions() {
+    return `<option value="">— Gerät wählen —</option>` +
+      Object.entries(kategorien).map(([kat, items]) =>
+        `<optgroup label="${kat}">${items.map(it =>
+          `<option value="${it.id}">${it.name} (${it.typ === "gen" ? "+" : it.watt > 0 ? "-" : ""}${it.watt}W)</option>`
+        ).join("")}</optgroup>`
+      ).join("");
   }
 
-  const kreisKarten = aktiveKreise.map(([nr, k]) => {
-    const saldo = k.produktion - k.verbrauch;
-    let klasse = "ueberschuss";
-    let saldoFarbe = "var(--green)";
-    let saldoPrefix = "+";
-    if (saldo < 0) { klasse = "mangel"; saldoFarbe = "var(--red)"; saldoPrefix = ""; }
-    else if (saldo < 200) { klasse = "knapp"; saldoFarbe = "var(--accent)"; }
+  // ─ Kabelkapazitäts-Schwellen ─
+  function kabelInfo(prod) {
+    if (prod <= 1000)  return { klasse: "k-normal",    icon: "✅", text: "Normales Kabel (max. 1.000W)" };
+    if (prod <= 2000)  return { klasse: "k-leitend",   icon: "⚠️", text: "Leitendes Kabel nötig (max. 2.000W)" };
+    if (prod <= 20000) return { klasse: "k-schwer",    icon: "🔴", text: "Schweres Kabel nötig (max. 20.000W)" };
+    return { klasse: "k-ueber",  icon: "🔴", text: "Überlastet! Transformator nötig" };
+  }
 
-    // Kabelwarnung
-    let kabelWarn = "";
-    if (k.produktion > 2000) {
-      kabelWarn = `<div class="kabel-warnung">⚠️ ${k.produktion.toLocaleString("de-DE")}W überschreiten Schweres Kabel (2.000W)! Transformator verwenden.</div>`;
-    } else if (k.produktion > 1000) {
-      kabelWarn = `<div class="kabel-warnung" style="border-color:var(--accent);color:var(--accent);background:rgba(232,160,32,0.08)">⚡ ${k.produktion.toLocaleString("de-DE")}W – Schweres Kabel erforderlich (max. 2.000W)</div>`;
-    }
+  // ─ Kreise rendern ─
+  const kreisHTML = state.strom.kreise.map((kreis, ki) => {
+    let prod = 0, vb = 0;
+
+    const eintraegeHTML = kreis.eintraege.map((e, ei) => {
+      const item = _findStromItem(e.itemId);
+      if (!item) return "";
+      const isGen   = item.typ === "gen";
+      const wattGes = (item.watt || 0) * e.anzahl;
+      if (isGen) prod += wattGes; else vb += wattGes;
+      const wattFarbe = isGen ? "var(--green)" : item.watt > 0 ? "var(--red)" : "var(--text-dim)";
+      const wattAnz   = isGen ? `+${wattGes}W` : item.watt > 0 ? `-${wattGes}W` : "0W (kein Strom)";
+      const dauerBadge = item.dauerverbraucher
+        ? `<span class="strom-dauer-badge" title="Läuft dauerhaft (Dauerstrom)">⏱️ Dauer</span>`
+        : `<span class="strom-gel-badge"   title="Nur bei Bedarf aktiv">⚡ Bedarf</span>`;
+      return `
+        <div class="kreis-eintrag">
+          <div class="ke-img">${_stromImg(item)}</div>
+          <div class="ke-info">
+            <div class="ke-name">${item.name} ${dauerBadge}</div>
+            <div class="ke-tipp">${item.tipp || ""}</div>
+          </div>
+          <div class="ke-watt" style="color:${wattFarbe}">${wattAnz}</div>
+          <div class="ke-anzahl">
+            <button class="anzahl-btn" onclick="updateStromAnzahl(${ki},${ei},${e.anzahl - 1})">−</button>
+            <input type="number" class="strom-anzahl-inp" min="1" max="999" value="${e.anzahl}"
+                   onchange="updateStromAnzahl(${ki},${ei},this.value)">
+            <button class="anzahl-btn" onclick="updateStromAnzahl(${ki},${ei},${e.anzahl + 1})">+</button>
+          </div>
+          <button class="ke-del" onclick="removeStromEintrag(${ki},${ei})" title="Entfernen">🗑</button>
+        </div>`;
+    }).join("");
+
+    const saldo     = prod - vb;
+    const kb        = kabelInfo(prod);
+    const bilanzKl  = saldo > 0 ? "kreis-saldo-plus" : saldo < 0 ? "kreis-saldo-minus" : "kreis-saldo-null";
+    const bilanzTxt = saldo > 0 ? `+${saldo}W Überschuss` : saldo < 0 ? `${saldo}W Mangel ⚠️` : "Ausgeglichen";
 
     return `
-      <div class="kreis-karte ${klasse}">
-        <div>
-          <div class="kreis-label">Stromkreis ${nr}</div>
-          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">
-            <span class="kreis-prod">⚡ ${k.produktion.toLocaleString("de-DE")}W</span>
-            <span style="color:var(--text-dim)"> / </span>
-            <span class="kreis-vb">🔌 ${k.verbrauch.toLocaleString("de-DE")}W</span>
+      <div class="kreis-karte2 ${saldo < 0 ? "mangel" : ""}">
+        <div class="kreis-header">
+          <div class="kreis-titel">⚡ ${kreis.name}</div>
+          <div class="kreis-bilanz">
+            <span class="kreis-prod2">▲ ${prod}W</span>
+            <span class="kreis-vb2">▼ ${vb}W</span>
+            <span class="${bilanzKl}">${bilanzTxt}</span>
           </div>
+          <div class="kreis-kabel ${kb.klasse}" title="${kb.text}">${kb.icon} ${kb.text}</div>
+          ${state.strom.kreise.length > 1
+            ? `<button class="kreis-del-btn" onclick="deleteStromKreis(${ki})" title="Kreis löschen">🗑 Löschen</button>`
+            : ""}
         </div>
-        <div>
-          <div class="kreis-saldo" style="color:${saldoFarbe}">${saldoPrefix}${saldo.toLocaleString("de-DE")} W</div>
-          <div style="font-size:10px;color:var(--text-dim);text-align:right">${saldo >= 0 ? "Überschuss" : "Mangel"}</div>
+        <div class="kreis-eintraege">${eintraegeHTML || '<div class="kreis-leer">Noch keine Geräte – füge unten eins hinzu.</div>'}</div>
+        <div class="kreis-add-row">
+          <select id="strom-add-sel-${ki}" class="strom-add-sel">${dropdownOptions()}</select>
+          <input  id="strom-add-anz-${ki}" type="number" class="strom-add-anz" min="1" max="999" value="1" placeholder="Anz.">
+          <button class="btn-primary" onclick="addStromEintrag(${ki})">+ Hinzufügen</button>
         </div>
-      </div>
-      ${kabelWarn}`;
+      </div>`;
   }).join("");
 
-  // Gesamtbilanz
-  const gesamtProd = aktiveKreise.reduce((s, [, k]) => s + k.produktion, 0);
-  const gesamtVb   = aktiveKreise.reduce((s, [, k]) => s + k.verbrauch, 0);
-  const gesamtSaldo = gesamtProd - gesamtVb;
-
   container.innerHTML = `
-    <div class="strom-zusammenfassung">
-      <div class="card-title" style="margin-bottom:12px">📊 Stromkreis-Übersicht</div>
-      ${kreisKarten}
-      <div class="kreis-karte" style="border-color:var(--border-light);margin-top:16px;background:var(--bg-base)">
-        <div>
-          <div class="kreis-label" style="color:var(--text-head)">GESAMTBILANZ</div>
-          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">
-            <span class="kreis-prod">⚡ ${gesamtProd.toLocaleString("de-DE")}W</span>
-            <span style="color:var(--text-dim)"> / </span>
-            <span class="kreis-vb">🔌 ${gesamtVb.toLocaleString("de-DE")}W</span>
-          </div>
-        </div>
-        <div>
-          <div class="kreis-saldo" style="color:${gesamtSaldo >= 0 ? "var(--green)" : "var(--red)"}">
-            ${gesamtSaldo >= 0 ? "+" : ""}${gesamtSaldo.toLocaleString("de-DE")} W
-          </div>
-          <div style="font-size:10px;color:var(--text-dim);text-align:right">${gesamtSaldo >= 0 ? "Überschuss" : "Mangel"}</div>
-        </div>
-      </div>
-      <div class="tipp-box" style="margin-top:12px">
-        <span class="tipp-icon">⚡</span>
-        <div>
-          <strong>Kabelkapazitäten:</strong>
-          Einfaches Kabel max. <strong style="color:var(--green)">1.000W</strong> ·
-          Schweres Kabel max. <strong style="color:var(--accent)">2.000W</strong> ·
-          Bei mehr als 2.000W: <strong style="color:var(--red)">Transformator</strong> verwenden!
-        </div>
+    <div id="strom-kreise">${kreisHTML}</div>
+    <button class="btn-secondary" style="margin-top:12px" onclick="addStromKreis()">+ Neuen Stromkreis hinzufügen</button>
+    <div class="tipp-box" style="margin-top:16px">
+      <span class="tipp-icon">💡</span>
+      <div>
+        <strong>⏱️ Dauerstrom</strong> = läuft immer (Elektrolyseur, Lampen, Kühlschrank …)<br>
+        <strong>⚡ Bedarf</strong> = nur wenn aktiv (Aquatuner, Grill, Pumpen …)<br>
+        <strong>Kabelgrenze:</strong> Normal 1.000W · Leitend 2.000W · Schwer 20.000W
       </div>
     </div>`;
 }
+
+function renderStromTabelle() {
+  // Nicht mehr genutzt – renderStrom erzeugt alles direkt
+}
+
+// Dummy-Stub für alte Code-Pfade (sicherheitshalber)
+function setStromAnzahl() {}
+function setStromKreis() {}
+
 
 // ══════════════════════════════════════════════════════════
 // TAB 6: REZEPTE

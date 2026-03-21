@@ -69,29 +69,29 @@ header {
 }
 
 .logo-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-dim));
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  box-shadow: 0 0 16px var(--accent-glow);
+  font-size: 20px;
   flex-shrink: 0;
+  opacity: 0.9;
 }
 
 .logo-text h1 {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 800;
   color: var(--accent);
-  letter-spacing: 0.5px;
-  text-shadow: 0 0 20px var(--accent-glow);
+  letter-spacing: 1px;
 }
 .logo-text p {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-dim);
   letter-spacing: 0.5px;
+  margin-top: 1px;
 }
 
 .header-controls {
@@ -698,7 +698,171 @@ main {
 .kreis-saldo { font-size: 15px; font-weight: 900; }
 .kabel-warnung { background: rgba(232,80,80,0.1); border: 1px solid var(--red); border-radius: var(--radius); padding: 10px 14px; font-size: 12px; color: var(--red); margin-top: 8px; }
 
-/* ── STROM TYP-BADGES ───────────────────────────────────── */
+/* ── NEUER STROMKREIS-BUILDER ───────────────────────────── */
+.kreis-karte2 {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.kreis-karte2.mangel { border-color: var(--red); }
+
+.kreis-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.kreis-titel { font-size: 15px; font-weight: 700; color: var(--text-head); flex-shrink: 0; }
+.kreis-bilanz { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; flex: 1; }
+.kreis-prod2 { color: var(--green); font-weight: 700; font-size: 13px; }
+.kreis-vb2   { color: var(--red);   font-weight: 700; font-size: 13px; }
+.kreis-saldo-plus  { color: var(--green); font-weight: 800; font-size: 13px; }
+.kreis-saldo-minus { color: var(--red);   font-weight: 800; font-size: 13px; }
+.kreis-saldo-null  { color: var(--text-dim); font-size: 13px; }
+
+.kreis-kabel {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+.kreis-kabel.k-normal  { color: var(--green);  border-color: var(--green);  background: rgba(100,200,100,0.08); }
+.kreis-kabel.k-leitend { color: var(--accent); border-color: var(--accent); background: rgba(232,160,32,0.08); }
+.kreis-kabel.k-schwer  { color: var(--red);    border-color: var(--red);    background: rgba(232,80,80,0.08); }
+.kreis-kabel.k-ueber   { color: var(--red);    border-color: var(--red);    background: rgba(200,0,0,0.15); font-weight: 700; }
+
+.kreis-del-btn {
+  background: rgba(232,80,80,0.12);
+  border: 1px solid var(--red);
+  color: var(--red);
+  border-radius: 5px;
+  padding: 3px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.kreis-del-btn:hover { background: rgba(232,80,80,0.25); }
+
+.kreis-eintraege { padding: 8px 16px; }
+.kreis-leer { color: var(--text-dim); font-size: 12px; font-style: italic; padding: 8px 0; }
+
+.kreis-eintrag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.kreis-eintrag:last-child { border-bottom: none; }
+
+.ke-img { width: 36px; height: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.strom-maschinen-img { width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated; }
+.strom-maschinen-fallback { font-size: 24px; }
+
+.ke-info { flex: 1; min-width: 0; }
+.ke-name { font-size: 13px; color: var(--text-main); font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.ke-tipp { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+
+.ke-watt { font-size: 13px; font-weight: 700; width: 120px; text-align: right; flex-shrink: 0; }
+
+.ke-anzahl { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.anzahl-btn {
+  width: 26px; height: 26px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.anzahl-btn:hover { background: var(--border); }
+.strom-anzahl-inp {
+  width: 50px;
+  text-align: center;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  border-radius: 4px;
+  padding: 3px 4px;
+  font-size: 13px;
+}
+
+.ke-del {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.ke-del:hover { color: var(--red); background: rgba(232,80,80,0.1); }
+
+.kreis-add-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.02);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.strom-add-sel {
+  flex: 1;
+  min-width: 180px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+.strom-add-anz {
+  width: 60px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  border-radius: 5px;
+  padding: 6px 6px;
+  font-size: 12px;
+  text-align: center;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primary:hover { background: #f0ba3a; }
+.btn-secondary {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+.strom-dauer-badge { font-size: 10px; background: rgba(100,180,100,0.15); border: 1px solid var(--green); color: var(--green); border-radius: 3px; padding: 1px 5px; }
+.strom-gel-badge   { font-size: 10px; background: rgba(232,160,32,0.12); border: 1px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 1px 5px; }
+
+/* ── STROM TYP-BADGES (legacy) ──────────────────────────── */
 .strom-typ-dauer        { font-size: 12px; margin-left: 3px; opacity: 0.8; cursor: help; }
 .strom-typ-gelegenheit  { font-size: 12px; margin-left: 3px; opacity: 0.6; cursor: help; }
 

@@ -6,7 +6,7 @@
 // 1 Zyklus = 600 Sekunden | Wachstum: Heim = in Pflanztrog, Wild = Naturboden
 // ============================================================
 
-const BASE_IMG = "https://oxygennotincluded.wiki.gg/wiki/Special:Redirect/file/";
+const BASE_IMG = "https://oxygennotincluded.wiki.gg/images/";
 
 const ONI = {
 
@@ -404,7 +404,7 @@ const ONI = {
       typ: "nahrung",
       pack: "spacedOut",
       icon: "🪣",
-      img: BASE_IMG + "Bog_Bucket.png",
+      img: BASE_IMG + "Bog_Bucket_(Spaced_Out).png",
       wachstumszyklen: 7,
       wachstumszyklenwild: 26,
       kcalProErnte: 1840,
@@ -429,7 +429,7 @@ const ONI = {
       typ: "nahrung",
       pack: "spacedOut",
       icon: "🌱",
-      img: BASE_IMG + "Spindly_Grubfruit_Plant.png",
+      img: BASE_IMG + "Grubfruit_Plant.png",
       wachstumszyklen: 4,
       wachstumszyklenwild: 16,
       kcalProErnte: 800,
@@ -981,7 +981,7 @@ const ONI = {
         { name: "Stechapfel oder andere Kältepflanzen", menge: 200000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Rohes Fleisch (Schlachtung) – Zartes Bruststück", mombe: 0, einheit: "pro Tier", icon: "🥩" },
+        { name: "Rohes Fleisch (Schlachtung) – Zartes Bruststück", menge: 0, einheit: "pro Tier", icon: "🥩" },
         { name: "Knochen (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🦴" }
       ],
       varianten: [],
@@ -1073,7 +1073,7 @@ const ONI = {
       englisch: "Lumba",
       pack: "prehistoricPlanet",
       icon: "🐘",
-      img: BASE_IMG + "Lumba.png",
+      img: "",
       lebensraum: "Land",
       maxProStall: 4,
       eiinkubation: 25,
@@ -1193,7 +1193,7 @@ const ONI = {
         { name: "Wasser",         englisch: "Water",              icon: "💧", img: BASE_IMG + "Water.png",              wärmeleitfähigkeit: 0.61,  schmelzpunkt: 0,     strom: false },
         { name: "Schmutzwasser",  englisch: "Polluted Water",     icon: "🟤", img: BASE_IMG + "Polluted_Water.png",     wärmeleitfähigkeit: 0.58,  schmelzpunkt: -20,   strom: false },
         { name: "Petroleum",      englisch: "Petroleum",          icon: "⚫", img: BASE_IMG + "Petroleum.png",          wärmeleitfähigkeit: 0.2,   schmelzpunkt: -57,   strom: false },
-        { name: "Kühlmittel",     englisch: "Supercoolant",       icon: "🔵", img: BASE_IMG + "Supercoolant.png",       wärmeleitfähigkeit: 9.46,  schmelzpunkt: -271,  strom: false },
+        { name: "Kühlmittel",     englisch: "Supercoolant",       icon: "🔵", img: BASE_IMG + "Super_Coolant.png",      wärmeleitfähigkeit: 9.46,  schmelzpunkt: -271,  strom: false },
         { name: "Ethanol",        englisch: "Ethanol",            icon: "🍷", img: BASE_IMG + "Ethanol.png",            wärmeleitfähigkeit: 0.17,  schmelzpunkt: -114,  strom: false },
         { name: "Salzwasser",     englisch: "Salt Water",         icon: "🌊", img: BASE_IMG + "Salt_Water.png",         wärmeleitfähigkeit: 0.62,  schmelzpunkt: -7,    strom: false },
         { name: "Flüssig-CO₂",   englisch: "Liquid CO2",         icon: "🫧", img: BASE_IMG + "Liquid_CO2.png",         wärmeleitfähigkeit: 0.1,   schmelzpunkt: -56,   strom: false }

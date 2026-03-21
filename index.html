@@ -56,6 +56,7 @@
     <button class="tab-btn" data-tab="nahrung">🌱 Nahrung & Pflanzen</button>
     <button class="tab-btn" data-tab="tiere">🐾 Tiere & Ställe</button>
     <button class="tab-btn" data-tab="materialien">⚙️ Materialien</button>
+    <button class="tab-btn" data-tab="strom">⚡ Strom</button>
   </div>
 
   <!-- ══════════════════════════════════════════════════════
@@ -154,7 +155,7 @@
     <div class="section-header">
       <div>
         <div class="section-title">🐾 Tiere & Ställe</div>
-        <div class="section-sub">Übersicht aller Tiere, was sie fressen und was sie produzieren</div>
+        <div class="section-sub">Übersicht aller Tiere – gib an wie viele du hast oder möchtest</div>
       </div>
     </div>
 
@@ -191,6 +192,19 @@
 
   </div>
 
+  <!-- ══════════════════════════════════════════════════════
+       TAB 5: STROM
+  ══════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-strom">
+    <div class="section-header">
+      <div>
+        <div class="section-title">⚡ Stromrechner</div>
+        <div class="section-sub">Generatoren und Verbraucher – Überschuss und Mangel pro Stromkreis</div>
+      </div>
+    </div>
+    <div id="strom-inhalt"></div>
+  </div>
+
 </main>
 
 <!-- ════════════════════════════════════════════════════════
@@ -222,7 +236,8 @@
     const container = document.getElementById("pflanz-detail-karten");
     if (!container) return;
     container.innerHTML = ONI.pflanzen.map(p => {
-      const kpz = (p.kcalProErnte / p.wachstumszyklen).toFixed(0);
+      const istNahrung = p.kcalProErnte > 0 && p.wachstumszyklen > 0;
+      const kpz = istNahrung ? (p.kcalProErnte / p.wachstumszyklen).toFixed(0) : "–";
       const aktiv = state ? state.aktivePacks.has(p.pack) : p.pack === "vanilla";
       return `
         <div class="card ${!aktiv ? "dlc-inaktiv" : ""}" style="padding:16px">
@@ -237,15 +252,15 @@
           <div class="detail-grid">
             <div class="detail-item">
               <div class="detail-key">⏱️ Wachstum</div>
-              <div class="detail-val">${p.wachstumszyklen} Zyklen</div>
+              <div class="detail-val">${p.wachstumszyklen > 0 ? p.wachstumszyklen + " Zyklen" : "–"}</div>
             </div>
             <div class="detail-item">
               <div class="detail-key">🍎 Ernte</div>
-              <div class="detail-val">${p.kcalProErnte.toLocaleString("de-DE")} kcal</div>
+              <div class="detail-val">${istNahrung ? p.kcalProErnte.toLocaleString("de-DE") + " kcal" : "Kein Nahrungsmittel"}</div>
             </div>
             <div class="detail-item">
               <div class="detail-key">📈 Pro Zyklus</div>
-              <div class="detail-val" style="color:var(--accent)">${kpz} kcal</div>
+              <div class="detail-val" style="color:var(--accent)">${istNahrung ? kpz + " kcal" : "–"}</div>
             </div>
             <div class="detail-item">
               <div class="detail-key">🌡️ Temperatur</div>

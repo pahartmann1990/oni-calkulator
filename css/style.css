@@ -429,6 +429,42 @@ main {
 .io-item { color: var(--text-main); }
 .io-item.produziert { color: var(--green); }
 
+/* ── INTERAKTIVE TIERAUSWAHL ────────────────────────────── */
+.tier-interaktiv {
+  background: var(--bg-base);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+}
+.tier-inputs {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.tier-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tier-input-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.tier-anzahl-input {
+  width: 64px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 13px;
+  text-align: center;
+}
+.tier-anzahl-input:focus { outline: none; border-color: var(--accent); }
+
 .stall-rechner {
   background: var(--bg-base);
   border-radius: 6px;
@@ -644,12 +680,31 @@ main {
   flex-shrink: 0;
 }
 
+/* ── STROMRECHNER ───────────────────────────────────────── */
+.strom-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.strom-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 6px; }
+.strom-name { flex: 1; font-size: 13px; color: var(--text-main); }
+.strom-watt { font-size: 12px; color: var(--accent); font-weight: 700; width: 60px; text-align: right; }
+.strom-anzahl { width: 50px; text-align: center; background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-main); border-radius: 4px; padding: 2px 4px; font-size: 12px; }
+.strom-kreis-sel { background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-main); border-radius: 4px; padding: 2px 4px; font-size: 11px; }
+.strom-zusammenfassung { margin-top: 24px; }
+.kreis-karte { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.kreis-karte.ueberschuss { border-color: var(--green); }
+.kreis-karte.mangel { border-color: var(--red); }
+.kreis-karte.knapp { border-color: var(--accent); }
+.kreis-label { font-size: 14px; font-weight: 700; color: var(--text-head); }
+.kreis-prod { color: var(--green); font-weight: 700; }
+.kreis-vb { color: var(--red); font-weight: 700; }
+.kreis-saldo { font-size: 15px; font-weight: 900; }
+.kabel-warnung { background: rgba(232,80,80,0.1); border: 1px solid var(--red); border-radius: var(--radius); padding: 10px 14px; font-size: 12px; color: var(--red); margin-top: 8px; }
+
 /* ── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 900px) {
   .nahrung-layout { grid-template-columns: 1fr; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .header-inner { gap: 12px; }
   main { padding: 16px 12px; }
+  .strom-layout { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   .bedarf-grid { grid-template-columns: 1fr 1fr; }

@@ -7,6 +7,11 @@ const state = {
   dupes: 8,
   aktivePacks: new Set(["vanilla"]),
   ausgewaehltePflanzen: {},  // { pflanzeId: anzahl }
+  ausgewaehlteTiere: {},     // { tierId: { haben: 0, wollen: 0 } }
+  strom: {
+    generatoren: {},  // { id: { anzahl: 0, kreis: 1 } }
+    verbraucher: {}   // { id: { anzahl: 0, kreis: 1 } }
+  }
 };
 
 // ── INIT ──────────────────────────────────────────────────
@@ -76,6 +81,7 @@ function renderAlles() {
   renderNahrung();
   renderTiere();
   renderMaterialien();
+  renderStrom();
 }
 
 // ══════════════════════════════════════════════════════════
@@ -135,8 +141,17 @@ function renderPflanzListe() {
     const aktiv = state.aktivePacks.has(p.pack);
     const ausgewaehlt = state.ausgewaehltePflanzen[p.id] !== undefined;
     const menge = state.ausgewaehltePflanzen[p.id] || 0;
-    const kpz = (p.kcalProErnte / p.wachstumszyklen).toFixed(0);
-    const benoetigt = Math.ceil((state.dupes * 2000) / (p.kcalProErnte / p.wachstumszyklen));
+
+    // Bugfix: Pflanzen ohne Kalorien zeigen "Kein Nahrungsmittel" statt Infinity
+    const istNahrung = p.kcalProErnte > 0 && p.wachstumszyklen > 0;
+    const kpz = istNahrung ? (p.kcalProErnte / p.wachstumszyklen).toFixed(0) : "–";
+    const benoetigt = istNahrung
+      ? Math.ceil((state.dupes * 2000) / (p.kcalProErnte / p.wachstumszyklen))
+      : "–";
+
+    const kcalAnzeige = istNahrung
+      ? `${kpz} kcal/Zyklus · ${p.wachstumszyklen} Zyklen · <em>${p.englisch}</em>`
+      : `<span style="color:var(--text-dim)">Kein Nahrungsmittel</span> · <em>${p.englisch}</em>`;
 
     return `
       <div class="pflanz-item ${ausgewaehlt ? "ausgewaehlt" : ""} ${!aktiv ? "dlc-inaktiv" : ""}"
@@ -144,7 +159,7 @@ function renderPflanzListe() {
         <span class="pflanz-icon">${wikiImg(p, 36)}</span>
         <div class="pflanz-info">
           <div class="pflanz-name">${p.name}</div>
-          <div class="pflanz-kcal">${kpz} kcal/Zyklus · ${p.wachstumszyklen} Zyklen · <em>${p.englisch}</em></div>
+          <div class="pflanz-kcal">${kcalAnzeige}</div>
           ${!aktiv ? `<span class="tag tag-lila">❄️ ${packName(p.pack)}</span>` : ""}
         </div>
         <div class="pflanz-anzahl-wrap" onclick="event.stopPropagation()">
@@ -155,7 +170,7 @@ function renderPflanzListe() {
                  data-id="${p.id}"
                  oninput="setPflanzeAnzahl('${p.id}', this.value)"
                  title="Anzahl Pflanzen die du hast">
-          <span style="font-size:10px;color:var(--text-dim)" data-tooltip="Empfohlen für ${state.dupes} Dupes">
+          <span style="font-size:10px;color:var(--text-dim)" ${istNahrung ? `data-tooltip="Empfohlen für ${state.dupes} Dupes"` : ""}>
             / ${benoetigt} 🎯
           </span>
         </div>
@@ -184,35 +199,38 @@ function renderNahrungsTabelle() {
   const gesamtBedarf = state.dupes * 2000;
 
   let gesamtProduktion = 0;
-  const zeilen = ONI.pflanzen.map(p => {
-    const aktiv = state.aktivePacks.has(p.pack);
-    if (!aktiv) return null;
+  // Bugfix: Pflanzen ohne kcalProErnte > 0 NICHT in der Nahrungstabelle anzeigen
+  const zeilen = ONI.pflanzen
+    .filter(p => p.kcalProErnte > 0 && p.wachstumszyklen > 0)
+    .map(p => {
+      const aktiv = state.aktivePacks.has(p.pack);
+      if (!aktiv) return null;
 
-    const anzahl  = state.ausgewaehltePflanzen[p.id] || 0;
-    const kpz     = p.kcalProErnte / p.wachstumszyklen;
-    const produktion = anzahl * kpz;
-    const benoetigt  = Math.ceil(gesamtBedarf / kpz);
-    const diff       = produktion - gesamtBedarf;
+      const anzahl  = state.ausgewaehltePflanzen[p.id] || 0;
+      const kpz     = p.kcalProErnte / p.wachstumszyklen;
+      const produktion = anzahl * kpz;
+      const benoetigt  = Math.ceil(gesamtBedarf / kpz);
+      const diff       = produktion - gesamtBedarf;
 
-    gesamtProduktion += produktion;
+      gesamtProduktion += produktion;
 
-    const statusKlasse = anzahl === 0 ? "" : produktion >= gesamtBedarf ? "status-ok" : "status-warn";
+      const statusKlasse = anzahl === 0 ? "" : produktion >= gesamtBedarf ? "status-ok" : "status-warn";
 
-    return `
-      <tr>
-        <td><span class="pflanz-icon">${wikiImg(p, 24)}</span> ${p.name}</td>
-        <td style="color:var(--text-dim)">${anzahl}</td>
-        <td style="color:var(--accent)">${anzahl > 0 ? Math.round(produktion).toLocaleString("de-DE") + " kcal" : "–"}</td>
-        <td style="color:var(--blue)">${benoetigt} Stück</td>
-        <td>
-          ${anzahl > 0
-            ? `<span class="status-badge ${produktion >= gesamtBedarf ? "badge-ok" : "badge-warn"}">
-                ${produktion >= gesamtBedarf ? "✓" : "⚠"} ${Math.abs(Math.round(diff)).toLocaleString("de-DE")} kcal ${diff >= 0 ? "Überschuss" : "fehlen"}
-               </span>`
-            : "–"}
-        </td>
-      </tr>`;
-  }).filter(Boolean);
+      return `
+        <tr>
+          <td><span class="pflanz-icon">${wikiImg(p, 24)}</span> ${p.name}</td>
+          <td style="color:var(--text-dim)">${anzahl}</td>
+          <td style="color:var(--accent)">${anzahl > 0 ? Math.round(produktion).toLocaleString("de-DE") + " kcal" : "–"}</td>
+          <td style="color:var(--blue)">${benoetigt} Stück</td>
+          <td>
+            ${anzahl > 0
+              ? `<span class="status-badge ${produktion >= gesamtBedarf ? "badge-ok" : "badge-warn"}">
+                  ${produktion >= gesamtBedarf ? "✓" : "⚠"} ${Math.abs(Math.round(diff)).toLocaleString("de-DE")} kcal ${diff >= 0 ? "Überschuss" : "fehlen"}
+                 </span>`
+              : "–"}
+          </td>
+        </tr>`;
+    }).filter(Boolean);
 
   const gesamtStatus = gesamtProduktion >= gesamtBedarf
     ? `<span class="badge-ok status-badge">✓ Genug: +${Math.round(gesamtProduktion - gesamtBedarf).toLocaleString("de-DE")} kcal Überschuss</span>`
@@ -230,7 +248,7 @@ function renderNahrungsTabelle() {
         </tr>
       </thead>
       <tbody>
-        ${zeilen.join("") || `<tr><td colspan="5" class="leer-zustand">Wähle Pflanzen aus der linken Liste</td></tr>`}
+        ${zeilen.join("") || `<tr><td colspan="5" class="leer-zustand">Wähle Nahrungspflanzen aus der linken Liste</td></tr>`}
         ${zeilen.length > 0 ? `
         <tr style="background:var(--bg-base)">
           <td colspan="1" style="font-weight:700;color:var(--text-head)">GESAMT</td>
@@ -259,11 +277,75 @@ function renderNahrungsTabelle() {
 // ══════════════════════════════════════════════════════════
 // TAB 3: TIERE & STÄLLE
 // ══════════════════════════════════════════════════════════
+
+function setTierHaben(id, val) {
+  const n = Math.max(0, parseInt(val) || 0);
+  if (!state.ausgewaehlteTiere[id]) state.ausgewaehlteTiere[id] = { haben: 0, wollen: 0 };
+  state.ausgewaehlteTiere[id].haben = n;
+  renderTierBerechnung(id);
+}
+
+function setTierWollen(id, val) {
+  const n = Math.max(0, parseInt(val) || 0);
+  if (!state.ausgewaehlteTiere[id]) state.ausgewaehlteTiere[id] = { haben: 0, wollen: 0 };
+  state.ausgewaehlteTiere[id].wollen = n;
+  renderTierBerechnung(id);
+}
+
+function renderTierBerechnung(id) {
+  const tier = getTierById(id);
+  if (!tier) return;
+  const tierState = state.ausgewaehlteTiere[id] || { haben: 0, wollen: 0 };
+  const wollen = tierState.wollen;
+
+  // Ställe
+  const staelle = wollen > 0 ? Math.ceil(wollen / tier.maxProStall) : 0;
+
+  // Ressourcenbedarf
+  const nahrungItems = tier.nahrung.map(n => {
+    if (n.menge === 0) return `<div style="font-size:11px;color:var(--text-dim)">• ${n.name}</div>`;
+    const gesamt = n.menge * wollen;
+    return `<div style="font-size:11px;color:var(--text-main)">• ${formatMenge(gesamt, n.einheit)} ${n.name}</div>`;
+  }).join("");
+
+  // Produktion
+  const prodItems = tier.produktion.map(p => {
+    if (p.menge === 0) return `<div style="font-size:11px;color:var(--green)">${p.icon} ${p.einheit} ${p.name}</div>`;
+    const gesamt = p.menge * wollen;
+    return `<div style="font-size:11px;color:var(--green)">${p.icon} ${formatMenge(gesamt, p.einheit)} ${p.name}</div>`;
+  }).join("");
+
+  const bereich = document.getElementById(`tier-rechner-${id}`);
+  if (!bereich) return;
+
+  if (wollen === 0) {
+    bereich.innerHTML = `<div style="font-size:11px;color:var(--text-dim);padding:6px 0">Gib eine Anzahl ein um den Bedarf zu berechnen.</div>`;
+    return;
+  }
+
+  bereich.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px">
+      <div style="background:var(--bg-base);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px">🏠 STÄLLE</div>
+        <div style="font-size:18px;font-weight:700;color:var(--accent)">${staelle}</div>
+        <div style="font-size:10px;color:var(--text-dim)">max. ${tier.maxProStall}/Stall</div>
+      </div>
+      <div style="background:var(--bg-base);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px">🍽️ NAHRUNGSBEDARF</div>
+        ${nahrungItems || '<div style="font-size:11px;color:var(--text-dim)">–</div>'}
+      </div>
+      <div style="background:var(--bg-base);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px">📦 PRODUKTION</div>
+        ${prodItems || '<div style="font-size:11px;color:var(--text-dim)">–</div>'}
+      </div>
+    </div>`;
+}
+
 function renderTiere() {
   const container = document.getElementById("tier-karten");
   container.innerHTML = ONI.tiere.map(tier => {
     const aktiv = state.aktivePacks.has(tier.pack);
-    const stallCount = Math.ceil(state.dupes / tier.maxProStall);
+    const tierState = state.ausgewaehlteTiere[tier.id] || { haben: 0, wollen: 0 };
 
     const nahrungItems = tier.nahrung.map(n =>
       `<div class="io-item">• ${formatMenge(n.menge, n.einheit)} ${n.name}</div>`
@@ -314,14 +396,39 @@ function renderTiere() {
             </div>
           </div>
           ${variantenHTML}
-          <div class="stall-rechner">
-            <span class="stall-label">🏠 Ställe für ${state.dupes} Dupes</span>
-            <span class="stall-wert">${stallCount} Stall${stallCount !== 1 ? "e" : ""}</span>
+
+          <!-- Interaktive Tierauswahl -->
+          <div class="tier-interaktiv">
+            <div class="tier-inputs">
+              <div class="tier-input-wrap">
+                <label class="tier-input-label">Ich habe:</label>
+                <input type="number" class="tier-anzahl-input" min="0" max="1000"
+                       value="${tierState.haben}"
+                       oninput="setTierHaben('${tier.id}', this.value)"
+                       onclick="event.stopPropagation()">
+              </div>
+              <div class="tier-input-wrap">
+                <label class="tier-input-label">Ich möchte:</label>
+                <input type="number" class="tier-anzahl-input" min="0" max="1000"
+                       value="${tierState.wollen}"
+                       oninput="setTierWollen('${tier.id}', this.value)"
+                       onclick="event.stopPropagation()">
+              </div>
+            </div>
+            <div id="tier-rechner-${tier.id}">
+              <div style="font-size:11px;color:var(--text-dim);padding:6px 0">Gib eine Anzahl ein um den Bedarf zu berechnen.</div>
+            </div>
           </div>
+
           <div class="tier-beschreibung">💡 ${tier.tipp}</div>
         </div>
       </div>`;
   }).join("");
+
+  // Nach dem Rendern berechnungen für alle Tiere mit Werten aktualisieren
+  Object.keys(state.ausgewaehlteTiere).forEach(id => {
+    if (state.ausgewaehlteTiere[id].wollen > 0) renderTierBerechnung(id);
+  });
 
   // Stallanleitung
   document.getElementById("stall-anleitung").innerHTML = `
@@ -390,6 +497,192 @@ function renderMaterialien() {
         </table>
       </div>
     </div>`).join("");
+}
+
+// ══════════════════════════════════════════════════════════
+// TAB 5: STROM
+// ══════════════════════════════════════════════════════════
+
+function setStromAnzahl(typ, id, val) {
+  const n = Math.max(0, parseInt(val) || 0);
+  if (!state.strom[typ][id]) state.strom[typ][id] = { anzahl: 0, kreis: 1 };
+  state.strom[typ][id].anzahl = n;
+  renderStromTabelle();
+}
+
+function setStromKreis(typ, id, val) {
+  const k = Math.max(1, Math.min(5, parseInt(val) || 1));
+  if (!state.strom[typ][id]) state.strom[typ][id] = { anzahl: 0, kreis: 1 };
+  state.strom[typ][id].kreis = k;
+  renderStromTabelle();
+}
+
+function renderStrom() {
+  const container = document.getElementById("strom-inhalt");
+  if (!container) return;
+
+  // ─ Generatoren-Liste ─
+  const genHTML = `
+    <div class="card-title" style="margin-bottom:12px">⚡ Generatoren</div>
+    ${ONI.strom.generatoren
+      .filter(g => state.aktivePacks.has(g.pack))
+      .map(g => {
+        const s = state.strom.generatoren[g.id] || { anzahl: 0, kreis: 1 };
+        return `
+          <div class="strom-item">
+            <div class="strom-name">${g.name}
+              <div style="font-size:10px;color:var(--text-dim)">${g.brennstoff}</div>
+            </div>
+            <div class="strom-watt">+${g.watt}W</div>
+            <input type="number" class="strom-anzahl" min="0" max="100" value="${s.anzahl}"
+                   oninput="setStromAnzahl('generatoren','${g.id}',this.value)" placeholder="0">
+            <select class="strom-kreis-sel" onchange="setStromKreis('generatoren','${g.id}',this.value)">
+              ${[1,2,3,4,5].map(k => `<option value="${k}" ${s.kreis===k?"selected":""}>K${k}</option>`).join("")}
+            </select>
+          </div>`;
+      }).join("")}`;
+
+  // ─ Verbraucher-Liste nach Kategorie ─
+  const kategorien = [...new Set(ONI.strom.verbraucher.map(v => v.kategorie))];
+  const vbHTML = `
+    <div class="card-title" style="margin-bottom:12px">🔌 Verbraucher</div>
+    ${kategorien.map(kat => {
+      const items = ONI.strom.verbraucher.filter(v => v.kategorie === kat && state.aktivePacks.has(v.pack));
+      if (items.length === 0) return "";
+      return `
+        <div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 4px">${kat}</div>
+        ${items.map(v => {
+          const s = state.strom.verbraucher[v.id] || { anzahl: 0, kreis: 1 };
+          return `
+            <div class="strom-item">
+              <div class="strom-name">${v.name}</div>
+              <div class="strom-watt" style="color:var(--red)">-${v.watt}W</div>
+              <input type="number" class="strom-anzahl" min="0" max="100" value="${s.anzahl}"
+                     oninput="setStromAnzahl('verbraucher','${v.id}',this.value)" placeholder="0">
+              <select class="strom-kreis-sel" onchange="setStromKreis('verbraucher','${v.id}',this.value)">
+                ${[1,2,3,4,5].map(k => `<option value="${k}" ${s.kreis===k?"selected":""}>K${k}</option>`).join("")}
+              </select>
+            </div>`;
+        }).join("")}`;
+    }).join("")}`;
+
+  container.innerHTML = `
+    <div class="strom-layout">
+      <div id="gen-liste">${genHTML}</div>
+      <div id="vb-liste">${vbHTML}</div>
+    </div>
+    <div id="strom-tabelle"></div>`;
+
+  renderStromTabelle();
+}
+
+function renderStromTabelle() {
+  const container = document.getElementById("strom-tabelle");
+  if (!container) return;
+
+  // Pro Kreis: Produktion und Verbrauch sammeln
+  const kreise = {};
+  for (let k = 1; k <= 5; k++) kreise[k] = { produktion: 0, verbrauch: 0, maxEinzelGen: 0 };
+
+  ONI.strom.generatoren.forEach(g => {
+    const s = state.strom.generatoren[g.id];
+    if (!s || s.anzahl === 0) return;
+    const k = s.kreis;
+    const watt = g.watt * s.anzahl;
+    kreise[k].produktion += watt;
+    if (g.watt > kreise[k].maxEinzelGen) kreise[k].maxEinzelGen = g.watt;
+  });
+
+  ONI.strom.verbraucher.forEach(v => {
+    const s = state.strom.verbraucher[v.id];
+    if (!s || s.anzahl === 0) return;
+    const k = s.kreis;
+    kreise[k].verbrauch += v.watt * s.anzahl;
+  });
+
+  // Nur Kreise mit Aktivität anzeigen
+  const aktiveKreise = Object.entries(kreise).filter(([, k]) => k.produktion > 0 || k.verbrauch > 0);
+
+  if (aktiveKreise.length === 0) {
+    container.innerHTML = `
+      <div class="strom-zusammenfassung">
+        <div class="tipp-box">
+          <span class="tipp-icon">💡</span>
+          <span>Gib Anzahl bei Generatoren und Verbrauchern ein um die Stromkreis-Bilanz zu berechnen.</span>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const kreisKarten = aktiveKreise.map(([nr, k]) => {
+    const saldo = k.produktion - k.verbrauch;
+    let klasse = "ueberschuss";
+    let saldoFarbe = "var(--green)";
+    let saldoPrefix = "+";
+    if (saldo < 0) { klasse = "mangel"; saldoFarbe = "var(--red)"; saldoPrefix = ""; }
+    else if (saldo < 200) { klasse = "knapp"; saldoFarbe = "var(--accent)"; }
+
+    // Kabelwarnung
+    let kabelWarn = "";
+    if (k.produktion > 2000) {
+      kabelWarn = `<div class="kabel-warnung">⚠️ ${k.produktion.toLocaleString("de-DE")}W überschreiten Schweres Kabel (2.000W)! Transformator verwenden.</div>`;
+    } else if (k.produktion > 1000) {
+      kabelWarn = `<div class="kabel-warnung" style="border-color:var(--accent);color:var(--accent);background:rgba(232,160,32,0.08)">⚡ ${k.produktion.toLocaleString("de-DE")}W – Schweres Kabel erforderlich (max. 2.000W)</div>`;
+    }
+
+    return `
+      <div class="kreis-karte ${klasse}">
+        <div>
+          <div class="kreis-label">Stromkreis ${nr}</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">
+            <span class="kreis-prod">⚡ ${k.produktion.toLocaleString("de-DE")}W</span>
+            <span style="color:var(--text-dim)"> / </span>
+            <span class="kreis-vb">🔌 ${k.verbrauch.toLocaleString("de-DE")}W</span>
+          </div>
+        </div>
+        <div>
+          <div class="kreis-saldo" style="color:${saldoFarbe}">${saldoPrefix}${saldo.toLocaleString("de-DE")} W</div>
+          <div style="font-size:10px;color:var(--text-dim);text-align:right">${saldo >= 0 ? "Überschuss" : "Mangel"}</div>
+        </div>
+      </div>
+      ${kabelWarn}`;
+  }).join("");
+
+  // Gesamtbilanz
+  const gesamtProd = aktiveKreise.reduce((s, [, k]) => s + k.produktion, 0);
+  const gesamtVb   = aktiveKreise.reduce((s, [, k]) => s + k.verbrauch, 0);
+  const gesamtSaldo = gesamtProd - gesamtVb;
+
+  container.innerHTML = `
+    <div class="strom-zusammenfassung">
+      <div class="card-title" style="margin-bottom:12px">📊 Stromkreis-Übersicht</div>
+      ${kreisKarten}
+      <div class="kreis-karte" style="border-color:var(--border-light);margin-top:16px;background:var(--bg-base)">
+        <div>
+          <div class="kreis-label" style="color:var(--text-head)">GESAMTBILANZ</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">
+            <span class="kreis-prod">⚡ ${gesamtProd.toLocaleString("de-DE")}W</span>
+            <span style="color:var(--text-dim)"> / </span>
+            <span class="kreis-vb">🔌 ${gesamtVb.toLocaleString("de-DE")}W</span>
+          </div>
+        </div>
+        <div>
+          <div class="kreis-saldo" style="color:${gesamtSaldo >= 0 ? "var(--green)" : "var(--red)"}">
+            ${gesamtSaldo >= 0 ? "+" : ""}${gesamtSaldo.toLocaleString("de-DE")} W
+          </div>
+          <div style="font-size:10px;color:var(--text-dim);text-align:right">${gesamtSaldo >= 0 ? "Überschuss" : "Mangel"}</div>
+        </div>
+      </div>
+      <div class="tipp-box" style="margin-top:12px">
+        <span class="tipp-icon">⚡</span>
+        <div>
+          <strong>Kabelkapazitäten:</strong>
+          Einfaches Kabel max. <strong style="color:var(--green)">1.000W</strong> ·
+          Schweres Kabel max. <strong style="color:var(--accent)">2.000W</strong> ·
+          Bei mehr als 2.000W: <strong style="color:var(--red)">Transformator</strong> verwenden!
+        </div>
+      </div>
+    </div>`;
 }
 
 // ── HILFSFUNKTIONEN ───────────────────────────────────────

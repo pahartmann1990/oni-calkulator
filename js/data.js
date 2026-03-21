@@ -839,7 +839,6 @@ const ONI = {
   },
 
   // ── RESSOURCEN & MATERIALIEN ──────────────────────────────
-  // Alle Schmelzpunkte aus Spieldaten (Klei Entertainment)
   materialien: [
     {
       kategorie: "Rohmetalle (Erze) – Basisspiel",
@@ -944,7 +943,43 @@ const ONI = {
     { name: "Einfacher Grill",  englisch: "Microbe Musher",  strom: 240, einheit: "W",               icon: "🥣" },
     { name: "Elektroherd",      englisch: "Electric Grill",  strom: 240, einheit: "W",               icon: "🍳" },
     { name: "Gasherd",          englisch: "Gas Range",       strom: 0,   einheit: "(Erdgas: 100g/s)", icon: "🔥" }
-  ]
+  ],
+
+  // ── STROM ─────────────────────────────────────────────────
+  strom: {
+    generatoren: [
+      { id: "hamsterrad",    name: "Hamsterrad",           watt: 400,  pack: "vanilla",   brennstoff: "–" },
+      { id: "kohlegenerator",name: "Kohlegenerator",       watt: 600,  pack: "vanilla",   brennstoff: "Kohle: 1.000g/s" },
+      { id: "gasgenerator",  name: "Naturgasgenerator",    watt: 800,  pack: "vanilla",   brennstoff: "Erdgas: 90g/s" },
+      { id: "wasserstoffgen",name: "Wasserstoffgenerator", watt: 800,  pack: "vanilla",   brennstoff: "Wasserstoff: 100g/s" },
+      { id: "petroleumgen",  name: "Petroleumgenerator",   watt: 2000, pack: "vanilla",   brennstoff: "Petroleum: 2.000g/s" },
+      { id: "dampfturbine",  name: "Dampfturbine",         watt: 850,  pack: "vanilla",   brennstoff: "Dampf: 2kg/s" },
+      { id: "solarpanel",    name: "Solarpanel",           watt: 380,  pack: "vanilla",   brennstoff: "Sonnenlicht" },
+      { id: "kernreaktor",   name: "Kernkraftreaktor",     watt: 4000, pack: "spacedOut", brennstoff: "Angereichertes Uran" }
+    ],
+    verbraucher: [
+      { id: "algenentluefter",    name: "Algenentlüfter",    watt: 120,  kategorie: "Sauerstoff",   pack: "vanilla" },
+      { id: "elektrolyseur",      name: "Elektrolyseur",     watt: 120,  kategorie: "Sauerstoff",   pack: "vanilla" },
+      { id: "aquatuner",          name: "Aquatuner",         watt: 1200, kategorie: "Kühlung",      pack: "vanilla" },
+      { id: "einfacher_grill",    name: "Einfacher Grill",   watt: 240,  kategorie: "Nahrung",      pack: "vanilla" },
+      { id: "elektroherd",        name: "Elektroherd",       watt: 240,  kategorie: "Nahrung",      pack: "vanilla" },
+      { id: "gaspumpe",           name: "Gaspumpe",          watt: 240,  kategorie: "Pumpen",       pack: "vanilla" },
+      { id: "fluessigkeitspumpe", name: "Flüssigkeitspumpe", watt: 240,  kategorie: "Pumpen",       pack: "vanilla" },
+      { id: "metallraffinerie",   name: "Metallraffinerie",  watt: 1200, kategorie: "Produktion",   pack: "vanilla" },
+      { id: "glasofen",           name: "Glasofen",          watt: 1200, kategorie: "Produktion",   pack: "vanilla" },
+      { id: "steinbrecher",       name: "Steinbrecher",      watt: 480,  kategorie: "Produktion",   pack: "vanilla" },
+      { id: "polymerpresse",      name: "Polymerpresse",     watt: 480,  kategorie: "Produktion",   pack: "vanilla" },
+      { id: "anzugfabrik",        name: "Anzugfabrik",       watt: 480,  kategorie: "Produktion",   pack: "vanilla" },
+      { id: "forschungsstation",  name: "Forschungsstation", watt: 100,  kategorie: "Forschung",    pack: "vanilla" },
+      { id: "supercomputer",      name: "Supercomputer",     watt: 200,  kategorie: "Forschung",    pack: "vanilla" },
+      { id: "wasserreiniger",     name: "Wasserreiniger",    watt: 120,  kategorie: "Sanitär",      pack: "vanilla" },
+      { id: "deckenlampe",        name: "Deckenlampe",       watt: 10,   kategorie: "Beleuchtung",  pack: "vanilla" },
+      { id: "flutlicht",          name: "Flutlicht",         watt: 50,   kategorie: "Beleuchtung",  pack: "vanilla" },
+      { id: "pflegestation",      name: "Pflegestation",     watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla" },
+      { id: "inkubator",          name: "Inkubator",         watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla" },
+      { id: "viehstation",        name: "Viehstation",       watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla" }
+    ]
+  }
 };
 
 // ── HILFSFUNKTIONEN ───────────────────────────────────────

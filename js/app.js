@@ -141,7 +141,7 @@ function renderPflanzListe() {
     return `
       <div class="pflanz-item ${ausgewaehlt ? "ausgewaehlt" : ""} ${!aktiv ? "dlc-inaktiv" : ""}"
            data-id="${p.id}" onclick="togglePflanze('${p.id}', event)">
-        <span class="pflanz-icon">${p.icon}</span>
+        <span class="pflanz-icon">${wikiImg(p, 36)}</span>
         <div class="pflanz-info">
           <div class="pflanz-name">${p.name}</div>
           <div class="pflanz-kcal">${kpz} kcal/Zyklus · ${p.wachstumszyklen} Zyklen · <em>${p.englisch}</em></div>
@@ -200,7 +200,7 @@ function renderNahrungsTabelle() {
 
     return `
       <tr>
-        <td><span class="pflanz-icon" style="font-size:18px">${p.icon}</span> ${p.name}</td>
+        <td><span class="pflanz-icon">${wikiImg(p, 24)}</span> ${p.name}</td>
         <td style="color:var(--text-dim)">${anzahl}</td>
         <td style="color:var(--accent)">${anzahl > 0 ? Math.round(produktion).toLocaleString("de-DE") + " kcal" : "–"}</td>
         <td style="color:var(--blue)">${benoetigt} Stück</td>
@@ -289,7 +289,7 @@ function renderTiere() {
     return `
       <div class="tier-karte ${!aktiv ? "dlc-inaktiv" : ""}">
         <div class="tier-header">
-          <span class="tier-icon">${tier.icon}</span>
+          <span class="tier-icon">${wikiImg(tier, 52, "wiki-img-tier")}</span>
           <div>
             <div class="tier-name">${tier.name}</div>
             <div class="tier-englisch">${tier.englisch} · ${packBadge(tier.pack)}</div>
@@ -413,4 +413,16 @@ function formatMenge(menge, einheit) {
     return (menge / 1000).toFixed(1) + " kg";
   }
   return menge.toLocaleString("de-DE") + " " + einheit;
+}
+
+// Wiki-Bild mit Emoji-Fallback
+function wikiImg(eintrag, groesse = 40, cssClass = "wiki-img") {
+  if (!eintrag.img) return `<span style="font-size:${groesse}px">${eintrag.icon}</span>`;
+  return `<img src="${eintrag.img}"
+               alt="${eintrag.name}"
+               class="${cssClass}"
+               width="${groesse}" height="${groesse}"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"
+               loading="lazy">
+          <span style="font-size:${Math.round(groesse*0.8)}px;display:none">${eintrag.icon}</span>`;
 }

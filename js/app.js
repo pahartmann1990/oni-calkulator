@@ -135,47 +135,63 @@ function renderNahrung() {
   renderNahrungsTabelle();
 }
 
+function renderPflanzItem(p) {
+  const aktiv = state.aktivePacks.has(p.pack);
+  const ausgewaehlt = state.ausgewaehltePflanzen[p.id] !== undefined;
+  const menge = state.ausgewaehltePflanzen[p.id] || 0;
+
+  const istNahrung = p.kcalProErnte > 0 && p.wachstumszyklen > 0;
+  const kpz = istNahrung ? (p.kcalProErnte / p.wachstumszyklen).toFixed(0) : "–";
+  const benoetigt = istNahrung
+    ? Math.ceil((state.dupes * 2000) / (p.kcalProErnte / p.wachstumszyklen))
+    : "–";
+
+  const kcalAnzeige = istNahrung
+    ? `${kpz} kcal/Zyklus · ${p.wachstumszyklen} Zyklen · <em>${p.englisch}</em>`
+    : `<span style="color:var(--text-dim)">${p.typ === "wild" ? "🌿 Natürliche Pflanze" : "📦 Ressource"}</span> · <em>${p.englisch}</em>`;
+
+  return `
+    <div class="pflanz-item ${ausgewaehlt ? "ausgewaehlt" : ""} ${!aktiv ? "dlc-inaktiv" : ""}"
+         data-id="${p.id}" onclick="togglePflanze('${p.id}', event)">
+      <span class="pflanz-icon">${wikiImg(p, 36)}</span>
+      <div class="pflanz-info">
+        <div class="pflanz-name">${p.name}</div>
+        <div class="pflanz-kcal">${kcalAnzeige}</div>
+        ${!aktiv ? `<span class="tag tag-lila">${packName(p.pack)}</span>` : ""}
+      </div>
+      <div class="pflanz-anzahl-wrap" onclick="event.stopPropagation()">
+        <input type="number" class="pflanz-anzahl-input"
+               min="0" max="500"
+               value="${menge}"
+               placeholder="0"
+               data-id="${p.id}"
+               oninput="setPflanzeAnzahl('${p.id}', this.value)"
+               title="Anzahl Pflanzen die du hast">
+        <span style="font-size:10px;color:var(--text-dim)">
+          / ${benoetigt} 🎯
+        </span>
+      </div>
+    </div>`;
+}
+
 function renderPflanzListe() {
   const container = document.getElementById("pflanz-liste");
-  container.innerHTML = ONI.pflanzen.map(p => {
-    const aktiv = state.aktivePacks.has(p.pack);
-    const ausgewaehlt = state.ausgewaehltePflanzen[p.id] !== undefined;
-    const menge = state.ausgewaehltePflanzen[p.id] || 0;
 
-    // Bugfix: Pflanzen ohne Kalorien zeigen "Kein Nahrungsmittel" statt Infinity
-    const istNahrung = p.kcalProErnte > 0 && p.wachstumszyklen > 0;
-    const kpz = istNahrung ? (p.kcalProErnte / p.wachstumszyklen).toFixed(0) : "–";
-    const benoetigt = istNahrung
-      ? Math.ceil((state.dupes * 2000) / (p.kcalProErnte / p.wachstumszyklen))
-      : "–";
+  const nahrungsPflanzen  = ONI.pflanzen.filter(p => p.typ === "nahrung");
+  const ressourcePflanzen = ONI.pflanzen.filter(p => p.typ === "ressource");
+  const wildPflanzen      = ONI.pflanzen.filter(p => p.typ === "wild");
 
-    const kcalAnzeige = istNahrung
-      ? `${kpz} kcal/Zyklus · ${p.wachstumszyklen} Zyklen · <em>${p.englisch}</em>`
-      : `<span style="color:var(--text-dim)">Kein Nahrungsmittel</span> · <em>${p.englisch}</em>`;
-
+  const sektionHtml = (titel, icon, pflanzen) => {
+    if (pflanzen.length === 0) return "";
     return `
-      <div class="pflanz-item ${ausgewaehlt ? "ausgewaehlt" : ""} ${!aktiv ? "dlc-inaktiv" : ""}"
-           data-id="${p.id}" onclick="togglePflanze('${p.id}', event)">
-        <span class="pflanz-icon">${wikiImg(p, 36)}</span>
-        <div class="pflanz-info">
-          <div class="pflanz-name">${p.name}</div>
-          <div class="pflanz-kcal">${kcalAnzeige}</div>
-          ${!aktiv ? `<span class="tag tag-lila">❄️ ${packName(p.pack)}</span>` : ""}
-        </div>
-        <div class="pflanz-anzahl-wrap" onclick="event.stopPropagation()">
-          <input type="number" class="pflanz-anzahl-input"
-                 min="0" max="500"
-                 value="${menge}"
-                 placeholder="0"
-                 data-id="${p.id}"
-                 oninput="setPflanzeAnzahl('${p.id}', this.value)"
-                 title="Anzahl Pflanzen die du hast">
-          <span style="font-size:10px;color:var(--text-dim)" ${istNahrung ? `data-tooltip="Empfohlen für ${state.dupes} Dupes"` : ""}>
-            / ${benoetigt} 🎯
-          </span>
-        </div>
-      </div>`;
-  }).join("");
+      <div class="pflanz-kategorie-header">${icon} ${titel}</div>
+      ${pflanzen.map(renderPflanzItem).join("")}`;
+  };
+
+  container.innerHTML =
+    sektionHtml("Nahrungspflanzen",   "🍎", nahrungsPflanzen) +
+    sektionHtml("Ressourcenpflanzen", "📦", ressourcePflanzen) +
+    sektionHtml("Natürlich wachsend", "🌲", wildPflanzen);
 }
 
 function togglePflanze(id, event) {
@@ -511,7 +527,7 @@ function setStromAnzahl(typ, id, val) {
 }
 
 function setStromKreis(typ, id, val) {
-  const k = Math.max(1, Math.min(5, parseInt(val) || 1));
+  const k = Math.max(1, Math.min(10, parseInt(val) || 1));
   if (!state.strom[typ][id]) state.strom[typ][id] = { anzahl: 0, kreis: 1 };
   state.strom[typ][id].kreis = k;
   renderStromTabelle();
@@ -537,7 +553,7 @@ function renderStrom() {
             <input type="number" class="strom-anzahl" min="0" max="100" value="${s.anzahl}"
                    oninput="setStromAnzahl('generatoren','${g.id}',this.value)" placeholder="0">
             <select class="strom-kreis-sel" onchange="setStromKreis('generatoren','${g.id}',this.value)">
-              ${[1,2,3,4,5].map(k => `<option value="${k}" ${s.kreis===k?"selected":""}>K${k}</option>`).join("")}
+              ${Array.from({length:10},(_,i)=>i+1).map(k => `<option value="${k}" ${s.kreis===k?"selected":""}>K${k}</option>`).join("")}
             </select>
           </div>`;
       }).join("")}`;
@@ -545,7 +561,11 @@ function renderStrom() {
   // ─ Verbraucher-Liste nach Kategorie ─
   const kategorien = [...new Set(ONI.strom.verbraucher.map(v => v.kategorie))];
   const vbHTML = `
-    <div class="card-title" style="margin-bottom:12px">🔌 Verbraucher</div>
+    <div class="card-title" style="margin-bottom:8px">🔌 Verbraucher</div>
+    <div style="font-size:11px;color:var(--text-dim);margin-bottom:10px;display:flex;gap:12px">
+      <span>⏱️ = Dauerhafter Verbraucher (läuft konstant)</span>
+      <span>⚡ = Gelegenheitsverbraucher (nur bei Bedarf)</span>
+    </div>
     ${kategorien.map(kat => {
       const items = ONI.strom.verbraucher.filter(v => v.kategorie === kat && state.aktivePacks.has(v.pack));
       if (items.length === 0) return "";
@@ -553,14 +573,19 @@ function renderStrom() {
         <div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 4px">${kat}</div>
         ${items.map(v => {
           const s = state.strom.verbraucher[v.id] || { anzahl: 0, kreis: 1 };
+          const dauerHinweis = v.dauerverbraucher
+            ? `<span class="strom-typ-dauer" title="Läuft dauerhaft">⏱️</span>`
+            : `<span class="strom-typ-gelegenheit" title="Läuft nur bei Bedarf">⚡</span>`;
           return `
             <div class="strom-item">
-              <div class="strom-name">${v.name}</div>
-              <div class="strom-watt" style="color:var(--red)">-${v.watt}W</div>
+              <div class="strom-name">${v.name} ${dauerHinweis}</div>
+              <div class="strom-watt" style="color:${v.watt===0?"var(--text-dim)":"var(--red)"}">
+                ${v.watt > 0 ? "-"+v.watt+"W" : "0W"}
+              </div>
               <input type="number" class="strom-anzahl" min="0" max="100" value="${s.anzahl}"
                      oninput="setStromAnzahl('verbraucher','${v.id}',this.value)" placeholder="0">
               <select class="strom-kreis-sel" onchange="setStromKreis('verbraucher','${v.id}',this.value)">
-                ${[1,2,3,4,5].map(k => `<option value="${k}" ${s.kreis===k?"selected":""}>K${k}</option>`).join("")}
+                ${Array.from({length:10},(_,i)=>i+1).map(k => `<option value="${k}" ${s.kreis===k?"selected":""}>K${k}</option>`).join("")}
               </select>
             </div>`;
         }).join("")}`;
@@ -582,7 +607,7 @@ function renderStromTabelle() {
 
   // Pro Kreis: Produktion und Verbrauch sammeln
   const kreise = {};
-  for (let k = 1; k <= 5; k++) kreise[k] = { produktion: 0, verbrauch: 0, maxEinzelGen: 0 };
+  for (let k = 1; k <= 10; k++) kreise[k] = { produktion: 0, verbrauch: 0, maxEinzelGen: 0 };
 
   ONI.strom.generatoren.forEach(g => {
     const s = state.strom.generatoren[g.id];

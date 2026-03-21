@@ -32,6 +32,7 @@ const ONI = {
       id: "mehlholz",
       name: "Mehlholz",
       englisch: "Mealwood",
+      typ: "nahrung",
       pack: "vanilla",
       icon: "🌿",
       img: "https://oxygennotincluded.wiki.gg/images/Mealwood.png",
@@ -55,6 +56,7 @@ const ONI = {
       id: "dornenbluete",
       name: "Dornenblüte",
       englisch: "Bristle Blossom",
+      typ: "nahrung",
       pack: "vanilla",
       icon: "🌸",
       img: "https://oxygennotincluded.wiki.gg/images/Bristle_Blossom.png",
@@ -79,6 +81,7 @@ const ONI = {
       id: "daemmerkappe",
       name: "Dämmerkappe",
       englisch: "Dusk Cap",
+      typ: "nahrung",
       pack: "vanilla",
       icon: "🍄",
       img: "https://oxygennotincluded.wiki.gg/images/Dusk_Cap.png",
@@ -103,6 +106,7 @@ const ONI = {
       id: "pinchapfefferpflanze",
       name: "Pinchapfeffer-Pflanze",
       englisch: "Pincha Pepperplant",
+      typ: "nahrung",
       pack: "vanilla",
       icon: "🌶️",
       img: "https://oxygennotincluded.wiki.gg/images/Pincha_Pepperplant.png",
@@ -127,6 +131,7 @@ const ONI = {
       id: "graupelweizen",
       name: "Graupelweizen",
       englisch: "Sleet Wheat",
+      typ: "nahrung",
       pack: "vanilla",
       icon: "🌾",
       img: "https://oxygennotincluded.wiki.gg/images/Sleet_Wheat.png",
@@ -150,6 +155,7 @@ const ONI = {
       id: "fingerhutschilf",
       name: "Fingerhutschilf",
       englisch: "Thimble Reed",
+      typ: "ressource",
       pack: "vanilla",
       icon: "🪴",
       img: "https://oxygennotincluded.wiki.gg/images/Thimble_Reed.png",
@@ -171,6 +177,7 @@ const ONI = {
       id: "balsamlilie",
       name: "Balsamlilie",
       englisch: "Balm Lily",
+      typ: "ressource",
       pack: "vanilla",
       icon: "🌺",
       img: "https://oxygennotincluded.wiki.gg/images/Balm_Lily.png",
@@ -191,6 +198,7 @@ const ONI = {
       id: "keuchwurz",
       name: "Keuchwurz",
       englisch: "Wheezewort",
+      typ: "wild",
       pack: "vanilla",
       icon: "🌀",
       img: "https://oxygennotincluded.wiki.gg/images/Wheezewort.png",
@@ -213,6 +221,7 @@ const ONI = {
       id: "happspross",
       name: "Happspross",
       englisch: "Nosh Sprout",
+      typ: "nahrung",
       pack: "spacedOut",
       icon: "🫘",
       img: "https://oxygennotincluded.wiki.gg/images/Nosh_Sprout.png",
@@ -234,6 +243,7 @@ const ONI = {
       id: "wasserkraut",
       name: "Wasserkraut",
       englisch: "Waterweed",
+      typ: "nahrung",
       pack: "spacedOut",
       icon: "🌊",
       img: "https://oxygennotincluded.wiki.gg/images/Waterweed.png",
@@ -255,6 +265,7 @@ const ONI = {
       id: "wuehlfruchtpflanze",
       name: "Spindeldürre Wühlfruchtpflanze",
       englisch: "Spindly Grubfruit Plant",
+      typ: "nahrung",
       pack: "spacedOut",
       icon: "🌱",
       img: "https://oxygennotincluded.wiki.gg/images/Spindly_Grubfruit_Plant.png",
@@ -278,6 +289,7 @@ const ONI = {
       id: "hexalent",
       name: "Hexalent",
       englisch: "Hexalent",
+      typ: "ressource",
       pack: "spacedOut",
       icon: "🌿",
       img: "https://oxygennotincluded.wiki.gg/images/Hexalent.png",
@@ -292,6 +304,73 @@ const ONI = {
       licht: false, wasser: false,
       beschreibung: "Produziert Holz – Rohstoff für Sperrholz (Baustoff).",
       tipp: "Holz → Sperrholz: wichtiger Baustoff in Spaced Out!",
+      rezepte: []
+    },
+
+    // ── NATÜRLICH WACHSENDE PFLANZEN (wild, nicht in Farmkacheln) ──
+    {
+      id: "arborbaum",
+      name: "Arborbaum",
+      englisch: "Arbor Tree",
+      typ: "wild",
+      pack: "vanilla",
+      icon: "🌳",
+      img: "https://oxygennotincluded.wiki.gg/images/Arbor_Tree.png",
+      farbe: "#5a8a3a",
+      wachstumszyklen: 18,
+      kcalProErnte: 0,
+      roherName: "Holz (Baumaterial)",
+      inputs: [
+        { name: "Wasser",     menge: 70, einheit: "kg/Zyklus" },
+        { name: "Schmutzerde", menge: 10, einheit: "kg/Zyklus" }
+      ],
+      temperatur: { min: 15, max: 35 },
+      licht: false, wasser: true,
+      beschreibung: "Wächst natürlich in gemäßigten Biomen. Produziert Holz als Baustoff. Kann nur von Pips gepflanzt werden.",
+      tipp: "Pip-Ranch + Arborbäume = passiver Holz-Nachschub ohne Duplikanten-Arbeit.",
+      rezepte: []
+    },
+    {
+      id: "bonbonrohrbluete",
+      name: "Bonbonrohrblüte",
+      englisch: "Sweetleaf",
+      typ: "wild",
+      pack: "vanilla",
+      icon: "🍬",
+      img: "https://oxygennotincluded.wiki.gg/images/Sweetleaf.png",
+      farbe: "#d48a9a",
+      wachstumszyklen: 0,
+      kcalProErnte: 0,
+      roherName: "Kein Erntegut – produziert O₂ passiv",
+      inputs: [
+        { name: "CO₂", menge: 100, einheit: "g/Zyklus (absorbiert)" }
+      ],
+      temperatur: { min: 10, max: 35 },
+      licht: false, wasser: false,
+      beschreibung: "Natürlich wachsende Dekorpflanze. Produziert Sauerstoff und verbessert Dekoration.",
+      tipp: "Gut für Dekoration in Schlafbereichen und passive O₂-Produktion.",
+      rezepte: []
+    },
+    {
+      id: "sauerstoffkraut",
+      name: "Oxyfarn",
+      englisch: "Oxyfern",
+      typ: "wild",
+      pack: "vanilla",
+      icon: "🌿",
+      img: "https://oxygennotincluded.wiki.gg/images/Oxyfern.png",
+      farbe: "#3a9a4a",
+      wachstumszyklen: 0,
+      kcalProErnte: 0,
+      roherName: "Kein Erntegut – O₂-Produktion",
+      inputs: [
+        { name: "CO₂",   menge: 100, einheit: "g/Zyklus" },
+        { name: "Wasser", menge: 30,  einheit: "kg/Zyklus" }
+      ],
+      temperatur: { min: -5, max: 35 },
+      licht: false, wasser: true,
+      beschreibung: "Natürlich wachsend. Wandelt CO₂ und Wasser in Sauerstoff um.",
+      tipp: "Passive O₂-Produktion – ideal als Ergänzung zu Elektrolyseur.",
       rezepte: []
     }
   ],
@@ -958,26 +1037,56 @@ const ONI = {
       { id: "kernreaktor",   name: "Kernkraftreaktor",     watt: 4000, pack: "spacedOut", brennstoff: "Angereichertes Uran" }
     ],
     verbraucher: [
-      { id: "algenentluefter",    name: "Algenentlüfter",    watt: 120,  kategorie: "Sauerstoff",   pack: "vanilla" },
-      { id: "elektrolyseur",      name: "Elektrolyseur",     watt: 120,  kategorie: "Sauerstoff",   pack: "vanilla" },
-      { id: "aquatuner",          name: "Aquatuner",         watt: 1200, kategorie: "Kühlung",      pack: "vanilla" },
-      { id: "einfacher_grill",    name: "Einfacher Grill",   watt: 240,  kategorie: "Nahrung",      pack: "vanilla" },
-      { id: "elektroherd",        name: "Elektroherd",       watt: 240,  kategorie: "Nahrung",      pack: "vanilla" },
-      { id: "gaspumpe",           name: "Gaspumpe",          watt: 240,  kategorie: "Pumpen",       pack: "vanilla" },
-      { id: "fluessigkeitspumpe", name: "Flüssigkeitspumpe", watt: 240,  kategorie: "Pumpen",       pack: "vanilla" },
-      { id: "metallraffinerie",   name: "Metallraffinerie",  watt: 1200, kategorie: "Produktion",   pack: "vanilla" },
-      { id: "glasofen",           name: "Glasofen",          watt: 1200, kategorie: "Produktion",   pack: "vanilla" },
-      { id: "steinbrecher",       name: "Steinbrecher",      watt: 480,  kategorie: "Produktion",   pack: "vanilla" },
-      { id: "polymerpresse",      name: "Polymerpresse",     watt: 480,  kategorie: "Produktion",   pack: "vanilla" },
-      { id: "anzugfabrik",        name: "Anzugfabrik",       watt: 480,  kategorie: "Produktion",   pack: "vanilla" },
-      { id: "forschungsstation",  name: "Forschungsstation", watt: 100,  kategorie: "Forschung",    pack: "vanilla" },
-      { id: "supercomputer",      name: "Supercomputer",     watt: 200,  kategorie: "Forschung",    pack: "vanilla" },
-      { id: "wasserreiniger",     name: "Wasserreiniger",    watt: 120,  kategorie: "Sanitär",      pack: "vanilla" },
-      { id: "deckenlampe",        name: "Deckenlampe",       watt: 10,   kategorie: "Beleuchtung",  pack: "vanilla" },
-      { id: "flutlicht",          name: "Flutlicht",         watt: 50,   kategorie: "Beleuchtung",  pack: "vanilla" },
-      { id: "pflegestation",      name: "Pflegestation",     watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla" },
-      { id: "inkubator",          name: "Inkubator",         watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla" },
-      { id: "viehstation",        name: "Viehstation",       watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla" }
+      // ── Sauerstoff ──────────────────────────────────────────────────────
+      // dauerverbraucher: true = läuft konstant; false = nur bei Bedarf/manuell
+      { id: "algenentluefter",     name: "Algenentlüfter",          watt: 120,  kategorie: "Sauerstoff",   pack: "vanilla",   dauerverbraucher: true  },
+      { id: "elektrolyseur",       name: "Elektrolyseur",           watt: 120,  kategorie: "Sauerstoff",   pack: "vanilla",   dauerverbraucher: true  },
+      { id: "oxylgenerator",       name: "OXYL-Generator",          watt: 120,  kategorie: "Sauerstoff",   pack: "vanilla",   dauerverbraucher: true  },
+      // ── Kühlung ─────────────────────────────────────────────────────────
+      { id: "aquatuner",           name: "Aquatuner",               watt: 1200, kategorie: "Kühlung",      pack: "vanilla",   dauerverbraucher: false },
+      { id: "thermoregler",        name: "Thermoregler",            watt: 120,  kategorie: "Kühlung",      pack: "vanilla",   dauerverbraucher: false },
+      // ── Nahrung ─────────────────────────────────────────────────────────
+      { id: "einfacher_grill",     name: "Einfacher Grill",         watt: 240,  kategorie: "Nahrung",      pack: "vanilla",   dauerverbraucher: false },
+      { id: "elektroherd",         name: "Elektroherd",             watt: 240,  kategorie: "Nahrung",      pack: "vanilla",   dauerverbraucher: false },
+      { id: "gasherd",             name: "Gasherd",                 watt: 0,    kategorie: "Nahrung",      pack: "vanilla",   dauerverbraucher: false },
+      { id: "lebensmittelkuehler", name: "Lebensmittelkühler",      watt: 120,  kategorie: "Nahrung",      pack: "vanilla",   dauerverbraucher: true  },
+      // ── Pumpen ──────────────────────────────────────────────────────────
+      { id: "gaspumpe",            name: "Gaspumpe",                watt: 240,  kategorie: "Pumpen",       pack: "vanilla",   dauerverbraucher: false },
+      { id: "fluessigkeitspumpe",  name: "Flüssigkeitspumpe",       watt: 240,  kategorie: "Pumpen",       pack: "vanilla",   dauerverbraucher: false },
+      { id: "minigaspumpe",        name: "Mini-Gaspumpe",           watt: 120,  kategorie: "Pumpen",       pack: "vanilla",   dauerverbraucher: false },
+      { id: "minifluessigpumpe",   name: "Mini-Flüssigkeitspumpe",  watt: 120,  kategorie: "Pumpen",       pack: "vanilla",   dauerverbraucher: false },
+      // ── Produktion ──────────────────────────────────────────────────────
+      { id: "metallraffinerie",    name: "Metallraffinerie",        watt: 1200, kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
+      { id: "glasofen",            name: "Glasofen",                watt: 1200, kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
+      { id: "steinbrecher",        name: "Steinbrecher",            watt: 480,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
+      { id: "polymerpresse",       name: "Polymerpresse",           watt: 480,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
+      { id: "anzugfabrik",         name: "Anzugfabrik",             watt: 480,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
+      { id: "schreinerei",         name: "Schreinerei",             watt: 120,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
+      { id: "kleidungsschneiderei",name: "Kleidungsschneiderei",    watt: 480,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
+      { id: "betonmischer",        name: "Betonmischer",            watt: 120,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
+      // ── Forschung ───────────────────────────────────────────────────────
+      { id: "forschungsstation",   name: "Forschungsstation",       watt: 100,  kategorie: "Forschung",    pack: "vanilla",   dauerverbraucher: false },
+      { id: "supercomputer",       name: "Supercomputer",           watt: 200,  kategorie: "Forschung",    pack: "vanilla",   dauerverbraucher: false },
+      { id: "raumfahrtforschung",  name: "Raumfahrt-Forschungsstation", watt: 200, kategorie: "Forschung", pack: "vanilla",   dauerverbraucher: false },
+      // ── Sanitär ─────────────────────────────────────────────────────────
+      { id: "wasserreiniger",      name: "Wasserreiniger",          watt: 120,  kategorie: "Sanitär",      pack: "vanilla",   dauerverbraucher: true  },
+      { id: "destillieranlage",    name: "Destillieranlage",        watt: 480,  kategorie: "Sanitär",      pack: "vanilla",   dauerverbraucher: false },
+      { id: "desinfektion",        name: "Desinfektionsschleuse",   watt: 100,  kategorie: "Sanitär",      pack: "vanilla",   dauerverbraucher: false },
+      // ── Beleuchtung ─────────────────────────────────────────────────────
+      { id: "deckenlampe",         name: "Deckenlampe",             watt: 10,   kategorie: "Beleuchtung",  pack: "vanilla",   dauerverbraucher: true  },
+      { id: "flutlicht",           name: "Flutlicht",               watt: 50,   kategorie: "Beleuchtung",  pack: "vanilla",   dauerverbraucher: true  },
+      { id: "tischlampe",          name: "Tischlampe",              watt: 10,   kategorie: "Beleuchtung",  pack: "vanilla",   dauerverbraucher: true  },
+      // ── Tierhaltung ─────────────────────────────────────────────────────
+      { id: "pflegestation",       name: "Pflegestation",           watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla",   dauerverbraucher: false },
+      { id: "inkubator",           name: "Inkubator",               watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla",   dauerverbraucher: true  },
+      { id: "viehstation",         name: "Viehstation",             watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla",   dauerverbraucher: false },
+      // ── Komfort & Dekoration ────────────────────────────────────────────
+      { id: "sauna",               name: "Sauna",                   watt: 120,  kategorie: "Komfort",      pack: "vanilla",   dauerverbraucher: false },
+      { id: "massagekoje",         name: "Massagekoje",             watt: 60,   kategorie: "Komfort",      pack: "vanilla",   dauerverbraucher: false },
+      { id: "oelraffinerie",       name: "Ölraffinerie",            watt: 480,  kategorie: "Energie",      pack: "vanilla",   dauerverbraucher: false },
+      // ── Spaced Out! ─────────────────────────────────────────────────────
+      { id: "interplanetarrakete", name: "Interplanetarraketen-Pad", watt: 480, kategorie: "Raumfahrt",    pack: "spacedOut", dauerverbraucher: false },
+      { id: "atomreaktor_kuehlung",name: "Reaktorkühlpumpe",        watt: 480,  kategorie: "Raumfahrt",    pack: "spacedOut", dauerverbraucher: true  }
     ]
   }
 };

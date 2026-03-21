@@ -239,14 +239,15 @@
       const istNahrung = p.kcalProErnte > 0 && p.wachstumszyklen > 0;
       const kpz = istNahrung ? (p.kcalProErnte / p.wachstumszyklen).toFixed(0) : "–";
       const aktiv = state ? state.aktivePacks.has(p.pack) : p.pack === "vanilla";
+      const typLabel = p.typ === "ressource" ? "📦 Ressourcenpflanze" : p.typ === "wild" ? "🌲 Natürlich wachsend" : "🍎 Nahrungspflanze";
       return `
         <div class="card ${!aktiv ? "dlc-inaktiv" : ""}" style="padding:16px">
           <div class="pflanze-detail-header">
-            <span class="pflanze-detail-icon">${p.icon}</span>
+            <span class="pflanze-detail-icon">${wikiImg(p, 48)}</span>
             <div>
               <div style="font-size:15px;font-weight:700;color:var(--text-head)">${p.name}</div>
               <div style="font-size:11px;color:var(--text-dim)">${p.englisch}</div>
-              ${packBadge(p.pack)}
+              <div style="margin-top:3px">${packBadge(p.pack)} <span style="font-size:10px;color:var(--text-dim)">${typLabel}</span></div>
             </div>
           </div>
           <div class="detail-grid">

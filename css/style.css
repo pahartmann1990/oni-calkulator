@@ -698,6 +698,23 @@ main {
 .kreis-saldo { font-size: 15px; font-weight: 900; }
 .kabel-warnung { background: rgba(232,80,80,0.1); border: 1px solid var(--red); border-radius: var(--radius); padding: 10px 14px; font-size: 12px; color: var(--red); margin-top: 8px; }
 
+/* ── STROM TYP-BADGES ───────────────────────────────────── */
+.strom-typ-dauer        { font-size: 12px; margin-left: 3px; opacity: 0.8; cursor: help; }
+.strom-typ-gelegenheit  { font-size: 12px; margin-left: 3px; opacity: 0.6; cursor: help; }
+
+/* ── PFLANZENKATEGORIE-HEADER ────────────────────────────── */
+.pflanz-kategorie-header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--accent);
+  padding: 10px 4px 4px;
+  margin-top: 6px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
 /* ── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 900px) {
   .nahrung-layout { grid-template-columns: 1fr; }

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ONI Kalkulator – Oxygen Not Included</title>
+  <meta name="description" content="Ressourcen- und Nahrungskalkulator für Oxygen Not Included mit deutscher Mod-Unterstützung">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧑‍🚀</text></svg>">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+
+    <!-- Logo -->
+    <div class="logo">
+      <div class="logo-icon">🧑‍🚀</div>
+      <div class="logo-text">
+        <h1>ONI Kalkulator</h1>
+        <p>Oxygen Not Included · Deutsche Mod · v1.0</p>
+      </div>
+    </div>
+
+    <!-- DLC Auswahl -->
+    <div class="dlc-selector">
+      <label class="dlc-badge aktiv" data-pack="vanilla">
+        <input type="checkbox" checked disabled> 🌍 Basisspiel
+      </label>
+      <label class="dlc-badge" data-pack="spacedOut">
+        <input type="checkbox"> 🚀 Spaced Out!
+      </label>
+      <label class="dlc-badge" data-pack="frostyPlanet">
+        <input type="checkbox"> ❄️ Frosty Planet
+      </label>
+    </div>
+
+    <!-- Duplikanten-Anzahl -->
+    <div class="dupe-control">
+      <span class="dupe-label">🧑‍🚀 Duplikanten:</span>
+      <button class="dupe-btn" id="dupe-minus">−</button>
+      <span class="dupe-count-display" id="dupe-anzeige">8</span>
+      <button class="dupe-btn" id="dupe-plus">+</button>
+      <input type="range" id="dupe-slider" min="1" max="200" value="8">
+    </div>
+
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════
+     HAUPTINHALT
+════════════════════════════════════════════════════════ -->
+<main>
+
+  <!-- ── TABS ──────────────────────────────────────────── -->
+  <div class="tab-bar">
+    <button class="tab-btn aktiv" data-tab="uebersicht">📊 Übersicht</button>
+    <button class="tab-btn" data-tab="nahrung">🌱 Nahrung & Pflanzen</button>
+    <button class="tab-btn" data-tab="tiere">🐾 Tiere & Ställe</button>
+    <button class="tab-btn" data-tab="materialien">⚙️ Materialien</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       TAB 1: ÜBERSICHT
+  ══════════════════════════════════════════════════════ -->
+  <div class="tab-panel aktiv" id="tab-uebersicht">
+
+    <div class="section-header">
+      <div>
+        <div class="section-title">📊 Duplikanten-Bedarf pro Zyklus</div>
+        <div class="section-sub">Was brauchen deine Duplikanten, was produzieren sie?</div>
+      </div>
+    </div>
+
+    <!-- Bedarf-Karten (werden per JS gefüllt) -->
+    <div class="bedarf-grid" id="bedarf-karten"></div>
+
+    <!-- Zusammenfassung -->
+    <div id="uebersicht-zusammenfassung" style="margin-bottom:24px"></div>
+
+    <!-- Info-Box -->
+    <div class="grid-2" style="gap:16px">
+      <div class="card">
+        <div class="card-title">📋 Was ist ein Zyklus?</div>
+        <p style="font-size:13px;color:var(--text-dim);line-height:1.6">
+          Ein <strong style="color:var(--text-main)">Zyklus</strong> in ONI dauert <strong style="color:var(--accent)">600 Sekunden</strong> (10 Minuten Spielzeit).
+          Alle Ressourcen werden pro Zyklus berechnet. Duplikanten schlafen ca. 1/3 des Zyklus (aber atmen weiter!).
+        </p>
+        <hr>
+        <p style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-top:10px">
+          <strong style="color:var(--text-main)">Kalorienverbrauch:</strong> 2.000 kcal / Zyklus pro Duplikant.
+          Bei Hunger fällt Moral und Stressrate steigt.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">🎯 Grundregeln</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-dim)">
+          <div>✅ <strong style="color:var(--text-main)">Nahrung:</strong> Mind. 2.000 kcal/Zyklus pro Dupe planen</div>
+          <div>✅ <strong style="color:var(--text-main)">Sauerstoff:</strong> OXYL-Generator oder Elektrolyseur</div>
+          <div>✅ <strong style="color:var(--text-main)">Wasser:</strong> Kreislauf (Toilette → Wasseraufbereiter)</div>
+          <div>✅ <strong style="color:var(--text-main)">CO₂:</strong> Kohlensäure-Abscheider oder Pflanzen nutzen</div>
+          <div>⭐ <strong style="color:var(--accent)">Tipp:</strong> Immer 20% Puffer einplanen!</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       TAB 2: NAHRUNG & PFLANZEN
+  ══════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-nahrung">
+
+    <div class="section-header">
+      <div>
+        <div class="section-title">🌱 Nahrungsrechner</div>
+        <div class="section-sub">Wähle Pflanzen links aus – rechts siehst du Bedarf vs. Produktion</div>
+      </div>
+    </div>
+
+    <div class="nahrung-layout">
+
+      <!-- Links: Pflanzenliste -->
+      <div>
+        <div class="card-title" style="margin-bottom:12px">🪴 Pflanzen auswählen</div>
+        <div class="tipp-box" style="margin-bottom:12px">
+          <span class="tipp-icon">💡</span>
+          <span>Klicke eine Pflanze an, dann gib rechts davon die Anzahl ein die du hast.</span>
+        </div>
+        <div class="pflanz-liste" id="pflanz-liste"></div>
+      </div>
+
+      <!-- Rechts: Tabelle & Details -->
+      <div>
+        <div class="card-title" style="margin-bottom:12px">📊 Was ich habe vs. Was ich brauche</div>
+        <div class="card" style="padding:0;overflow:hidden;margin-bottom:16px">
+          <div id="nahrung-tabelle" style="overflow-x:auto"></div>
+        </div>
+
+        <!-- Pflanzenkarten (Details) -->
+        <div class="card-title" style="margin-bottom:12px">🌿 Pflanzendaten (Deutsche Mod)</div>
+        <div class="grid-auto" id="pflanz-detail-karten">
+          <!-- Automatisch aus JS gefüllt -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       TAB 3: TIERE & STÄLLE
+  ══════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-tiere">
+
+    <div class="section-header">
+      <div>
+        <div class="section-title">🐾 Tiere & Ställe</div>
+        <div class="section-sub">Übersicht aller Tiere, was sie fressen und was sie produzieren</div>
+      </div>
+    </div>
+
+    <!-- Stall Anleitung -->
+    <div id="stall-anleitung" style="margin-bottom:20px"></div>
+
+    <!-- Tier-Karten -->
+    <div class="grid-auto" id="tier-karten"></div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       TAB 4: MATERIALIEN
+  ══════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-materialien">
+
+    <div class="section-header">
+      <div>
+        <div class="section-title">⚙️ Materialien & Ressourcen</div>
+        <div class="section-sub">Wärmeleitfähigkeit, Schmelzpunkt und Stromeigenschaften</div>
+      </div>
+    </div>
+
+    <div class="tipp-box" style="margin-bottom:20px">
+      <span class="tipp-icon">🌡️</span>
+      <div>
+        <strong>Wärmeleitfähigkeit:</strong> Höher = leitet Wärme besser (gut für Kühlung, schlecht für Isolierung).
+        Für Rohrleitungen: <strong style="color:var(--accent)">Gold</strong> oder <strong style="color:var(--accent)">Thermium</strong> für Aquatuner.
+        Für Isolation: <strong style="color:var(--accent)">Ablativgestein</strong> oder <strong style="color:var(--accent)">Sandstein</strong>.
+      </div>
+    </div>
+
+    <div id="material-inhalt"></div>
+
+  </div>
+
+</main>
+
+<!-- ════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+<footer>
+  <p>
+    ONI Kalkulator · Inoffizielles Fan-Projekt ·
+    Daten basierend auf <a href="https://oxygennotincluded.wiki.gg" target="_blank" rel="noopener">ONI Wiki</a> &
+    <a href="https://store.steampowered.com/app/457140" target="_blank" rel="noopener">Oxygen Not Included</a> (Klei Entertainment) ·
+    Deutsche Mod Übersetzungen ·
+    <a href="https://github.com/pahartmann1990/oni-calkulator" target="_blank" rel="noopener">GitHub</a>
+  </p>
+  <p style="margin-top:6px">Alle Werte sind Näherungswerte · Angaben ohne Gewähr · kein offizielles Klei-Produkt</p>
+</footer>
+
+<!-- Scripts -->
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+<!-- Pflanzenkarten direkt nach app.js rendern -->
+<script>
+  // Pflanzenkarten (Detailansicht unten)
+  document.addEventListener("DOMContentLoaded", () => {
+    renderPflanzDetailKarten();
+  });
+
+  function renderPflanzDetailKarten() {
+    const container = document.getElementById("pflanz-detail-karten");
+    if (!container) return;
+    container.innerHTML = ONI.pflanzen.map(p => {
+      const kpz = (p.kcalProErnte / p.wachstumszyklen).toFixed(0);
+      const aktiv = state ? state.aktivePacks.has(p.pack) : p.pack === "vanilla";
+      return `
+        <div class="card ${!aktiv ? "dlc-inaktiv" : ""}" style="padding:16px">
+          <div class="pflanze-detail-header">
+            <span class="pflanze-detail-icon">${p.icon}</span>
+            <div>
+              <div style="font-size:15px;font-weight:700;color:var(--text-head)">${p.name}</div>
+              <div style="font-size:11px;color:var(--text-dim)">${p.englisch}</div>
+              ${packBadge(p.pack)}
+            </div>
+          </div>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="detail-key">⏱️ Wachstum</div>
+              <div class="detail-val">${p.wachstumszyklen} Zyklen</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">🍎 Ernte</div>
+              <div class="detail-val">${p.kcalProErnte.toLocaleString("de-DE")} kcal</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">📈 Pro Zyklus</div>
+              <div class="detail-val" style="color:var(--accent)">${kpz} kcal</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">🌡️ Temperatur</div>
+              <div class="detail-val">${p.temperatur.min} – ${p.temperatur.max}°C</div>
+            </div>
+          </div>
+          <div style="font-size:12px;margin-bottom:8px">
+            <div style="color:var(--text-dim);margin-bottom:4px">📥 Benötigt:</div>
+            ${p.inputs.map(i => `<div style="color:var(--text-main)">• ${i.menge} ${i.einheit} ${i.name}</div>`).join("")}
+            ${p.wasser ? `<div style="color:var(--blue)">• 💧 Wasser</div>` : ""}
+            ${p.dunkelheit ? `<div style="color:var(--purple)">• 🌑 Absolut dunkel!</div>` : ""}
+          </div>
+          <div style="font-size:11px;color:var(--text-dim);font-style:italic;margin-bottom:8px">${p.beschreibung}</div>
+          <div class="tipp-box" style="padding:8px 10px">
+            <span class="tipp-icon" style="font-size:12px">💡</span>
+            <span style="font-size:11px">${p.tipp}</span>
+          </div>
+          ${p.rezepte.length > 0 ? `
+          <div style="margin-top:10px">
+            <div style="font-size:11px;font-weight:700;color:var(--text-dim);margin-bottom:6px">🍳 REZEPTE:</div>
+            ${p.rezepte.map(r => `
+              <div class="rezept-karte" style="margin-bottom:6px;padding:8px 10px">
+                <div class="rezept-name" style="font-size:12px">${r.name}</div>
+                <div class="rezept-kcal">${r.kcal.toLocaleString("de-DE")} kcal · ${r.geraet}</div>
+                <div class="rezept-zutaten">${r.zutaten.map(z => `• ${z}`).join(" | ")}</div>
+              </div>`).join("")}
+          </div>` : ""}
+        </div>`;
+    }).join("");
+  }
+</script>
+
+</body>
+</html>

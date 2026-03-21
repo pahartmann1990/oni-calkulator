@@ -1213,6 +1213,283 @@ const ONI = {
     }
   ],
 
+  // ── MATERIALIEN ERGÄNZUNG DLC ────────────────────────────
+  // (werden an materialien[] angehängt via app.js)
+  materialienDLC: [
+    {
+      kategorie: "🌨️ Frosty Planet – Ressourcen",
+      pack: "frostyPlanet",
+      eintraege: [
+        { name: "Eis",            englisch: "Ice",            icon: "🧊", img: BASE_IMG + "Ice.png",            wärmeleitfähigkeit: 2.18,  schmelzpunkt: 0,    strom: false },
+        { name: "Schnee",         englisch: "Snow",           icon: "❄️", img: BASE_IMG + "Snow.png",           wärmeleitfähigkeit: 0.60,  schmelzpunkt: 0,    strom: false },
+        { name: "Soleeis",        englisch: "Brine Ice",      icon: "🧊", img: BASE_IMG + "Brine_Ice.png",      wärmeleitfähigkeit: 2.21,  schmelzpunkt: -7,   strom: false },
+        { name: "Sole",           englisch: "Brine",          icon: "🌊", img: BASE_IMG + "Brine.png",          wärmeleitfähigkeit: 0.42,  schmelzpunkt: -24,  strom: false },
+        { name: "Torf",           englisch: "Peat",           icon: "🟫", img: BASE_IMG + "Peat.png",           wärmeleitfähigkeit: 0.15,  schmelzpunkt: 2527, strom: false },
+        { name: "Nektar",         englisch: "Nectar",         icon: "🍯", img: BASE_IMG + "Nectar.png",         wärmeleitfähigkeit: 0.15,  schmelzpunkt: -30,  strom: false }
+      ]
+    },
+    {
+      kategorie: "🦕 Prehistoric Planet – Ressourcen",
+      pack: "prehistoricPlanet",
+      eintraege: [
+        { name: "Bernstein",      englisch: "Amber",          icon: "🟠", img: BASE_IMG + "Amber.png",          wärmeleitfähigkeit: 0.69,  schmelzpunkt: 95,   strom: false },
+        { name: "Harz",           englisch: "Resin",          icon: "🟤", img: BASE_IMG + "Resin.png",          wärmeleitfähigkeit: 0.20,  schmelzpunkt: 190,  strom: false },
+        { name: "Fossil",         englisch: "Fossil",         icon: "🦴", img: BASE_IMG + "Fossil.png",         wärmeleitfähigkeit: 2.9,   schmelzpunkt: 1600, strom: false },
+        { name: "Phytoöl",        englisch: "Phyto Oil",      icon: "🫙", img: BASE_IMG + "Phyto_Oil.png",      wärmeleitfähigkeit: 0.15,  schmelzpunkt: -60,  strom: false },
+        { name: "Torf",           englisch: "Peat",           icon: "🟫", img: BASE_IMG + "Peat.png",           wärmeleitfähigkeit: 0.15,  schmelzpunkt: 2527, strom: false }
+      ]
+    },
+    {
+      kategorie: "🚀 Spaced Out! – Ressourcen",
+      pack: "spacedOut",
+      eintraege: [
+        { name: "Uranerz",        englisch: "Uranium Ore",    icon: "☢️", img: BASE_IMG + "Uranium_Ore.png",    wärmeleitfähigkeit: 4.0,   schmelzpunkt: 1132, strom: false },
+        { name: "Angereichertes Uran", englisch: "Enriched Uranium", icon: "☢️", img: BASE_IMG + "Enriched_Uranium.png", wärmeleitfähigkeit: 18.5,  schmelzpunkt: 1132, strom: true  },
+        { name: "Blei",           englisch: "Lead",           icon: "⚫", img: BASE_IMG + "Lead.png",           wärmeleitfähigkeit: 35.3,  schmelzpunkt: 328,  strom: true  },
+        { name: "Sucrose",        englisch: "Sucrose",        icon: "🍬", img: BASE_IMG + "Sucrose.png",        wärmeleitfähigkeit: 0.19,  schmelzpunkt: 186,  strom: false },
+        { name: "Fullerit",       englisch: "Fullerene",      icon: "🔵", img: BASE_IMG + "Fullerene.png",      wärmeleitfähigkeit: 0.0,   schmelzpunkt: 3527, strom: false }
+      ]
+    }
+  ],
+
+  // ── O2 QUELLEN (für Sauerstoff-Rechner) ──────────────────
+  o2Quellen: [
+    {
+      id: "elektrolyseur",
+      name: "Elektrolyseur",
+      englisch: "Electrolyzer",
+      icon: "⚗️",
+      img: BASE_IMG + "Electrolyzer.png",
+      o2ProZyklus: 53280,   // g/Zyklus (888 g/s × 600s)
+      wasserVerbrauch: 71.4, // kg/Zyklus
+      stromVerbrauch: 120,   // Watt
+      pack: "vanilla",
+      tipp: "Bester O₂-Erzeuger. Produziert auch Wasserstoff (2/3 O₂, 1/3 H₂). Braucht Pumpen!"
+    },
+    {
+      id: "oxyl_destillierung",
+      name: "OXYL-Generator",
+      englisch: "Oxygen Diffuser",
+      icon: "🌀",
+      img: BASE_IMG + "Oxygen_Diffuser.png",
+      o2ProZyklus: 54000,   // g/Zyklus (90 g/s × 600s)
+      wasserVerbrauch: 0,
+      stromVerbrauch: 120,
+      pack: "vanilla",
+      tipp: "Einfacher O₂-Erzeuger aus Algenmasse. Kein Wasser nötig. Gut für Spielstart."
+    },
+    {
+      id: "oxyfarn",
+      name: "Oxyfarn (Heim)",
+      englisch: "Oxyfern (Tamed)",
+      icon: "🌿",
+      img: BASE_IMG + "Oxyfern.png",
+      o2ProZyklus: 18780,   // g/Zyklus (31.3 g/s × 600s)
+      wasserVerbrauch: 19,
+      stromVerbrauch: 0,
+      pack: "vanilla",
+      tipp: "Passiv, stromlos. 1 Oxyfarn ≈ 1,88 kg O₂/Zyklus. Braucht CO₂-Atmosphäre und Wasser."
+    },
+    {
+      id: "oxyfarn_wild",
+      name: "Oxyfarn (Wild)",
+      englisch: "Oxyfern (Wild)",
+      icon: "🌱",
+      img: BASE_IMG + "Oxyfern.png",
+      o2ProZyklus: 4695,    // g/Zyklus (7.825 g/s × 600s)
+      wasserVerbrauch: 4.75,
+      stromVerbrauch: 0,
+      pack: "vanilla",
+      tipp: "Wild: nur 1/4 der Produktion. Pflanzen in Pflanztröge für volle Effizienz!"
+    }
+  ],
+
+  // ── ALLE REZEPTE ──────────────────────────────────────────
+  // qualitaet: -1=Erbärmlich, 0=Schrecklich, 1=Schlecht, 2=Standard,
+  //            3=Gut, 4=Toll, 5=Hervorragend, 6=Außergewöhnlich
+  rezepte: [
+    // ─ Mikrobenmatscher ─
+    { id: "matschriegel",     name: "Matschriegel",          englisch: "Mush Bar",
+      geraet: "Mikrobenmatscher", pack: "vanilla",   kcalAusgang: 800,  qualitaet: -1,
+      haltbarkeit: 4,   zutaten: ["75 kg Erde", "75 kg Wasser"],
+      tipp: "Notfallnahrung. Sehr schlechte Qualität – senkt Moral!"
+    },
+    { id: "laeusebot",        name: "Läusebrot",             englisch: "Liceloaf",
+      geraet: "Mikrobenmatscher", pack: "vanilla",   kcalAusgang: 1700, qualitaet: 0,
+      haltbarkeit: 8,   zutaten: ["1.200 kcal Mehllaus", "50 kg Wasser"],
+      tipp: "Erste Verbesserung gegenüber roher Mehllaus. Einfach herzustellen."
+    },
+    { id: "tofu",             name: "Tofu",                  englisch: "Tofu",
+      geraet: "Mikrobenmatscher", pack: "vanilla",   kcalAusgang: 3600, qualitaet: 2,
+      haltbarkeit: 8,   zutaten: ["6 Happsbohnen", "50 kg Wasser"],
+      tipp: "Gute Basis für High-End-Rezepte. Happspross-Farm nötig."
+    },
+    { id: "beerenmatsch",     name: "Beerenmatsch",          englisch: "Berry Sludge",
+      geraet: "Mikrobenmatscher", pack: "vanilla",   kcalAusgang: 4000, qualitaet: 3,
+      haltbarkeit: 8,   zutaten: ["5 Graupelweizenkörner ODER Wedelkörner", "1.600 kcal Dornenbeere ODER Stechapfel"],
+      tipp: "Sehr gute Qualität ohne Strom! Nur Mikrobenmatscher nötig."
+    },
+    { id: "pemmikan",         name: "Pemmikan",              englisch: "Pemmican",
+      geraet: "Mikrobenmatscher", pack: "frostyPlanet", kcalAusgang: 2600, qualitaet: 2,
+      haltbarkeit: 50,  zutaten: ["1.600 kcal Fleisch (beliebig)", "1 kg Fett"],
+      tipp: "Frosty Planet Pack. Sehr lange haltbar (50 Zyklen)! Ideal für Expeditionen."
+    },
+    // ─ Elektrogrill ─
+    { id: "eingelegte_mahlzeit", name: "Eingelegte Mahlzeit", englisch: "Pickled Meal",
+      geraet: "Elektrogrill", pack: "vanilla",        kcalAusgang: 1800, qualitaet: -1,
+      haltbarkeit: 50,  zutaten: ["3 kg Mehllaus"],
+      tipp: "Schlechte Qualität aber sehr lange haltbar (50 Zyklen)."
+    },
+    { id: "frittierter_matsch",  name: "Frittierter Matsch", englisch: "Mush Fry",
+      geraet: "Elektrogrill", pack: "vanilla",        kcalAusgang: 1050, qualitaet: 0,
+      haltbarkeit: 8,   zutaten: ["1 kg Matschriegel"],
+      tipp: "Aus Matschriegel – verbessert Qualität leicht aber immer noch schlecht."
+    },
+    { id: "knorpelbeere",     name: "Knorpelbeere",          englisch: "Gristle Berry",
+      geraet: "Elektrogrill", pack: "vanilla",        kcalAusgang: 2000, qualitaet: 1,
+      haltbarkeit: 8,   zutaten: ["1 kg Dornenbeere"],
+      tipp: "Wichtige Zutat für Gefüllte Beere (Q4) und Beerenmatsch (Q3)."
+    },
+    { id: "frittierter_pilz", name: "Frittierter Pilz",      englisch: "Fried Mushroom",
+      geraet: "Elektrogrill", pack: "vanilla",        kcalAusgang: 2800, qualitaet: 1,
+      haltbarkeit: 8,   zutaten: ["1 kg Pilz (Dämmerkappe)"],
+      tipp: "Zutat für Pilzwrap (Q4) und Pilzquiche (Q5)."
+    },
+    { id: "frostbroetchen",   name: "Frostbrötchen",         englisch: "Frost Bun",
+      geraet: "Elektrogrill", pack: "vanilla",        kcalAusgang: 1200, qualitaet: 2,
+      haltbarkeit: 8,   zutaten: ["3 Graupelweizenkörner ODER Wedelkörner"],
+      tipp: "Wichtige Zutat für Pfefferbrot (Q5) und Frostburger (Q5)."
+    },
+    { id: "omelett",          name: "Omelett",               englisch: "Omelette",
+      geraet: "Elektrogrill", pack: "vanilla",        kcalAusgang: 2800, qualitaet: 2,
+      haltbarkeit: 8,   zutaten: ["1 kg Rohes Ei (von Tieren)"],
+      tipp: "Eier von Pacu (Tropisch), Hatch, Drecko etc. Zutat für Pilzquiche (Q5)."
+    },
+    { id: "souffle_pfannkuchen", name: "Soufflé-Pfannkuchen", englisch: "Souffle Pancakes",
+      geraet: "Elektrogrill", pack: "vanilla",        kcalAusgang: 3600, qualitaet: 3,
+      haltbarkeit: 8,   zutaten: ["1 kg Rohes Ei", "2 Graupelweizenkörner ODER Wedelkörner"],
+      tipp: "Gute Qualität ohne Gasherd! Bestes Frühspiel-Essen mit Eiern."
+    },
+    { id: "barbeque",         name: "Barbeque",              englisch: "Barbeque",
+      geraet: "Elektrogrill", pack: "vanilla",        kcalAusgang: 4000, qualitaet: 3,
+      haltbarkeit: 8,   zutaten: ["2 kg Fleisch (von Hatch, Pacu etc.)"],
+      tipp: "Hohe Kalorien + gute Qualität. Zutat für Surf'n'Turf (Q4) und Frostburger (Q5)."
+    },
+    { id: "meeresfrüchte",    name: "Gekochte Meeresfrüchte", englisch: "Cooked Seafood",
+      geraet: "Elektrogrill", pack: "vanilla",        kcalAusgang: 1600, qualitaet: 3,
+      haltbarkeit: 8,   zutaten: ["1 kg Pacu-Filet ODER Rohe Schalentiere"],
+      tipp: "Gut in Qualität. Zutat für Surf'n'Turf (Q4)."
+    },
+    { id: "sumpfige_leckereien", name: "Sumpfige Leckereien", englisch: "Swampy Delights",
+      geraet: "Elektrogrill", pack: "spacedOut",      kcalAusgang: 2240, qualitaet: 1,
+      haltbarkeit: 8,   zutaten: ["1 kg Moorgelee (Mooreimer, Spaced Out!)"],
+      tipp: "Spaced Out! Exklusiv. Mooreimer-Farm benötigt."
+    },
+    { id: "roast_grubfrucht", name: "Gebratene Wühlfruchtnuss", englisch: "Roast Grubfruit Nut",
+      geraet: "Elektrogrill", pack: "spacedOut",      kcalAusgang: 1200, qualitaet: 1,
+      haltbarkeit: 8,   zutaten: ["1 kg Spindeldürre Wühlfrucht"],
+      tipp: "Spaced Out! Exklusiv. Schwefel für Pflanze nötig."
+    },
+    { id: "wuehlfruchtkonserve", name: "Wühlfruchtkonserve", englisch: "Grubfruit Preserve",
+      geraet: "Elektrogrill", pack: "spacedOut",      kcalAusgang: 2400, qualitaet: 3,
+      haltbarkeit: 50,  zutaten: ["8 kg Wühlfrucht (Wühlfruchtpflanze)", "4 kg Sucrose (Sweetle)"],
+      tipp: "Spaced Out! Sehr lange haltbar (50 Zyklen). Sweetle-Ranch für Sucrose nötig."
+    },
+    { id: "geröstetes_mimillet", name: "Geröstetes Mimillet", englisch: "Toasted Mimillet",
+      geraet: "Elektrogrill", pack: "prehistoricPlanet", kcalAusgang: 1500, qualitaet: 1,
+      haltbarkeit: 8,   zutaten: ["1 Mimillet (Mimika-Pflanze + Bestäubung)"],
+      tipp: "Prehistoric Planet. Mimika-Buds + Mimika-Tier für Bestäubung nötig."
+    },
+    { id: "stechapfelspies",  name: "Stechapfelspieß",        englisch: "Pikeapple Skewer",
+      geraet: "Elektrogrill", pack: "frostyPlanet",   kcalAusgang: 1200, qualitaet: 1,
+      haltbarkeit: 8,   zutaten: ["1 Stechapfel (Stechapfelstrauch, FP)"],
+      tipp: "Frosty Planet. Einfach herzustellen – Kältebereich (-55°C bis -14°C) nötig."
+    },
+    // ─ Gasherd ─
+    { id: "gefuellte_beere",  name: "Gefüllte Beere",         englisch: "Stuffed Berry",
+      geraet: "Gasherd",      pack: "vanilla",        kcalAusgang: 4400, qualitaet: 4,
+      haltbarkeit: 8,   zutaten: ["2 kg Knorpelbeere (Elektrogrill)", "2 kg Pinchapfeffer-Nuss"],
+      tipp: "Großartig! Kombiniert Dornenblüte + Pinchapfeffer-Pflanze."
+    },
+    { id: "pilzwrap",         name: "Pilzwrap",               englisch: "Mushroom Wrap",
+      geraet: "Gasherd",      pack: "vanilla",        kcalAusgang: 4800, qualitaet: 4,
+      haltbarkeit: 8,   zutaten: ["1 kg Frittierter Pilz (Elektrogrill)", "4 kg Salat (Wasserkraut)"],
+      tipp: "Viel Salat benötigt (4 kg). Wasserkraut-Farm + Dämmerkappe kombinieren."
+    },
+    { id: "surf_turf",        name: "Surf'n'Turf",            englisch: "Surf n Turf",
+      geraet: "Gasherd",      pack: "vanilla",        kcalAusgang: 6000, qualitaet: 4,
+      haltbarkeit: 8,   zutaten: ["1 kg Barbeque (Elektrogrill)", "1 kg Gekochte Meeresfrüchte"],
+      tipp: "Braucht Land- UND Wasservieh. Sehr gute Kalorien!"
+    },
+    { id: "pfefferbrot",      name: "Pfefferbrot",            englisch: "Pepper Bread",
+      geraet: "Gasherd",      pack: "vanilla",        kcalAusgang: 4000, qualitaet: 5,
+      haltbarkeit: 8,   zutaten: ["10 Graupelweizenkörner ODER Wedelkörner", "1 kg Pinchapfeffer-Nuss"],
+      tipp: "Hervorragende Qualität! Viel Graupelweizen oder Riesenwedel nötig."
+    },
+    { id: "pilzquiche",       name: "Pilzquiche",             englisch: "Mushroom Quiche",
+      geraet: "Gasherd",      pack: "vanilla",        kcalAusgang: 6400, qualitaet: 5,
+      haltbarkeit: 8,   zutaten: ["1 kg Omelett (Elektrogrill)", "1 kg Salat", "1 kg Frittierter Pilz"],
+      tipp: "Hervorragend! Höchste Kalorien unter den Q5-Rezepten."
+    },
+    { id: "pikanter_tofu",    name: "Pikanter Tofu",          englisch: "Spicy Tofu",
+      geraet: "Gasherd",      pack: "vanilla",        kcalAusgang: 4000, qualitaet: 5,
+      haltbarkeit: 8,   zutaten: ["1 kg Tofu (Mikrobenmatscher)", "1 kg Pinchapfeffer-Nuss"],
+      tipp: "Veganes High-End-Essen! Happspross + Pinchapfeffer kombinieren."
+    },
+    { id: "frostburger",      name: "Frostburger",            englisch: "Frost Burger",
+      geraet: "Gasherd",      pack: "vanilla",        kcalAusgang: 6000, qualitaet: 5,
+      haltbarkeit: 8,   zutaten: ["1 Frostbrötchen (Elektrogrill)", "1 kg Salat", "1 kg Barbeque"],
+      tipp: "Hervorragend! Braucht Graupelweizen + Wasserkraut + Fleisch."
+    },
+    { id: "currybohnen",      name: "Currybohnen",            englisch: "Curried Beans",
+      geraet: "Gasherd",      pack: "vanilla",        kcalAusgang: 5000, qualitaet: 4,
+      haltbarkeit: 8,   zutaten: ["4 Tonikwurzel (Tonic Root)", "4 Happsbohnen"],
+      tipp: "Toll! Happspross-Farm + Tonikwurzel-Quelle nötig."
+    },
+    { id: "beerkuchen",       name: "Gemischter Beerenkuchen", englisch: "Mixed Berry Pie",
+      geraet: "Gasherd",      pack: "spacedOut",      kcalAusgang: 4200, qualitaet: 5,
+      haltbarkeit: 8,   zutaten: ["3 Körner", "4 kg Wühlfrucht", "1 kg Knorpelbeere"],
+      tipp: "Spaced Out! Hervorragend. Spindeldürre Wühlfruchtpflanze + Dornenblüte + Körner."
+    },
+    // ─ Friteuse (Frosty Planet Pack) ─
+    { id: "ruebenpommes",     name: "Rübenpommes",            englisch: "Squash Fries",
+      geraet: "Friteuse",     pack: "frostyPlanet",   kcalAusgang: 5400, qualitaet: 3,
+      haltbarkeit: 8,   zutaten: ["1 kg Federrübe (Federrübenpflanze)", "1 kg Fett"],
+      tipp: "Frosty Planet. Sehr hohe Kalorien (5.400 kcal)! Gute Effizienz."
+    },
+    { id: "happs_miam",       name: "Happs-Miam",            englisch: "Nosh Noms",
+      geraet: "Friteuse",     pack: "frostyPlanet",   kcalAusgang: 5000, qualitaet: 3,
+      haltbarkeit: 8,   zutaten: ["6 Happsbohnen (Happspross)", "1 kg Fett"],
+      tipp: "Happspross ist Basisspiel-Pflanze, Friteuse braucht Frosty Planet Pack."
+    },
+    { id: "fisch_taco",       name: "Fisch Taco",             englisch: "Fish Taco",
+      geraet: "Friteuse",     pack: "frostyPlanet",   kcalAusgang: 4200, qualitaet: 4,
+      haltbarkeit: 8,   zutaten: ["1 kg Pacu-Filet", "2 Körner", "2,4 kg Fett"],
+      tipp: "Toll! Pacu-Ranch + Getreide + Fett kombinieren."
+    },
+    { id: "schalentier_tempura", name: "Schalentier-Tempura", englisch: "Shellfish Tempura",
+      geraet: "Friteuse",     pack: "frostyPlanet",   kcalAusgang: 4200, qualitaet: 4,
+      haltbarkeit: 8,   zutaten: ["1 kg Rohe Schalentiere (Zapfrobbe/Pokepanzer)", "2 Körner", "2,4 kg Fett"],
+      tipp: "Wie Fisch Taco aber mit Schalentieren. Zapfrobbe aus Frosty Planet Pack nutzen."
+    },
+    // ─ Räucherofen (Prehistoric Planet Pack) ─
+    { id: "zartes_bruststueck", name: "Zartes Bruststück",    englisch: "Tender Brisket",
+      geraet: "Räucherofen",  pack: "prehistoricPlanet", kcalAusgang: 16000, qualitaet: 5,
+      haltbarkeit: 8,   zutaten: ["6 kg Zähes Fleisch (Lumba/Rhex)", "100 kg Torf/Holz (Brennstoff)"],
+      tipp: "Prehistoric Planet. Massiver Kalorienertrag (16.000 kcal)! Lumba-Ranch empfohlen."
+    },
+    { id: "geraeucherter_fisch", name: "Geräucherter Fisch",  englisch: "Smoked Fish",
+      geraet: "Räucherofen",  pack: "prehistoricPlanet", kcalAusgang: 11200, qualitaet: 4,
+      haltbarkeit: 8,   zutaten: ["6.000 kcal Pacu-Filet ODER Jawbo-Filet", "100 kg Torf/Holz"],
+      tipp: "Jawbo aus PP oder normaler Pacu verwendbar. Sehr hohe Kalorien."
+    },
+    { id: "gemuesepuffer",    name: "Gemüsepuffer",           englisch: "Veggie Poppers",
+      geraet: "Räucherofen",  pack: "prehistoricPlanet", kcalAusgang: 11450, qualitaet: 4,
+      haltbarkeit: 8,   zutaten: ["5.600 kcal Gemüse (Schweißkorn / Stechapfel / Spindeldürre Wühlfrucht)", "100 kg Torf/Holz"],
+      tipp: "Vegetarische Option für Räucherofen. Schweißkornstängel liefert schnell Biomasse."
+    }
+  ],
+
   // ── STROM ─────────────────────────────────────────────────
   strom: {
     generatoren: [

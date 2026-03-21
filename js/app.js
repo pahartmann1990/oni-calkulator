@@ -83,6 +83,7 @@ function renderAlles() {
   renderTiere();
   renderMaterialien();
   renderStrom();
+  renderRezepte();
 }
 
 // ══════════════════════════════════════════════════════════
@@ -115,15 +116,41 @@ function renderUebersicht() {
       </div>`;
   }).join("");
 
-  // Zusammenfassung
+  // Zusammenfassung + O2 Rechner
+  const o2Bedarf   = n * 60000;  // g/Zyklus
+  const co2Prod    = n * 20000;  // g/Zyklus
+  const electro    = Math.ceil(o2Bedarf / 53280);
+  const oxyfarne   = Math.ceil(o2Bedarf / 18780);
+  const wasserElec = (electro * 71.4).toFixed(1);
+
   document.getElementById("uebersicht-zusammenfassung").innerHTML = `
-    <div class="tipp-box">
+    <div class="tipp-box" style="margin-bottom:12px">
       <span class="tipp-icon">💡</span>
       <div>
         <strong>${n} Duplikant${n !== 1 ? "en" : ""}</strong> brauchen pro Zyklus (600s) insgesamt
         <strong>${(n * 2000).toLocaleString("de-DE")} kcal</strong> Nahrung,
-        <strong>${((n * 60000) / 1000).toFixed(0)} kg</strong> Sauerstoff und produzieren
-        <strong>${((n * 20000) / 1000).toFixed(0)} kg</strong> CO₂.
+        <strong>${((o2Bedarf) / 1000).toFixed(0)} kg</strong> Sauerstoff und produzieren
+        <strong>${((co2Prod) / 1000).toFixed(0)} kg</strong> CO₂.
+      </div>
+    </div>
+    <div class="grid-3" style="gap:12px;margin-bottom:20px">
+      <div class="bedarf-karte" style="border-color:var(--blue)">
+        <div class="bedarf-icon">⚗️</div>
+        <div class="bedarf-name">Elektrolyseure nötig</div>
+        <div class="bedarf-wert" style="color:var(--blue)">${electro}</div>
+        <div class="bedarf-einheit">braucht ${wasserElec} kg Wasser/Zyk</div>
+      </div>
+      <div class="bedarf-karte" style="border-color:var(--green)">
+        <div class="bedarf-icon">🌿</div>
+        <div class="bedarf-name">Oxyfarne (Heim) nötig</div>
+        <div class="bedarf-wert" style="color:var(--green)">${oxyfarne}</div>
+        <div class="bedarf-einheit">stromlos – braucht CO₂-Atmo.</div>
+      </div>
+      <div class="bedarf-karte" style="border-color:var(--red)">
+        <div class="bedarf-icon">☁️</div>
+        <div class="bedarf-name">CO₂ pro Zyklus</div>
+        <div class="bedarf-wert" style="color:var(--red)">${((co2Prod)/1000).toFixed(0)} kg</div>
+        <div class="bedarf-einheit">Abscheider oder Dämmerkappe</div>
       </div>
     </div>`;
 }
@@ -475,11 +502,16 @@ function renderTiere() {
 // ══════════════════════════════════════════════════════════
 function renderMaterialien() {
   const container = document.getElementById("material-inhalt");
+  // Basis + DLC Materialien zusammenführen
+  const alleMats = [
+    ...ONI.materialien,
+    ...(ONI.materialienDLC || [])
+  ];
   // Max Wärmeleitfähigkeit für Balken-Skalierung
-  const allWL = ONI.materialien.flatMap(k => k.eintraege).map(e => e.wärmeleitfähigkeit);
+  const allWL = alleMats.flatMap(k => k.eintraege).map(e => e.wärmeleitfähigkeit);
   const maxWL = Math.max(...allWL);
 
-  container.innerHTML = ONI.materialien
+  container.innerHTML = alleMats
     .filter(kat => !kat.pack || state.aktivePacks.has(kat.pack))
     .map(kat => `
     <div class="material-section">
@@ -716,6 +748,106 @@ function renderStromTabelle() {
         </div>
       </div>
     </div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// TAB 6: REZEPTE
+// ══════════════════════════════════════════════════════════
+function renderRezepte() {
+  const container = document.getElementById("rezepte-inhalt");
+  if (!container) return;
+
+  const qualitaetInfo = {
+    "-1": { name: "Erbärmlich",     moral: "-1",  farbe: "var(--red)",    klasse: "badge-err"  },
+     "0": { name: "Schrecklich",    moral: "0",   farbe: "var(--text-dim)", klasse: ""          },
+     "1": { name: "Schlecht",       moral: "+1",  farbe: "var(--text-dim)", klasse: ""          },
+     "2": { name: "Standard",       moral: "+4",  farbe: "var(--blue)",   klasse: "badge-warn" },
+     "3": { name: "Gut",            moral: "+8",  farbe: "var(--green)",  klasse: "badge-ok"   },
+     "4": { name: "Toll",           moral: "+12", farbe: "var(--accent)", klasse: "badge-ok"   },
+     "5": { name: "Hervorragend",   moral: "+16", farbe: "var(--accent)", klasse: "badge-ok"   },
+     "6": { name: "Außergewöhnlich",moral: "+20", farbe: "var(--accent)", klasse: "badge-ok"   }
+  };
+
+  const geraete = [
+    { id: "Mikrobenmatscher", icon: "🧪", tipp: "Kein Strom für einfache Rezepte nötig" },
+    { id: "Elektrogrill",     icon: "🔥", tipp: "60W · Basis für viele Zwischen-Rezepte" },
+    { id: "Gasherd",          icon: "🍽️", tipp: "Kein Strom · Benötigt Erdgas oder Wasserstoff" },
+    { id: "Friteuse",         icon: "🛢️", tipp: "60W · Nur mit Frosty Planet Pack" },
+    { id: "Räucherofen",      icon: "💨", tipp: "Kein Strom · Nur mit Prehistoric Planet Pack · Benötigt Holz/Torf" }
+  ];
+
+  const aktiveRezepte = ONI.rezepte.filter(r => state.aktivePacks.has(r.pack));
+
+  if (aktiveRezepte.length === 0) {
+    container.innerHTML = `<div class="tipp-box"><span class="tipp-icon">💡</span><span>Aktiviere DLC-Packs oben um weitere Rezepte zu sehen.</span></div>`;
+    return;
+  }
+
+  container.innerHTML = geraete.map(g => {
+    const rezepte = aktiveRezepte.filter(r => r.geraet === g.id);
+    if (rezepte.length === 0) return "";
+
+    const zeilen = rezepte.map(r => {
+      const q = qualitaetInfo[String(r.qualitaet)] || qualitaetInfo["0"];
+      return `
+        <tr>
+          <td>
+            <div style="font-weight:700;color:var(--text-head);font-size:13px">${r.name}</div>
+            <div style="font-size:10px;color:var(--text-dim)">${r.englisch}</div>
+          </td>
+          <td>
+            ${r.zutaten.map(z => `<div style="font-size:12px;color:var(--text-main)">• ${z}</div>`).join("")}
+          </td>
+          <td style="font-weight:700;color:var(--accent);white-space:nowrap">
+            ${r.kcalAusgang.toLocaleString("de-DE")} kcal
+          </td>
+          <td>
+            <span class="status-badge ${q.klasse}" style="color:${q.farbe};background:none;border:1px solid ${q.farbe}">
+              ${q.name}
+            </span>
+            <div style="font-size:10px;color:var(--text-dim);margin-top:2px">Moral ${q.moral}</div>
+          </td>
+          <td style="font-size:11px;color:var(--text-dim)">
+            ${r.haltbarkeit ? r.haltbarkeit + " Zyklen" : "–"}
+          </td>
+          <td style="font-size:11px;color:var(--text-dim)">${r.tipp}</td>
+        </tr>`;
+    }).join("");
+
+    return `
+      <div class="material-section">
+        <h3>${g.icon} ${g.id}
+          <span style="font-weight:400;font-size:11px;color:var(--text-dim);margin-left:8px">${g.tipp}</span>
+        </h3>
+        <div class="card" style="padding:0;overflow:hidden">
+          <table class="material-table">
+            <thead>
+              <tr>
+                <th>Gericht</th>
+                <th>Zutaten</th>
+                <th style="color:var(--accent)">Kalorien</th>
+                <th>Qualität</th>
+                <th>Haltbarkeit</th>
+                <th>Hinweis</th>
+              </tr>
+            </thead>
+            <tbody>${zeilen}</tbody>
+          </table>
+        </div>
+      </div>`;
+  }).join("");
+
+  // Qualitäts-Legende
+  const legende = document.getElementById("rezepte-filter");
+  if (legende) {
+    legende.innerHTML = `
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <span style="font-size:11px;color:var(--text-dim);font-weight:700">QUALITÄTSSTUFEN:</span>
+        ${Object.entries(qualitaetInfo).map(([k,v]) =>
+          `<span class="tag" style="border:1px solid ${v.farbe};color:${v.farbe};background:none">Q${k} ${v.name} (Moral ${v.moral})</span>`
+        ).join("")}
+      </div>`;
+  }
 }
 
 // ── PFLANZENKARTEN DETAIL (Tab 2 – rechte Seite unten) ────

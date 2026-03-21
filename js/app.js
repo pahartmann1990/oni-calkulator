@@ -351,9 +351,11 @@ function renderMaterialien() {
   const allWL = ONI.materialien.flatMap(k => k.eintraege).map(e => e.wärmeleitfähigkeit);
   const maxWL = Math.max(...allWL);
 
-  container.innerHTML = ONI.materialien.map(kat => `
+  container.innerHTML = ONI.materialien
+    .filter(kat => !kat.pack || state.aktivePacks.has(kat.pack))
+    .map(kat => `
     <div class="material-section">
-      <h3>${kat.kategorie}</h3>
+      <h3>${kat.kategorie} ${kat.pack && kat.pack !== "vanilla" ? packBadge(kat.pack) : ""}</h3>
       <div class="card" style="padding:0;overflow:hidden">
         <table class="material-table">
           <thead>

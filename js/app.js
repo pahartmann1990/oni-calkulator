@@ -79,6 +79,7 @@ function initTabs() {
 function renderAlles() {
   renderUebersicht();
   renderNahrung();
+  renderPflanzDetailKarten();
   renderTiere();
   renderMaterialien();
   renderStrom();
@@ -146,9 +147,13 @@ function renderPflanzItem(p) {
     ? Math.ceil((state.dupes * 2000) / (p.kcalProErnte / p.wachstumszyklen))
     : "–";
 
+  const wildInfo = p.wachstumszyklenwild > 0
+    ? `<span style="color:var(--text-dim);font-size:10px">🌲 Wild: ${p.wachstumszyklenwild}Z</span>`
+    : "";
+
   const kcalAnzeige = istNahrung
-    ? `${kpz} kcal/Zyklus · ${p.wachstumszyklen} Zyklen · <em>${p.englisch}</em>`
-    : `<span style="color:var(--text-dim)">${p.typ === "wild" ? "🌿 Natürliche Pflanze" : "📦 Ressource"}</span> · <em>${p.englisch}</em>`;
+    ? `${kpz} kcal/Zyk · 🏠${p.wachstumszyklen}Z ${p.wachstumszyklenwild > 0 ? "· 🌲"+p.wachstumszyklenwild+"Z" : ""} · <em>${p.englisch}</em>`
+    : `<span style="color:var(--text-dim)">${p.typ === "wild-einmalig" ? "🌿 Einmalig (Wildnis)" : p.typ === "ressource" ? "📦 Ressource" : "📦 Ressource"}</span> · <em>${p.englisch}</em>`;
 
   return `
     <div class="pflanz-item ${ausgewaehlt ? "ausgewaehlt" : ""} ${!aktiv ? "dlc-inaktiv" : ""}"
@@ -179,7 +184,7 @@ function renderPflanzListe() {
 
   const nahrungsPflanzen  = ONI.pflanzen.filter(p => p.typ === "nahrung");
   const ressourcePflanzen = ONI.pflanzen.filter(p => p.typ === "ressource");
-  const wildPflanzen      = ONI.pflanzen.filter(p => p.typ === "wild");
+  const wildPflanzen      = ONI.pflanzen.filter(p => p.typ === "wild-einmalig");
 
   const sektionHtml = (titel, icon, pflanzen) => {
     if (pflanzen.length === 0) return "";
@@ -493,14 +498,17 @@ function renderMaterialien() {
           <tbody>
             ${kat.eintraege.map(e => {
               const balkenBreite = Math.max(4, (e.wärmeleitfähigkeit / maxWL) * 200);
+              const matImg = e.img
+                ? `<img src="${e.img}" alt="${e.name}" width="24" height="24" style="object-fit:contain;image-rendering:crisp-edges;vertical-align:middle;margin-right:4px" onerror="this.style.display='none'">`
+                : `<span style="font-size:18px;vertical-align:middle;margin-right:4px">${e.icon}</span>`;
               return `
               <tr>
-                <td>${e.icon} <strong>${e.name}</strong></td>
+                <td>${matImg}<strong>${e.name}</strong></td>
                 <td style="color:var(--text-dim);font-size:12px">${e.englisch}</td>
                 <td>
                   <div class="wl-bar">
                     <div class="wl-fill" style="width:${balkenBreite}px"></div>
-                    <span class="wl-val">${e.wärmeleitfähigkeit}</span>
+                    <span class="wl-val">${e.wärmeleitfähigkeit} W/m·K</span>
                   </div>
                 </td>
                 <td style="color:var(--blue)">${e.schmelzpunkt > 0 ? "+" : ""}${e.schmelzpunkt}°C</td>
@@ -710,7 +718,99 @@ function renderStromTabelle() {
     </div>`;
 }
 
+// ── PFLANZENKARTEN DETAIL (Tab 2 – rechte Seite unten) ────
+function renderPflanzDetailKarten() {
+  const container = document.getElementById("pflanz-detail-karten");
+  if (!container) return;
+
+  // Nur Pflanzen aktiver Packs anzeigen
+  const sichtbar = ONI.pflanzen.filter(p => state.aktivePacks.has(p.pack));
+
+  container.innerHTML = sichtbar.map(p => {
+    const istNahrung = p.kcalProErnte > 0 && p.wachstumszyklen > 0;
+    const kpz = istNahrung ? (p.kcalProErnte / p.wachstumszyklen).toFixed(0) : "–";
+
+    const typLabel = {
+      "nahrung":      "🍎 Nahrungspflanze",
+      "ressource":    "📦 Ressourcenpflanze",
+      "wild-einmalig":"🌿 Einmalig (Wildnis)",
+      "dekor":        "🌺 Dekoration"
+    }[p.typ] || p.typ;
+
+    const wachstumsInfo = istNahrung
+      ? `<div class="detail-item">
+           <div class="detail-key">🏠 Heimanbau</div>
+           <div class="detail-val" style="color:var(--accent)">${p.wachstumszyklen} Zyklen → ${(p.kcalProErnte / p.wachstumszyklen).toFixed(0)} kcal/Zyk</div>
+         </div>
+         <div class="detail-item">
+           <div class="detail-key">🌲 Wildwuchs</div>
+           <div class="detail-val" style="color:var(--green)">${p.wachstumszyklenwild > 0 ? p.wachstumszyklenwild + " Zyklen (4× langsamer)" : "–"}</div>
+         </div>`
+      : `<div class="detail-item">
+           <div class="detail-key">⏱️ Wachstum (Heim)</div>
+           <div class="detail-val">${p.wachstumszyklen > 0 ? p.wachstumszyklen + " Zyklen" : p.typ === "wild-einmalig" ? "Einmalig" : "Passiv"}</div>
+         </div>
+         <div class="detail-item">
+           <div class="detail-key">🌲 Wildwuchs</div>
+           <div class="detail-val">${p.wachstumszyklenwild > 0 ? p.wachstumszyklenwild + " Zyklen" : "–"}</div>
+         </div>`;
+
+    const inputsHtml = p.inputs.length > 0
+      ? p.inputs.map(i => `<div style="color:var(--text-main)">• ${i.menge > 0 ? i.menge + " " + i.einheit + " " : ""}${i.name}</div>`).join("")
+      : `<div style="color:var(--text-dim)">Kein Dünger/Bewässerung</div>`;
+
+    return `
+      <div class="card" style="padding:16px">
+        <div class="pflanze-detail-header">
+          <span class="pflanze-detail-icon">${wikiImg(p, 48)}</span>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:var(--text-head)">${p.name}</div>
+            <div style="font-size:11px;color:var(--text-dim)">${p.englisch}</div>
+            <div style="margin-top:3px">${packBadge(p.pack)} <span style="font-size:10px;color:var(--text-dim)">${typLabel}</span></div>
+          </div>
+        </div>
+        <div class="detail-grid">
+          ${wachstumsInfo}
+          <div class="detail-item">
+            <div class="detail-key">🍎 Ernte</div>
+            <div class="detail-val">${p.ernteMenge || (istNahrung ? p.kcalProErnte.toLocaleString("de-DE") + " kcal" : "Kein Nahrungsmittel")}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-key">🌡️ Temperatur</div>
+            <div class="detail-val">${p.temperatur.min}°C – ${p.temperatur.max}°C</div>
+          </div>
+        </div>
+        <div style="font-size:12px;margin-bottom:8px">
+          <div style="color:var(--text-dim);margin-bottom:4px">📥 Benötigt:</div>
+          ${inputsHtml}
+          ${p.licht ? `<div style="color:var(--accent)">• ☀️ Mind. 200 Lux Licht</div>` : ""}
+          ${p.dunkelheit ? `<div style="color:var(--purple)">• 🌑 Absolute Dunkelheit!</div>` : ""}
+          ${p.atmosphaere ? `<div style="color:var(--text-dim);font-size:11px;margin-top:3px">Atmosphäre: ${p.atmosphaere}</div>` : ""}
+        </div>
+        <div style="font-size:11px;color:var(--text-dim);font-style:italic;margin-bottom:8px">${p.beschreibung}</div>
+        <div class="tipp-box" style="padding:8px 10px">
+          <span class="tipp-icon" style="font-size:12px">💡</span>
+          <span style="font-size:11px">${p.tipp}</span>
+        </div>
+        ${p.rezepte && p.rezepte.length > 0 ? `
+        <div style="margin-top:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--text-dim);margin-bottom:6px">🍳 REZEPTE:</div>
+          ${p.rezepte.map(r => `
+            <div class="rezept-karte" style="margin-bottom:6px;padding:8px 10px">
+              <div class="rezept-name" style="font-size:12px">${r.name}</div>
+              <div class="rezept-kcal">${r.kcal.toLocaleString("de-DE")} kcal · ${r.geraet}</div>
+              <div class="rezept-zutaten">${r.zutaten.map(z => "• " + z).join(" | ")}</div>
+            </div>`).join("")}
+        </div>` : ""}
+      </div>`;
+  }).join("");
+}
+
 // ── HILFSFUNKTIONEN ───────────────────────────────────────
+function getTierById(id) {
+  return ONI.tiere.find(t => t.id === id) || null;
+}
+
 function packName(packId) {
   const p = ONI.packs.find(x => x.id === packId);
   return p ? p.name : packId;

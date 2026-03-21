@@ -21,7 +21,7 @@
       <div class="logo-icon">🧑‍🚀</div>
       <div class="logo-text">
         <h1>ONI Kalkulator</h1>
-        <p>Oxygen Not Included · Deutsche Mod · v1.0</p>
+        <p>Oxygen Not Included · Ni42 German Mod · v2.0</p>
       </div>
     </div>
 
@@ -212,87 +212,20 @@
 ════════════════════════════════════════════════════════ -->
 <footer>
   <p>
-    ONI Kalkulator · Inoffizielles Fan-Projekt ·
-    Daten basierend auf <a href="https://oxygennotincluded.wiki.gg" target="_blank" rel="noopener">ONI Wiki</a> &
-    <a href="https://store.steampowered.com/app/457140" target="_blank" rel="noopener">Oxygen Not Included</a> (Klei Entertainment) ·
-    Deutsche Mod Übersetzungen ·
+    ONI Kalkulator v2.0 · Inoffizielles Fan-Projekt ·
+    Daten: <a href="https://oxygennotincluded.wiki.gg" target="_blank" rel="noopener">ONI Wiki</a> &
+    <a href="https://store.steampowered.com/app/457140" target="_blank" rel="noopener">Oxygen Not Included</a> © Klei Entertainment ·
+    Deutsche Namen: <a href="https://github.com/Ni42/Oxygen_Not_Included_German" target="_blank" rel="noopener">Ni42 German Mod</a> ·
     <a href="https://github.com/pahartmann1990/oni-calkulator" target="_blank" rel="noopener">GitHub</a>
   </p>
-  <p style="margin-top:6px">Alle Werte sind Näherungswerte · Angaben ohne Gewähr · kein offizielles Klei-Produkt</p>
+  <p style="margin-top:6px">🏠 Heim = Pflanztrog (domestiziert) · 🌲 Wild = Naturboden · Alle Werte Näherungswerte · Kein offizielles Klei-Produkt</p>
 </footer>
 
 <!-- Scripts -->
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
 
-<!-- Pflanzenkarten direkt nach app.js rendern -->
-<script>
-  // Pflanzenkarten (Detailansicht unten)
-  document.addEventListener("DOMContentLoaded", () => {
-    renderPflanzDetailKarten();
-  });
-
-  function renderPflanzDetailKarten() {
-    const container = document.getElementById("pflanz-detail-karten");
-    if (!container) return;
-    container.innerHTML = ONI.pflanzen.map(p => {
-      const istNahrung = p.kcalProErnte > 0 && p.wachstumszyklen > 0;
-      const kpz = istNahrung ? (p.kcalProErnte / p.wachstumszyklen).toFixed(0) : "–";
-      const aktiv = state ? state.aktivePacks.has(p.pack) : p.pack === "vanilla";
-      const typLabel = p.typ === "ressource" ? "📦 Ressourcenpflanze" : p.typ === "wild" ? "🌲 Natürlich wachsend" : "🍎 Nahrungspflanze";
-      return `
-        <div class="card ${!aktiv ? "dlc-inaktiv" : ""}" style="padding:16px">
-          <div class="pflanze-detail-header">
-            <span class="pflanze-detail-icon">${wikiImg(p, 48)}</span>
-            <div>
-              <div style="font-size:15px;font-weight:700;color:var(--text-head)">${p.name}</div>
-              <div style="font-size:11px;color:var(--text-dim)">${p.englisch}</div>
-              <div style="margin-top:3px">${packBadge(p.pack)} <span style="font-size:10px;color:var(--text-dim)">${typLabel}</span></div>
-            </div>
-          </div>
-          <div class="detail-grid">
-            <div class="detail-item">
-              <div class="detail-key">⏱️ Wachstum</div>
-              <div class="detail-val">${p.wachstumszyklen > 0 ? p.wachstumszyklen + " Zyklen" : "–"}</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-key">🍎 Ernte</div>
-              <div class="detail-val">${istNahrung ? p.kcalProErnte.toLocaleString("de-DE") + " kcal" : "Kein Nahrungsmittel"}</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-key">📈 Pro Zyklus</div>
-              <div class="detail-val" style="color:var(--accent)">${istNahrung ? kpz + " kcal" : "–"}</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-key">🌡️ Temperatur</div>
-              <div class="detail-val">${p.temperatur.min} – ${p.temperatur.max}°C</div>
-            </div>
-          </div>
-          <div style="font-size:12px;margin-bottom:8px">
-            <div style="color:var(--text-dim);margin-bottom:4px">📥 Benötigt:</div>
-            ${p.inputs.map(i => `<div style="color:var(--text-main)">• ${i.menge} ${i.einheit} ${i.name}</div>`).join("")}
-            ${p.wasser ? `<div style="color:var(--blue)">• 💧 Wasser</div>` : ""}
-            ${p.dunkelheit ? `<div style="color:var(--purple)">• 🌑 Absolut dunkel!</div>` : ""}
-          </div>
-          <div style="font-size:11px;color:var(--text-dim);font-style:italic;margin-bottom:8px">${p.beschreibung}</div>
-          <div class="tipp-box" style="padding:8px 10px">
-            <span class="tipp-icon" style="font-size:12px">💡</span>
-            <span style="font-size:11px">${p.tipp}</span>
-          </div>
-          ${p.rezepte.length > 0 ? `
-          <div style="margin-top:10px">
-            <div style="font-size:11px;font-weight:700;color:var(--text-dim);margin-bottom:6px">🍳 REZEPTE:</div>
-            ${p.rezepte.map(r => `
-              <div class="rezept-karte" style="margin-bottom:6px;padding:8px 10px">
-                <div class="rezept-name" style="font-size:12px">${r.name}</div>
-                <div class="rezept-kcal">${r.kcal.toLocaleString("de-DE")} kcal · ${r.geraet}</div>
-                <div class="rezept-zutaten">${r.zutaten.map(z => `• ${z}`).join(" | ")}</div>
-              </div>`).join("")}
-          </div>` : ""}
-        </div>`;
-    }).join("");
-  }
-</script>
+<!-- Pflanzenkarten werden über renderAlles() in app.js gefüllt -->
 
 </body>
 </html>

@@ -1,9 +1,12 @@
 // ============================================================
-// ONI KALKULATOR – Spieldaten
+// ONI KALKULATOR – Spieldaten v2.0
 // Quelle: Ni42/Oxygen_Not_Included_German (offizielle Community-Übersetzung)
 //         ONI Wiki (oxygennotincluded.wiki.gg), Klei Entertainment
 // Bilder: © Klei Entertainment – verlinkt vom ONI Wiki
+// 1 Zyklus = 600 Sekunden | Wachstum: Heim = in Pflanztrog, Wild = Naturboden
 // ============================================================
+
+const BASE_IMG = "https://oxygennotincluded.wiki.gg/wiki/Special:Redirect/file/";
 
 const ONI = {
 
@@ -25,9 +28,15 @@ const ONI = {
     wasserWaschbecken: { wert: 5000,  einheit: "g",    icon: "🚿", name: "Wasser (Waschbecken)" }
   },
 
-  // ── NAHRUNGSPFLANZEN ──────────────────────────────────────
+  // ── PFLANZEN ──────────────────────────────────────────────
+  // typ: "nahrung" | "ressource" | "wild-einmalig" | "dekor"
+  // wachstumszyklen    = Heimanbau (Pflanztrog, von Duplikant)
+  // wachstumszyklenwild = Natürliches Wachstum (Bodenpflanzung / Wildnis)
   pflanzen: [
-    // ── BASISSPIEL ──
+
+    // ═══════════════════════════════════════════════════
+    // BASISSPIEL – Nahrungspflanzen
+    // ═══════════════════════════════════════════════════
     {
       id: "mehlholz",
       name: "Mehlholz",
@@ -35,46 +44,49 @@ const ONI = {
       typ: "nahrung",
       pack: "vanilla",
       icon: "🌿",
-      img: "https://oxygennotincluded.wiki.gg/images/Mealwood.png",
-      farbe: "#6b8c3a",
+      img: BASE_IMG + "Mealwood.png",
       wachstumszyklen: 3,
-      kcalProErnte: 800,
-      roherName: "Mehlkorn",
+      wachstumszyklenwild: 12,
+      kcalProErnte: 600,
+      ernteMenge: "1× Mehllaus (600 kcal)",
       inputs: [
-        { name: "Schmutzerde", menge: 20, einheit: "kg/Zyklus" }
+        { name: "Schmutzerde (Dünger)", menge: 10, einheit: "kg/Zyklus" }
       ],
+      atmosphaere: "Sauerstoff, Schmutziger Sauerstoff oder CO₂",
       temperatur: { min: 10, max: 30 },
-      licht: false, wasser: false,
-      beschreibung: "Einfachste Nahrungspflanze. Kein Licht, kein Wasser nötig.",
-      tipp: "Perfekt als Starternahrung. Sehr genügsam.",
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Einfachste und schnellste Nahrungspflanze. Schlechte Nahrungsqualität (-1), aber kein Wasser nötig.",
+      tipp: "Ideal für den Spielstart. Wild: 12 Zyklen. Im Pflanztrog: nur 3 Zyklen. Verarbeitung zu Läusebrot (+Wasser) für bessere Qualität.",
       rezepte: [
-        { name: "Mehlfladen",      kcal: 1000, zutaten: ["1× Mehlkorn"],                    geraet: "Einfacher Grill" },
-        { name: "Gebackener Tofu", kcal: 3600, zutaten: ["1× Mehlkorn", "1× Roher Pilz"],   geraet: "Elektroherd"    }
+        { name: "Läusebrot", kcal: 1700, geraet: "Mikrobenmatscher", zutaten: ["1.200 kcal Mehllaus", "50 kg Wasser"] }
       ]
     },
     {
-      id: "dornenbluete",
+      id: "dornenblüte",
       name: "Dornenblüte",
       englisch: "Bristle Blossom",
       typ: "nahrung",
       pack: "vanilla",
       icon: "🌸",
-      img: "https://oxygennotincluded.wiki.gg/images/Bristle_Blossom.png",
-      farbe: "#c06090",
-      wachstumszyklen: 4,
-      kcalProErnte: 4800,
-      roherName: "Dornenbeere",
+      img: BASE_IMG + "Bristle_Blossom.png",
+      wachstumszyklen: 6,
+      wachstumszyklenwild: 24,
+      kcalProErnte: 1600,
+      ernteMenge: "1 kg Dornenbeere (1.600 kcal)",
       inputs: [
-        { name: "Wasser", menge: 20,  einheit: "kg/Zyklus" },
-        { name: "CO₂",   menge: 150, einheit: "g/Zyklus"  }
+        { name: "Wasser", menge: 20, einheit: "kg/Zyklus" }
       ],
-      temperatur: { min: 15, max: 30 },
-      licht: false, wasser: true,
-      beschreibung: "Hoher Kalorienertrag. Braucht Wasser und CO₂.",
-      tipp: "Sehr effizient für fortgeschrittene Kolonien mit CO₂-Überschuss.",
+      atmosphaere: "Sauerstoff, Schmutziger Sauerstoff oder CO₂",
+      temperatur: { min: 5, max: 30 },
+      licht: true,
+      dunkelheit: false,
+      beschreibung: "Braucht mind. 200 Lux Licht und Wasser. Mittlere Nahrungsqualität (0).",
+      tipp: "Benötigt Beleuchtung! Deckenlampe oder Hakenlicht über den Pflanztrögen planen. Wild: 24 Zyklen.",
       rezepte: [
-        { name: "Dornbeeren-Smoothie", kcal: 9600, zutaten: ["2× Dornenbeere", "1× Wasser (Flasche)"], geraet: "Elektroherd" },
-        { name: "Gefüllte Beere",      kcal: 6000, zutaten: ["1× Dornenbeere", "1× Pinchapfeffer"],   geraet: "Elektroherd" }
+        { name: "Knorpelbeere (gegrillt)", kcal: 2000, geraet: "Elektrogrill", zutaten: ["1 kg Dornenbeere"] },
+        { name: "Beerenmatsch", kcal: 4000, geraet: "Mikrobenmatscher", zutaten: ["5 Graupelweizenkörner", "1.600 kcal Dornenbeere"] },
+        { name: "Gefüllte Beere", kcal: 4400, geraet: "Gasherd", zutaten: ["2 kg Knorpelbeere", "2 kg Pinchapfeffer-Nuss"] }
       ]
     },
     {
@@ -84,47 +96,24 @@ const ONI = {
       typ: "nahrung",
       pack: "vanilla",
       icon: "🍄",
-      img: "https://oxygennotincluded.wiki.gg/images/Dusk_Cap.png",
-      farbe: "#7a5c8a",
-      wachstumszyklen: 3,
-      kcalProErnte: 1600,
-      roherName: "Roher Pilz",
-      inputs: [
-        { name: "CO₂",           menge: 100, einheit: "g/Zyklus"  },
-        { name: "Schmutzwasser", menge: 35,  einheit: "kg/Zyklus" }
-      ],
-      temperatur: { min: 16, max: 22 },
-      licht: false, wasser: false, dunkelheit: true,
-      beschreibung: "Benötigt absolute Dunkelheit und CO₂. Verarbeitet Schmutzwasser.",
-      tipp: "Ideal in dunklen Räumen. CO₂ aus Duplikanten nutzen.",
-      rezepte: [
-        { name: "Pilzwrap",        kcal: 3600, zutaten: ["1× Roher Pilz", "1× Pinchapfeffer"], geraet: "Elektroherd" },
-        { name: "Gebackener Tofu", kcal: 3600, zutaten: ["1× Mehlkorn",   "1× Roher Pilz"],   geraet: "Elektroherd" }
-      ]
-    },
-    {
-      id: "pinchapfefferpflanze",
-      name: "Pinchapfeffer-Pflanze",
-      englisch: "Pincha Pepperplant",
-      typ: "nahrung",
-      pack: "vanilla",
-      icon: "🌶️",
-      img: "https://oxygennotincluded.wiki.gg/images/Pincha_Pepperplant.png",
-      farbe: "#c04030",
-      wachstumszyklen: 5,
+      img: BASE_IMG + "Dusk_Cap.png",
+      wachstumszyklen: 8,
+      wachstumszyklenwild: 30,
       kcalProErnte: 2400,
-      roherName: "Pinchapfeffer",
+      ernteMenge: "1 kg Pilz (2.400 kcal)",
       inputs: [
-        { name: "Schmutzwasser", menge: 35, einheit: "kg/Zyklus" }
+        { name: "Schleim", menge: 4, einheit: "kg/Zyklus" }
       ],
-      temperatur: { min: 30, max: 60 },
-      licht: false, wasser: false,
-      beschreibung: "Verarbeitet Schmutzwasser. Braucht warme Umgebungen.",
-      tipp: "Gut kombiniert mit Toiletten (Schmutzwasser-Kreislauf).",
+      atmosphaere: "Nur CO₂ (0,15–10 kg/m³)",
+      temperatur: { min: 5, max: 35 },
+      licht: false,
+      dunkelheit: true,
+      beschreibung: "Braucht CO₂-Atmosphäre und absolute Dunkelheit. Mittlere Qualität (0).",
+      tipp: "Perfekt für CO₂-Verarbeitung. Schleim kommt von Pufts. Licht ausschalten! Wild: 30 Zyklen.",
       rezepte: [
-        { name: "Gefüllte Beere", kcal: 6000, zutaten: ["1× Dornenbeere",  "1× Pinchapfeffer"], geraet: "Elektroherd" },
-        { name: "Pilzwrap",       kcal: 3600, zutaten: ["1× Roher Pilz", "1× Pinchapfeffer"], geraet: "Elektroherd" },
-        { name: "Pfeffer-Tofu",   kcal: 5000, zutaten: ["2× Pinchapfeffer"],                  geraet: "Elektroherd" }
+        { name: "Frittierter Pilz", kcal: 2800, geraet: "Elektrogrill", zutaten: ["1 kg Pilz"] },
+        { name: "Pilzwrap", kcal: 4800, geraet: "Gasherd", zutaten: ["1 kg Frittierter Pilz", "4 kg Salat"] },
+        { name: "Pilzquiche", kcal: 6400, geraet: "Gasherd", zutaten: ["1 kg Omelett", "1 kg Salat", "1 kg Frittierter Pilz"] }
       ]
     },
     {
@@ -134,369 +123,602 @@ const ONI = {
       typ: "nahrung",
       pack: "vanilla",
       icon: "🌾",
-      img: "https://oxygennotincluded.wiki.gg/images/Sleet_Wheat.png",
-      farbe: "#88aacc",
-      wachstumszyklen: 6,
-      kcalProErnte: 1700,
-      roherName: "Graupelweizenmehl (17 Körner × 100 kcal)",
+      img: BASE_IMG + "Sleet_Wheat.png",
+      wachstumszyklen: 18,
+      wachstumszyklenwild: 72,
+      kcalProErnte: 0,
+      ernteMenge: "18 Graupelweizenkörner (roh nicht essbar)",
       inputs: [
-        { name: "Wasser",     menge: 40, einheit: "kg/Zyklus" },
-        { name: "Phosphorit", menge: 10, einheit: "g/Zyklus"  }
+        { name: "Wasser", menge: 20, einheit: "kg/Zyklus" },
+        { name: "Schmutzerde", menge: 5, einheit: "kg/Zyklus" }
       ],
-      temperatur: { min: -20, max: 10 },
-      licht: false, wasser: true,
-      beschreibung: "Wächst nur in sehr kalten Umgebungen (-20 bis 10°C).",
-      tipp: "Aktive Kühlung erforderlich – Aquatuner empfohlen.",
+      atmosphaere: "Sauerstoff, Schmutziger Sauerstoff oder CO₂",
+      temperatur: { min: -55, max: 5 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Kältepflanze! Körner sind roh nicht essbar, werden zu Frostbrötchen oder anderen Rezepten verarbeitet.",
+      tipp: "Braucht Kältebereich (<5°C). Körner sind vielseitig einsetzbar in Rezepten. Wild: 72 Zyklen.",
       rezepte: [
-        { name: "Frost-Burger", kcal: 8000, zutaten: ["4× Graupelweizenmehl", "1× Fleisch"], geraet: "Elektroherd" }
+        { name: "Frostbrötchen", kcal: 1200, geraet: "Elektrogrill", zutaten: ["3 Graupelweizenkörner"] },
+        { name: "Pfefferbrot", kcal: 4000, geraet: "Gasherd", zutaten: ["10 Körner", "1 kg Pinchapfeffer-Nuss"] },
+        { name: "Soufflé-Pfannkuchen", kcal: 3600, geraet: "Elektrogrill", zutaten: ["1 kg Rohes Ei", "2 Graupelweizenkörner"] }
       ]
     },
     {
-      id: "fingerhutschilf",
-      name: "Fingerhutschilf",
-      englisch: "Thimble Reed",
-      typ: "ressource",
-      pack: "vanilla",
-      icon: "🪴",
-      img: "https://oxygennotincluded.wiki.gg/images/Thimble_Reed.png",
-      farbe: "#4a7a5a",
-      wachstumszyklen: 4,
-      kcalProErnte: 0,
-      roherName: "Schilffaser (kein Nahrungsmittel)",
-      inputs: [
-        { name: "Schmutzwasser", menge: 35,  einheit: "kg/Zyklus" },
-        { name: "CO₂",           menge: 100, einheit: "g/Zyklus"  }
-      ],
-      temperatur: { min: 5, max: 30 },
-      licht: false, wasser: false,
-      beschreibung: "Produziert Schilffaser – wird für Anzüge (Schnittiger Anzug) benötigt.",
-      tipp: "Nicht zum Essen, aber unverzichtbar für Schutzanzüge.",
-      rezepte: []
-    },
-    {
-      id: "balsamlilie",
-      name: "Balsamlilie",
-      englisch: "Balm Lily",
-      typ: "ressource",
-      pack: "vanilla",
-      icon: "🌺",
-      img: "https://oxygennotincluded.wiki.gg/images/Balm_Lily.png",
-      farbe: "#9a4a7a",
-      wachstumszyklen: 5,
-      kcalProErnte: 0,
-      roherName: "Balsamlilienblüte (Heilmittel-Zutat)",
-      inputs: [
-        { name: "Wasser", menge: 70, einheit: "kg/Zyklus" }
-      ],
-      temperatur: { min: 22, max: 42 },
-      licht: false, wasser: true,
-      beschreibung: "Produziert Blüten für medizinische Rezepte (Heilmittel-Tabletten).",
-      tipp: "Für medizinische Versorgung der Kolonie – keine Nahrung.",
-      rezepte: []
-    },
-    {
-      id: "keuchwurz",
-      name: "Keuchwurz",
-      englisch: "Wheezewort",
-      typ: "wild",
-      pack: "vanilla",
-      icon: "🌀",
-      img: "https://oxygennotincluded.wiki.gg/images/Wheezewort.png",
-      farbe: "#3a7a9a",
-      wachstumszyklen: 0,
-      kcalProErnte: 0,
-      roherName: "Kein Erntegut – kühlt Umgebung",
-      inputs: [
-        { name: "CO₂", menge: 100, einheit: "g/Zyklus (absorbiert)" }
-      ],
-      temperatur: { min: -20, max: 20 },
-      licht: false, wasser: false,
-      beschreibung: "Keine Nahrungspflanze! Kühlt aktiv die Umgebung, gibt O₂ ab.",
-      tipp: "Unverzichtbar für passive Kühlung (z.B. Graupelweizen-Feld).",
-      rezepte: []
-    },
-
-    // ── SPACED OUT! ──
-    {
-      id: "happspross",
-      name: "Happspross",
-      englisch: "Nosh Sprout",
+      id: "pinchapfeffer",
+      name: "Pinchapfeffer-Pflanze",
+      englisch: "Pincha Pepperplant",
       typ: "nahrung",
-      pack: "spacedOut",
-      icon: "🫘",
-      img: "https://oxygennotincluded.wiki.gg/images/Nosh_Sprout.png",
-      farbe: "#5a8a5a",
-      wachstumszyklen: 6,
-      kcalProErnte: 4000,
-      roherName: "Naschbohne",
+      pack: "vanilla",
+      icon: "🌶️",
+      img: BASE_IMG + "Pincha_Pepperplant.png",
+      wachstumszyklen: 8,
+      wachstumszyklenwild: 32,
+      kcalProErnte: 0,
+      ernteMenge: "Pinchapfeffer-Nuss (0 kcal, nur Zutat)",
       inputs: [
-        { name: "Phosphorit", menge: 5,   einheit: "kg/Zyklus" },
-        { name: "CO₂",        menge: 100, einheit: "g/Zyklus"  }
+        { name: "Schmutzwasser", menge: 35, einheit: "kg/Zyklus" },
+        { name: "Phosphorit", menge: 1, einheit: "kg/Zyklus" }
       ],
-      temperatur: { min: 15, max: 35 },
-      licht: false, wasser: false,
-      beschreibung: "Spaced Out! Pflanze – braucht Phosphorit statt Wasser.",
-      tipp: "Gut wenn Wasser knapp ist. Phosphorit aus Drecko-Ranch nutzen.",
-      rezepte: []
+      atmosphaere: "Beliebig",
+      temperatur: { min: 35, max: 85 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Heiße Pflanze. Nuss hat 0 kcal, wird nur als Gewürz in Rezepten verwendet.",
+      tipp: "Braucht warmen Bereich (35–85°C) und Phosphorit + Schmutzwasser. Die Nuss wertet viele Gerichte auf.",
+      rezepte: [
+        { name: "Pfefferbrot", kcal: 4000, geraet: "Gasherd", zutaten: ["10 Körner", "1 kg Pinchapfeffer-Nuss"] },
+        { name: "Gefüllte Beere", kcal: 4400, geraet: "Gasherd", zutaten: ["2 kg Knorpelbeere", "2 kg Pinchapfeffer-Nuss"] },
+        { name: "Pikanter Tofu", kcal: 4000, geraet: "Gasherd", zutaten: ["1 kg Tofu", "1 kg Pinchapfeffer-Nuss"] }
+      ]
     },
     {
       id: "wasserkraut",
       name: "Wasserkraut",
       englisch: "Waterweed",
       typ: "nahrung",
-      pack: "spacedOut",
-      icon: "🌊",
-      img: "https://oxygennotincluded.wiki.gg/images/Waterweed.png",
-      farbe: "#2a7a9a",
-      wachstumszyklen: 4,
-      kcalProErnte: 2400,
-      roherName: "Salzpflanze",
+      pack: "vanilla",
+      icon: "🥬",
+      img: BASE_IMG + "Waterweed.png",
+      wachstumszyklen: 12,
+      wachstumszyklenwild: 48,
+      kcalProErnte: 4800,
+      ernteMenge: "12 kg Salat (4.800 kcal gesamt)",
       inputs: [
-        { name: "Salzwasser", menge: 70, einheit: "kg/Zyklus" },
-        { name: "Chlor",      menge: 10, einheit: "g/Zyklus"  }
+        { name: "Salzwasser", menge: 5, einheit: "kg/Zyklus" },
+        { name: "Bleichstein", menge: 0.5, einheit: "kg/Zyklus" }
       ],
-      temperatur: { min: 10, max: 50 },
-      licht: false, wasser: true,
-      beschreibung: "Spaced Out! – braucht Salzwasser. Ideal auf Salzwasser-Planetoiden.",
-      tipp: "Kombiniere mit Salzwasser-Quellen auf dem Salzwasserplaneten.",
+      atmosphaere: "Untergetaucht (Wasser, Salzwasser oder Sole)",
+      temperatur: { min: 22, max: 65 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Wächst untergetaucht in Wasser/Salzwasser. Hoher Kalorienertrag. Qualität 0.",
+      tipp: "~400 kcal/Zyklus/Pflanze. Braucht partiell untergetauchten Pflanztrog. Salat ist Zutat für viele High-End-Gerichte.",
+      rezepte: [
+        { name: "Pilzwrap", kcal: 4800, geraet: "Gasherd", zutaten: ["1 kg Frittierter Pilz", "4 kg Salat"] },
+        { name: "Pilzquiche", kcal: 6400, geraet: "Gasherd", zutaten: ["1 Omelett", "1 kg Salat", "1 Frittierter Pilz"] },
+        { name: "Frostburger", kcal: 6000, geraet: "Gasherd", zutaten: ["1 Frostbrötchen", "1 kg Salat", "1 kg Barbeque"] }
+      ]
+    },
+    {
+      id: "happspross",
+      name: "Happspross",
+      englisch: "Nosh Sprout",
+      typ: "nahrung",
+      pack: "vanilla",
+      icon: "🫘",
+      img: BASE_IMG + "Nosh_Sprout.png",
+      wachstumszyklen: 21,
+      wachstumszyklenwild: 84,
+      kcalProErnte: 0,
+      ernteMenge: "12 Happsbohnen (roh nicht essbar, Qualität 3 nach Verarbeitung)",
+      inputs: [
+        { name: "Ethanol", menge: 20, einheit: "kg/Zyklus" },
+        { name: "Schmutzerde", menge: 5, einheit: "kg/Zyklus" }
+      ],
+      atmosphaere: "CO₂ (0,03–10 kg/m³)",
+      temperatur: { min: -25, max: 0 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Kältepflanze! Braucht CO₂ und Ethanol. Bohnen verarbeiten für hohe Qualitätsstufe.",
+      tipp: "12 Bohnen / 21 Zyklen. Ethanol aus Ethanol-Destillieranlage. Wild: 84 Zyklen.",
+      rezepte: [
+        { name: "Tofu", kcal: 3600, geraet: "Mikrobenmatscher", zutaten: ["6 Happsbohnen", "50 kg Wasser"] },
+        { name: "Currybohnen", kcal: 5000, geraet: "Gasherd", zutaten: ["4 Tonic Root", "4 Happsbohnen"] },
+        { name: "Pikanter Tofu", kcal: 4000, geraet: "Gasherd", zutaten: ["1 kg Tofu", "1 kg Pinchapfeffer-Nuss"] }
+      ]
+    },
+
+    // ═══════════════════════════════════════════════════
+    // BASISSPIEL – Ressourcenpflanzen
+    // ═══════════════════════════════════════════════════
+    {
+      id: "fingerhutschilf",
+      name: "Fingerhutschilf",
+      englisch: "Thimble Reed",
+      typ: "ressource",
+      pack: "vanilla",
+      icon: "🎋",
+      img: BASE_IMG + "Thimble_Reed.png",
+      wachstumszyklen: 2,
+      wachstumszyklenwild: 8,
+      kcalProErnte: 0,
+      ernteMenge: "1 Schilffaser (Textilien)",
+      inputs: [
+        { name: "Schmutzwasser (Bewässerung)", menge: 160, einheit: "kg/Zyklus" }
+      ],
+      atmosphaere: "Sauerstoff, CO₂, Wasser oder Schmutzwasser",
+      temperatur: { min: 22, max: 37 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Industrie-Pflanze. Schilffaser für Duplikanten-Kleidung. Kein Nahrungsmittel.",
+      tipp: "Hoher Wasserbedarf! 160 kg Schmutzwasser/Zyklus. Notwendig für Wärme-/Kälteschutzkleidung.",
       rezepte: []
     },
     {
-      id: "wuehlfruchtpflanze",
-      name: "Spindeldürre Wühlfruchtpflanze",
-      englisch: "Spindly Grubfruit Plant",
-      typ: "nahrung",
-      pack: "spacedOut",
-      icon: "🌱",
-      img: "https://oxygennotincluded.wiki.gg/images/Spindly_Grubfruit_Plant.png",
-      farbe: "#7a5a3a",
-      wachstumszyklen: 6,
-      kcalProErnte: 1800,
-      roherName: "Wühlfrucht",
+      id: "balsamlilie",
+      name: "Balsamlilien",
+      englisch: "Balm Lily",
+      typ: "ressource",
+      pack: "vanilla",
+      icon: "🌺",
+      img: BASE_IMG + "Balm_Lily.png",
+      wachstumszyklen: 12,
+      wachstumszyklenwild: 48,
+      kcalProErnte: 0,
+      ernteMenge: "2 Balsamlilienblüten (Medizin)",
+      inputs: [],
+      atmosphaere: "Nur Chlor (0,15–10 kg/m³)",
+      temperatur: { min: 35, max: 85 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Medizinpflanze. Balsamlilienblüten für Heilsalbe. Braucht Chloratmosphäre.",
+      tipp: "Chloratmosphäre nötig. Blüten für medizinische Stationen verwenden.",
+      rezepte: []
+    },
+    {
+      id: "keuchwurz",
+      name: "Keuchwurz",
+      englisch: "Wheezewort",
+      typ: "ressource",
+      pack: "vanilla",
+      icon: "❄️",
+      img: BASE_IMG + "Wheezewort.png",
+      wachstumszyklen: 0,
+      wachstumszyklenwild: 0,
+      kcalProErnte: 0,
+      ernteMenge: "Kühlt Gas um 5°C (Heimanbau: 1 kg/s)",
       inputs: [
-        { name: "CO₂",        menge: 50, einheit: "g/Zyklus"  },
+        { name: "Phosphorit", menge: 4, einheit: "kg/Zyklus" }
+      ],
+      atmosphaere: "Beliebig",
+      temperatur: { min: -60, max: 95 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Kühl-Pflanze. Kühlt umliegendes Gas passiv um 5°C. Heimanbau 4× effizienter.",
+      tipp: "Perfekt für passive Kühlung ohne Strom. Im Pflanztrog: 1 kg/s Gas-Kühlung. Wild: nur 250g/s.",
+      rezepte: []
+    },
+    {
+      id: "oxyfarn",
+      name: "Oxyfarn",
+      englisch: "Oxyfern",
+      typ: "ressource",
+      pack: "vanilla",
+      icon: "🌿",
+      img: BASE_IMG + "Oxyfern.png",
+      wachstumszyklen: 0,
+      wachstumszyklenwild: 0,
+      kcalProErnte: 0,
+      ernteMenge: "31,3 g/s Sauerstoff (Heim), 7,8 g/s (Wild)",
+      inputs: [
+        { name: "Wasser", menge: 19, einheit: "kg/Zyklus" },
+        { name: "Schmutzerde", menge: 4, einheit: "kg/Zyklus" }
+      ],
+      atmosphaere: "Nur CO₂ (0,03–10 kg/m³)",
+      temperatur: { min: 0, max: 40 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Wandelt CO₂ in Sauerstoff um. Kein Elektrolyseur nötig für kleine Kolonien.",
+      tipp: "Pro Oxyfarn: ~1,88 kg O₂/Zyklus. Für 8 Dupes (480g O₂/min nötig) etwa 14 Oxyfarne.",
+      rezepte: []
+    },
+    {
+      id: "arbor-baum",
+      name: "Arbor-Baum",
+      englisch: "Arbor Tree",
+      typ: "ressource",
+      pack: "vanilla",
+      icon: "🌳",
+      img: BASE_IMG + "Arbor_Tree.png",
+      wachstumszyklen: 5,
+      wachstumszyklenwild: 18,
+      kcalProErnte: 0,
+      ernteMenge: "Bis zu 1.500 kg Holz (5 Äste × 300 kg)",
+      inputs: [
+        { name: "Schmutzwasser", menge: 70, einheit: "kg/Zyklus" },
         { name: "Schmutzerde", menge: 10, einheit: "kg/Zyklus" }
       ],
-      temperatur: { min: 10, max: 35 },
-      licht: false, wasser: false,
-      beschreibung: "Spaced Out! – Wühlfrucht kann zu Mahlzeiten verarbeitet werden.",
-      tipp: "Wächst gut in Kombination mit Sweetle/Grubgrub-Farmen.",
-      rezepte: [
-        { name: "Gebratene Wühlfrucht", kcal: 3600, zutaten: ["1× Wühlfrucht"], geraet: "Elektroherd" }
-      ]
+      atmosphaere: "Beliebig",
+      temperatur: { min: 15, max: 40 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Holz-Produktionspflanze für Ethanol-Destillieranlage (Brennstoff für Erdgasgenerator).",
+      tipp: "Holz → Ethanol (Destillieranlage) → Stromgenerator. Nachhaltiger Brennstoffkreislauf.",
+      rezepte: []
+    },
+
+    // ═══════════════════════════════════════════════════
+    // BASISSPIEL – Einmalig wachsende Wildpflanzen
+    // ═══════════════════════════════════════════════════
+    {
+      id: "schmutzwurzel",
+      name: "Vergrabene Schmutzwurzel",
+      englisch: "Buried Muckroot",
+      typ: "wild-einmalig",
+      pack: "vanilla",
+      icon: "🥔",
+      img: BASE_IMG + "Muckroot.png",
+      wachstumszyklen: 0,
+      wachstumszyklenwild: 0,
+      kcalProErnte: 800,
+      ernteMenge: "1 Schmutzwurzel (800 kcal, einmalig)",
+      inputs: [],
+      atmosphaere: "Beliebig",
+      temperatur: { min: -50, max: 50 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Einmalige Wildpflanze. Findet man im Sandstein-Biom. Kann nicht neu gepflanzt werden.",
+      tipp: "Frühspiel-Nahrung. Kann nicht in Pflanztrögen angebaut werden.",
+      rezepte: []
     },
     {
       id: "hexalent",
       name: "Hexalent",
       englisch: "Hexalent",
-      typ: "ressource",
-      pack: "spacedOut",
-      icon: "🌿",
-      img: "https://oxygennotincluded.wiki.gg/images/Hexalent.png",
-      farbe: "#3a6a3a",
-      wachstumszyklen: 8,
-      kcalProErnte: 0,
-      roherName: "Holz (kein Nahrungsmittel direkt)",
-      inputs: [
-        { name: "CO₂", menge: 50, einheit: "g/Zyklus" }
-      ],
-      temperatur: { min: 10, max: 40 },
-      licht: false, wasser: false,
-      beschreibung: "Produziert Holz – Rohstoff für Sperrholz (Baustoff).",
-      tipp: "Holz → Sperrholz: wichtiger Baustoff in Spaced Out!",
+      typ: "wild-einmalig",
+      pack: "vanilla",
+      icon: "🌵",
+      img: BASE_IMG + "Hexalent.png",
+      wachstumszyklen: 0,
+      wachstumszyklenwild: 0,
+      kcalProErnte: 1200,
+      ernteMenge: "1 Hexalentfrucht (~1.200 kcal, einmalig)",
+      inputs: [],
+      atmosphaere: "Beliebig",
+      temperatur: { min: -50, max: 50 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Einmalige Wildpflanze. Im Wald- und Ödland-Biom. Kann nicht neu gepflanzt werden.",
+      tipp: "Einmalige Notfallnahrung. Höherer Kaloriengehalt als Schmutzwurzel.",
       rezepte: []
     },
 
-    // ── NATÜRLICH WACHSENDE PFLANZEN (wild, nicht in Farmkacheln) ──
+    // ═══════════════════════════════════════════════════
+    // SPACED OUT! – Nahrungspflanzen
+    // ═══════════════════════════════════════════════════
     {
-      id: "arborbaum",
-      name: "Arborbaum",
-      englisch: "Arbor Tree",
-      typ: "wild",
-      pack: "vanilla",
-      icon: "🌳",
-      img: "https://oxygennotincluded.wiki.gg/images/Arbor_Tree.png",
-      farbe: "#5a8a3a",
-      wachstumszyklen: 18,
-      kcalProErnte: 0,
-      roherName: "Holz (Baumaterial)",
+      id: "mooreimer",
+      name: "Mooreimer",
+      englisch: "Bog Bucket",
+      typ: "nahrung",
+      pack: "spacedOut",
+      icon: "🪣",
+      img: BASE_IMG + "Bog_Bucket.png",
+      wachstumszyklen: 7,
+      wachstumszyklenwild: 26,
+      kcalProErnte: 1840,
+      ernteMenge: "1 kg Moorgelee (1.840 kcal)",
       inputs: [
-        { name: "Wasser",     menge: 70, einheit: "kg/Zyklus" },
-        { name: "Schmutzerde", menge: 10, einheit: "kg/Zyklus" }
+        { name: "Schmutzwasser", menge: 40, einheit: "kg/Zyklus" }
       ],
-      temperatur: { min: 15, max: 35 },
-      licht: false, wasser: true,
-      beschreibung: "Wächst natürlich in gemäßigten Biomen. Produziert Holz als Baustoff. Kann nur von Pips gepflanzt werden.",
-      tipp: "Pip-Ranch + Arborbäume = passiver Holz-Nachschub ohne Duplikanten-Arbeit.",
-      rezepte: []
+      atmosphaere: "Sauerstoff, Schmutziger Sauerstoff oder CO₂",
+      temperatur: { min: 10, max: 30 },
+      licht: false,
+      dunkelheit: true,
+      beschreibung: "Braucht Dunkelheit! Schmutzwasser als Bewässerung. ~263 kcal/Zyklus.",
+      tipp: "Ähnlich wie Dämmerkappe aber mit Schmutzwasser. Licht ausschalten! Wild: 26 Zyklen.",
+      rezepte: [
+        { name: "Sumpfige Leckereien", kcal: 2240, geraet: "Elektrogrill", zutaten: ["1 kg Moorgelee"] }
+      ]
     },
     {
-      id: "bonbonrohrbluete",
-      name: "Bonbonrohrblüte",
-      englisch: "Sweetleaf",
-      typ: "wild",
-      pack: "vanilla",
-      icon: "🍬",
-      img: "https://oxygennotincluded.wiki.gg/images/Sweetleaf.png",
-      farbe: "#d48a9a",
+      id: "spindelduerreWuehlfrucht",
+      name: "Spindeldürre Wühlfruchtpflanze",
+      englisch: "Spindly Grubfruit Plant",
+      typ: "nahrung",
+      pack: "spacedOut",
+      icon: "🌱",
+      img: BASE_IMG + "Spindly_Grubfruit_Plant.png",
+      wachstumszyklen: 4,
+      wachstumszyklenwild: 16,
+      kcalProErnte: 800,
+      ernteMenge: "1 Spindeldürre Wühlfrucht (800 kcal)",
+      inputs: [
+        { name: "Schwefel", menge: 10, einheit: "kg/Zyklus" }
+      ],
+      atmosphaere: "Sauerstoff, Schmutziger Sauerstoff oder CO₂",
+      temperatur: { min: 15, max: 50 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Braucht Schwefel als Dünger. Im Ödland-Biom zu finden. 200 kcal/Zyklus.",
+      tipp: "Schwefel kommt aus Schwefel-Geyser oder Schwefel-Biom. Wild: 16 Zyklen.",
+      rezepte: [
+        { name: "Gebratene Wühlfruchtnuss", kcal: 1200, geraet: "Elektrogrill", zutaten: ["1 kg Spindeldürre Wühlfrucht"] }
+      ]
+    },
+    {
+      id: "sumpfmangold",
+      name: "Sumpfmangold",
+      englisch: "Swamp Chard",
+      typ: "wild-einmalig",
+      pack: "spacedOut",
+      icon: "🥦",
+      img: BASE_IMG + "Swamp_Chard.png",
       wachstumszyklen: 0,
-      kcalProErnte: 0,
-      roherName: "Kein Erntegut – produziert O₂ passiv",
+      wachstumszyklenwild: 0,
+      kcalProErnte: 2400,
+      ernteMenge: "1 Sumpfmangoldherz (2.400 kcal, einmalig)",
+      inputs: [],
+      atmosphaere: "Sumpfbiom",
+      temperatur: { min: 0, max: 40 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Einmalige Wildpflanze im Sumpfbiom (Spaced Out!). Nicht anbaubar.",
+      tipp: "Kann nur einmal geerntet werden. Qualität -1 (Erbärmlich) trotz hoher Kalorienzahl.",
+      rezepte: []
+    },
+
+    // ═══════════════════════════════════════════════════
+    // FROSTY PLANET PACK – Nahrungspflanzen
+    // ═══════════════════════════════════════════════════
+    {
+      id: "stechapfelstrauch",
+      name: "Stechapfelstrauch",
+      englisch: "Pikeapple Bush",
+      typ: "nahrung",
+      pack: "frostyPlanet",
+      icon: "🍎",
+      img: BASE_IMG + "Pikeapple_Bush.png",
+      wachstumszyklen: 3,
+      wachstumszyklenwild: 12,
+      kcalProErnte: 800,
+      ernteMenge: "1 Stechapfel (800 kcal)",
       inputs: [
-        { name: "CO₂", menge: 100, einheit: "g/Zyklus (absorbiert)" }
+        { name: "Phosphorit", menge: 5, einheit: "kg/Zyklus" }
       ],
-      temperatur: { min: 10, max: 35 },
-      licht: false, wasser: false,
-      beschreibung: "Natürlich wachsende Dekorpflanze. Produziert Sauerstoff und verbessert Dekoration.",
-      tipp: "Gut für Dekoration in Schlafbereichen und passive O₂-Produktion.",
+      atmosphaere: "Sauerstoff, Schmutziger Sauerstoff oder CO₂",
+      temperatur: { min: -55, max: -14 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Frostpflanze! Braucht Kältebereich (-55°C bis -14°C). ~267 kcal/Zyklus.",
+      tipp: "Schnell wie Mehlholz (3 Zyklen), aber extreme Kälte nötig. Wild: 12 Zyklen.",
+      rezepte: [
+        { name: "Stechapfelspieß", kcal: 1200, geraet: "Elektrogrill", zutaten: ["1 Stechapfel"] },
+        { name: "Beerenmatsch", kcal: 4000, geraet: "Mikrobenmatscher", zutaten: ["5 Körner", "1.600 kcal Stechapfel/Dornenbeere"] }
+      ]
+    },
+    {
+      id: "federruebenpflanze",
+      name: "Federrübenpflanze",
+      englisch: "Plume Squash Plant",
+      typ: "nahrung",
+      pack: "frostyPlanet",
+      icon: "🥕",
+      img: BASE_IMG + "Plume_Squash_Plant.png",
+      wachstumszyklen: 9,
+      wachstumszyklenwild: 36,
+      kcalProErnte: 4000,
+      ernteMenge: "1 Federrübe (4.000 kcal)",
+      inputs: [
+        { name: "Ethanol", menge: 15, einheit: "kg/Zyklus" }
+      ],
+      atmosphaere: "Sauerstoff, Schmutziger Sauerstoff oder CO₂",
+      temperatur: { min: -55, max: -14 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Hoher Kalorienertrag im Kältebereich. ~444 kcal/Zyklus. Braucht Ethanol.",
+      tipp: "Bestes Frosty Planet Nahrungsmittel. Ethanol aus Holz/Destillierung. Wild: 36 Zyklen.",
+      rezepte: [
+        { name: "Rübenpommes", kcal: 5400, geraet: "Friteuse", zutaten: ["1 kg Federrübe", "1 kg Fett"] }
+      ]
+    },
+    {
+      id: "sorbeerpflanze",
+      name: "Sorbeerpflanze",
+      englisch: "Sherberry Plant",
+      typ: "wild-einmalig",
+      pack: "frostyPlanet",
+      icon: "🫐",
+      img: BASE_IMG + "Sherberry_Plant.png",
+      wachstumszyklen: 0,
+      wachstumszyklenwild: 0,
+      kcalProErnte: 800,
+      ernteMenge: "2 Sorbeerbeeren (800 kcal, einmalig)",
+      inputs: [],
+      atmosphaere: "Eisbiom",
+      temperatur: { min: -80, max: 0 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Einmalige Wildpflanze im Eisbiom (Frosty Planet Pack). Nicht anbaubar.",
+      tipp: "Notfallnahrung im Eisbiom. Nur einmal erntbar.",
       rezepte: []
     },
     {
-      id: "sauerstoffkraut",
-      name: "Oxyfarn",
-      englisch: "Oxyfern",
-      typ: "wild",
-      pack: "vanilla",
+      id: "bonbonbaum",
+      name: "Bonbonbaum",
+      englisch: "Bonbon Tree",
+      typ: "ressource",
+      pack: "frostyPlanet",
+      icon: "🌲",
+      img: BASE_IMG + "Bonbon_Tree.png",
+      wachstumszyklen: 5,
+      wachstumszyklenwild: 18,
+      kcalProErnte: 0,
+      ernteMenge: "Bis zu 375 kg Holz + Nektar (bei Licht)",
+      inputs: [
+        { name: "Schnee", menge: 100, einheit: "kg/Zyklus" }
+      ],
+      atmosphaere: "Beliebig",
+      temperatur: { min: -75, max: -15 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Holz + Nektar-Produzent im Frostbereich. Nektar wird bei 10.000+ Lux produziert.",
+      tipp: "Nektar bei ausreichend Licht (10.000 Lux). Holz für Brennstoff oder Ethanol-Destillierung.",
+      rezepte: []
+    },
+
+    // ═══════════════════════════════════════════════════
+    // PREHISTORIC PLANET PACK – Pflanzen
+    // ═══════════════════════════════════════════════════
+    {
+      id: "schweiszkornstaengel",
+      name: "Schweißkornstängel",
+      englisch: "Sweatcorn Stalk",
+      typ: "nahrung",
+      pack: "prehistoricPlanet",
+      icon: "🌽",
+      img: BASE_IMG + "Sweatcorn_Stalk.png",
+      wachstumszyklen: 3,
+      wachstumszyklenwild: 12,
+      kcalProErnte: 800,
+      ernteMenge: "1 Schweißkorn (~800 kcal)",
+      inputs: [
+        { name: "Torf oder Kohle", menge: 10, einheit: "kg/Zyklus" }
+      ],
+      atmosphaere: "Sauerstoff, Schmutziger Sauerstoff oder CO₂",
+      temperatur: { min: -5, max: 40 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Braucht Bestäubung durch Mimika oder Divergentes Tier. 3-Zyklus-Ernte wie Mehlholz.",
+      tipp: "Mimika-Bud in der Nähe halten für Bestäubung. Wild: 12 Zyklen.",
+      rezepte: [
+        { name: "Gemüsepuffer (Räucherofen)", kcal: 11450, geraet: "Räucherofen", zutaten: ["5.600 kcal Gemüse (Schweißkorn/Stechapfel etc.)"] }
+      ]
+    },
+    {
+      id: "ovagro",
+      name: "Ovagro",
+      englisch: "Ovagro Node",
+      typ: "nahrung",
+      pack: "prehistoricPlanet",
+      icon: "🍈",
+      img: BASE_IMG + "Ovagro_Node.png",
+      wachstumszyklen: 3,
+      wachstumszyklenwild: 12,
+      kcalProErnte: 325,
+      ernteMenge: "1 Ovagro-Feige (325 kcal) pro Ranke pro Ernte",
+      inputs: [
+        { name: "Wasser", menge: 90, einheit: "kg/Zyklus (alle Ranken zusammen)" }
+      ],
+      atmosphaere: "Beliebig",
+      temperatur: { min: 25, max: 45 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Baum mit bis zu 24 Ranken, jede produziert alle 3 Zyklen 1 Feige. Sehr hoher Gesamtertrag.",
+      tipp: "Mit 24 Ranken: bis zu 2.600 kcal/Zyklus. Braucht viel Wasser (90 kg/Zyklus gesamt).",
+      rezepte: []
+    },
+    {
+      id: "riesenwedel",
+      name: "Riesenwedel",
+      englisch: "Megafrond",
+      typ: "nahrung",
+      pack: "prehistoricPlanet",
       icon: "🌿",
-      img: "https://oxygennotincluded.wiki.gg/images/Oxyfern.png",
-      farbe: "#3a9a4a",
-      wachstumszyklen: 0,
+      img: BASE_IMG + "Megafrond.png",
+      wachstumszyklen: 9,
+      wachstumszyklenwild: 36,
       kcalProErnte: 0,
-      roherName: "Kein Erntegut – O₂-Produktion",
+      ernteMenge: "36 Wedelkörner (roh 0 kcal, wie Graupelweizen-Körner)",
       inputs: [
-        { name: "CO₂",   menge: 100, einheit: "g/Zyklus" },
-        { name: "Wasser", menge: 30,  einheit: "kg/Zyklus" }
+        { name: "Chlor", menge: 54, einheit: "kg/Zyklus" }
       ],
-      temperatur: { min: -5, max: 35 },
-      licht: false, wasser: true,
-      beschreibung: "Natürlich wachsend. Wandelt CO₂ und Wasser in Sauerstoff um.",
-      tipp: "Passive O₂-Produktion – ideal als Ergänzung zu Elektrolyseur.",
+      atmosphaere: "Nur Chlor (0,5–10 kg/m³)",
+      temperatur: { min: -45, max: 15 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Prähistorisches Äquivalent zu Graupelweizen. Wedelkörner ersetzen Graupelweizenkörner in Rezepten.",
+      tipp: "Wedelkörner können in ALLEN Graupelweizen-Rezepten verwendet werden. Chlorbiom-Pflanze.",
+      rezepte: [
+        { name: "Frostbrötchen", kcal: 1200, geraet: "Elektrogrill", zutaten: ["3 Wedelkörner"] },
+        { name: "Pfefferbrot", kcal: 4000, geraet: "Gasherd", zutaten: ["10 Wedelkörner", "1 kg Pinchapfeffer-Nuss"] }
+      ]
+    },
+    {
+      id: "snaktus",
+      name: "Snaktus",
+      englisch: "Snactus",
+      typ: "wild-einmalig",
+      pack: "prehistoricPlanet",
+      icon: "🌵",
+      img: BASE_IMG + "Snactus.png",
+      wachstumszyklen: 0,
+      wachstumszyklenwild: 0,
+      kcalProErnte: 800,
+      ernteMenge: "1 Snakfrucht (800 kcal, einmalig)",
+      inputs: [],
+      atmosphaere: "Gartenbiom",
+      temperatur: { min: -5, max: 40 },
+      licht: false,
+      dunkelheit: false,
+      beschreibung: "Einmalige Wildpflanze im Gartenbiom (Prehistoric Planet Pack). Nicht anbaubar.",
+      tipp: "Notfallnahrung im Gartenbiom. Nur einmal erntbar.",
       rezepte: []
     }
   ],
 
-  // ── TIERE & STÄLLE ────────────────────────────────────────
+  // ── TIERE ─────────────────────────────────────────────────
   tiere: [
-    // ════════════════════════════════════════════════════════
+
+    // ═══════════════════════════════════════════════════
     // BASISSPIEL
-    // ════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════
     {
       id: "hatch",
       name: "Hatch",
       englisch: "Hatch",
       pack: "vanilla",
       icon: "🦎",
-      img: "https://oxygennotincluded.wiki.gg/images/Hatch.png",
-      farbe: "#8a6a3a",
-      lebensraum: "Boden",
+      img: BASE_IMG + "Hatch.png",
+      lebensraum: "Land",
       maxProStall: 8,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Schmutzerde, Steine, Kohle, Metallerz", menge: 140, einheit: "kg/Zyklus" }
+        { name: "Feststoffe (Erde, Stein, Kohle, Metall ...)", menge: 140000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Kohle", menge: 140, einheit: "kg/Zyklus", icon: "⚫" }
+        { name: "Kohle (aus Biomasse/Nahrung)", menge: 0, einheit: "aus gefressen. Feststoffen", icon: "⚫" }
       ],
-      eiinkubation: 3,
-      beschreibung: "Frisst fast alles Feste und produziert Kohle.",
-      tipp: "Passiver Kohlenachschub – mit Kohlegeneratoren kombinieren.",
       varianten: [
-        { name: "Metall-Hatch",  sonderNahrung: "Raffiniertes Metall",  sonderProduktion: "Raffiniertes Metall (75% der Eingangsmasse)" },
-        { name: "Stein-Hatch",   sonderNahrung: "Gestein (Granit, Sedimentgestein…)", sonderProduktion: "Kohle" },
-        { name: "Salbei-Hatch",  sonderNahrung: "Pflanzenmaterial",     sonderProduktion: "Kohle" }
-      ]
+        { name: "Glatt-Hatch (Smooth Hatch)", sonderNahrung: "Roherz, Metalllegierungen", sonderProduktion: "Roherz (×2 Masse)" },
+        { name: "Glühend-Hatch (Molten Hatch)", sonderNahrung: "Rohöl, Schweres Rohöl", sonderProduktion: "Ignit" },
+        { name: "Stein-Hatch (Stone Hatch)", sonderNahrung: "Sand, Sedimentgestein", sonderProduktion: "Quarzsand (×2 Masse)" },
+        { name: "Weiser Hatch (Sage Hatch)", sonderNahrung: "Schleim, Schmutzgestein", sonderProduktion: "Erde" }
+      ],
+      tipp: "Vielseitigste Stall-Kreatur. Wandelt Feststoffe in Kohle um. Varianten je nach Biom-Ressourcen wählen."
     },
     {
-      id: "schubwuehlmaus",
-      name: "Schubwühlmaus",
-      englisch: "Shove Vole",
+      id: "puft",
+      name: "Puft",
+      englisch: "Puft",
       pack: "vanilla",
-      icon: "🐀",
-      img: "https://oxygennotincluded.wiki.gg/images/Shove_Vole.png",
-      farbe: "#6a5a4a",
-      lebensraum: "Boden",
-      maxProStall: 8,
-      nahrung: [
-        { name: "Eruptivgestein (Granit, Basalt, Regolith…)", menge: 140, einheit: "kg/Zyklus" }
-      ],
-      produktion: [
-        { name: "Schmutzerde", menge: 70, einheit: "kg/Zyklus", icon: "🟫" }
-      ],
-      eiinkubation: 5,
-      beschreibung: "Wandelt Regolith und Gestein in Schmutzerde um.",
-      tipp: "Perfekt für Regolith-Verarbeitung auf Asteroiden (Spaced Out!).",
-      varianten: [
-        { name: "Leckermaus", sonderNahrung: "Spezialfutter", sonderProduktion: "Schmutzerde (mehr)" }
-      ]
-    },
-    {
-      id: "blitzblankPuft",
-      name: "Blitzblank-Puft",
-      englisch: "Squeaky Puft",
-      pack: "vanilla",
-      icon: "🐡",
-      img: "https://oxygennotincluded.wiki.gg/images/Squeaky_Puft.png",
-      farbe: "#9a70b0",
-      lebensraum: "Gas (Schmutziger Sauerstoff)",
-      maxProStall: 8,
-      nahrung: [
-        { name: "Schmutziger Sauerstoff", menge: 90000, einheit: "g/Zyklus" }
-      ],
-      produktion: [
-        { name: "Schleim", menge: 3000, einheit: "g/Zyklus", icon: "🟢" }
-      ],
-      eiinkubation: 5,
-      beschreibung: "Atmet Schmutzigen Sauerstoff, produziert Schleim → Algen.",
-      tipp: "Hilft bei PO₂-Überschuss. Schleim → Algendestillieranlage → Sauerstoff.",
-      varianten: [
-        { name: "Kompakt-Puft",  sonderNahrung: "Sauerstoff",   sonderProduktion: "Oxylite" },
-        { name: "Puft-Prinz",    sonderNahrung: "Schmutziger Sauerstoff", sonderProduktion: "Schleim (mehr)" }
-      ]
-    },
-    {
-      id: "pacu",
-      name: "Pacu",
-      englisch: "Pacu",
-      pack: "vanilla",
-      icon: "🐟",
-      img: "https://oxygennotincluded.wiki.gg/images/Pacu.png",
-      farbe: "#2a6a9a",
-      lebensraum: "Wasser (mind. 100 kg pro Kachel)",
+      icon: "🫧",
+      img: BASE_IMG + "Puft.png",
+      lebensraum: "Luft",
       maxProStall: 4,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Algen / Fischfutter", menge: 90000, einheit: "g/Zyklus" }
+        { name: "Schmutziger Sauerstoff", menge: 150000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Pacu-Filet", menge: 1, einheit: "alle 20 Zyklen (~4.000 kcal)", icon: "🍣" },
-        { name: "Pacu-Ei",    menge: 1, einheit: "alle 20 Zyklen",                icon: "🥚" }
+        { name: "Schleim", menge: 0, einheit: "aus Schmutz-O₂", icon: "🟢" }
       ],
-      eiinkubation: 5,
-      beschreibung: "Wassertier – produziert Nahrung (Filet) und Eier.",
-      tipp: "Wasser-Loop: Algen-Destillieranlage → Algen → Pacu → Filet.",
       varianten: [
-        { name: "Tropischer Pacu", sonderNahrung: "Frisst nichts (selbstversorgend)", sonderProduktion: "Dreckiges Wasser" },
-        { name: "Schluckfisch",    sonderNahrung: "Dreckwasser/Algen",                sonderProduktion: "Gereinigtes Wasser" }
-      ]
-    },
-    {
-      id: "morb",
-      name: "Morb",
-      englisch: "Morb",
-      pack: "vanilla",
-      icon: "😷",
-      img: "https://oxygennotincluded.wiki.gg/images/Morb.png",
-      farbe: "#5a7a3a",
-      lebensraum: "Schmutzige Luft / Überall",
-      maxProStall: 8,
-      nahrung: [
-        { name: "Schmutzerde", menge: 5000, einheit: "g/Zyklus" }
+        { name: "Blitzblank-Puft (Squeaky Puft)", sonderNahrung: "Chlor", sonderProduktion: "Plastik" },
+        { name: "Prinz-Puft (Prince Puft)", sonderNahrung: "Sauerstoff", sonderProduktion: "Schleimwasser" }
       ],
-      produktion: [
-        { name: "Schmutziger Sauerstoff", menge: 30000, einheit: "g/Zyklus", icon: "💚" }
-      ],
-      eiinkubation: 3,
-      beschreibung: "Wandelt Schmutzerde in Schmutzigen Sauerstoff um.",
-      tipp: "Nützlich um PO₂ für Blitzblank-Puft-Ranches zu produzieren.",
-      varianten: []
+      tipp: "Wandelt Schmutzigen Sauerstoff in Schleim (für Dämmerkappe) um. Blitzblank-Puft produziert Plastik aus Chlor!"
     },
     {
       id: "drecko",
@@ -504,23 +726,42 @@ const ONI = {
       englisch: "Drecko",
       pack: "vanilla",
       icon: "🦕",
-      img: "https://oxygennotincluded.wiki.gg/images/Drecko.png",
-      farbe: "#7a9a3a",
-      lebensraum: "Wasserstoff- oder Chlorgasatmosphäre",
+      img: BASE_IMG + "Drecko.png",
+      lebensraum: "Land/Klettern",
       maxProStall: 8,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Dornenblüte (Blätter)", menge: 200, einheit: "kg/Zyklus" }
+        { name: "Gasgras", menge: 200000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Phosphorit",       menge: 34, einheit: "kg/Zyklus",        icon: "🟡" },
-        { name: "Schilffaser (in H₂)", menge: 1,  einheit: "alle 3 Zyklen", icon: "🧵" }
+        { name: "Schilffaser (Rasur)", menge: 0, einheit: "per Scherung", icon: "🧶" }
       ],
-      eiinkubation: 5,
-      beschreibung: "Produziert Phosphorit. In Wasserstoff auch Schilffaser für Anzüge.",
-      tipp: "Drecko in H₂-Atmosphäre = Schilffaser → Schnittiger Anzug.",
       varianten: [
-        { name: "Glanz-Drecko", sonderNahrung: "Dornenblüte (Blätter)", sonderProduktion: "Kunststoff-Schilffaser (Kunststoff-Herstellung)" }
-      ]
+        { name: "Schimmer-Drecko (Glossy Drecko)", sonderNahrung: "Gasgras", sonderProduktion: "Plastik (Rasur)" }
+      ],
+      tipp: "Schilffaser für Duplikanten-Kleidung. Schimmer-Drecko produziert wertvolleres Plastik!"
+    },
+    {
+      id: "pacu",
+      name: "Pacu",
+      englisch: "Pacu",
+      pack: "vanilla",
+      icon: "🐟",
+      img: BASE_IMG + "Pacu.png",
+      lebensraum: "Wasser",
+      maxProStall: 4,
+      eiinkubation: 20,
+      nahrung: [
+        { name: "Algae / Seekamm-Blätter", menge: 0, einheit: "Filterfresser" }
+      ],
+      produktion: [
+        { name: "Pacu-Filet (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🐟" }
+      ],
+      varianten: [
+        { name: "Tropischer Pacu (Tropical Pacu)", sonderNahrung: "Warmes Wasser >30°C", sonderProduktion: "Pacu-Filet + Roheier" },
+        { name: "Salzwasser-Pacu (Saltvine Pacu)", sonderNahrung: "Salzwasser-Algen", sonderProduktion: "Pacu-Filet" }
+      ],
+      tipp: "Pacu-Filet für Gekochte Meeresfrüchte und Fisch Taco (FP). Tropischer Pacu legt Eier!"
     },
     {
       id: "pip",
@@ -528,96 +769,122 @@ const ONI = {
       englisch: "Pip",
       pack: "vanilla",
       icon: "🐿️",
-      img: "https://oxygennotincluded.wiki.gg/images/Pip.png",
-      farbe: "#9a7a5a",
-      lebensraum: "Naturboden / Farmboden",
+      img: BASE_IMG + "Pip.png",
+      lebensraum: "Land",
       maxProStall: 8,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Samen (diverse)", menge: 140, einheit: "kg/Zyklus" }
+        { name: "Pflanzensamen (Arbor-Samen etc.)", menge: 0, einheit: "pflanzt Samen ein" }
       ],
       produktion: [
-        { name: "Pflanzt Samen in natürliche Kacheln", menge: 0, einheit: "(automatisch)", icon: "🌱" }
+        { name: "Pflanzt Arbor-Baum-Samen", menge: 0, einheit: "in Boden", icon: "🌱" }
       ],
-      eiinkubation: 3,
-      beschreibung: "Pflanzt Samen automatisch in geeignete Bodenkacheln.",
-      tipp: "Nützlich für automatische Baumfarmen ohne Duplikanten-Arbeit.",
-      varianten: [
-        { name: "Knuddelpip", sonderNahrung: "Samen", sonderProduktion: "Pflanzt Bäume (Arborbaum)" }
-      ]
+      varianten: [],
+      tipp: "Pflanzt Arbor-Baum-Samen automatisch ein. Nützlich für automatische Holzfarmen."
     },
     {
       id: "leuchtkaefer",
       name: "Leuchtkäfer",
       englisch: "Shine Bug",
       pack: "vanilla",
-      icon: "✨",
-      img: "https://oxygennotincluded.wiki.gg/images/Shine_Bug.png",
-      farbe: "#c8a820",
-      lebensraum: "Überall (braucht Licht)",
-      maxProStall: 8,
+      icon: "🪲",
+      img: BASE_IMG + "Shine_Bug.png",
+      lebensraum: "Luft",
+      maxProStall: 6,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Phosphorit", menge: 20, einheit: "kg/Zyklus" }
+        { name: "Phosphorit", menge: 20000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Licht (Dekor + Photosynthese)", menge: 0, einheit: "passiv", icon: "💡" }
+        { name: "Licht (2.000 Lux Radius 8)", menge: 0, einheit: "passiv", icon: "💡" }
       ],
-      eiinkubation: 5,
-      beschreibung: "Produziert kein Material – beleuchtet Räume und fördert Dekoration.",
-      tipp: "Nützlich für Pflanzenwachstum (z.B. Dornenblüte braucht kein künstliches Licht mehr).",
       varianten: [
-        { name: "Azurkäfer",    sonderNahrung: "Phosphorit", sonderProduktion: "Blaues Licht" },
-        { name: "Sonnenkäfer",  sonderNahrung: "Phosphorit", sonderProduktion: "Helles Licht (mehr Lux)" }
-      ]
+        { name: "Regenbogen-Leuchtkäfer (Rainbow Shine Bug)", sonderNahrung: "Phosphorit", sonderProduktion: "Licht + Dekor +40" }
+      ],
+      tipp: "Natürliche Lichtquelle! Nützlich für Dornenblüten-Farmen. Braucht Phosphorit."
     },
-
+    {
+      id: "schubwuehlmaus",
+      name: "Schubwühlmaus",
+      englisch: "Shove Vole",
+      pack: "vanilla",
+      icon: "🐭",
+      img: BASE_IMG + "Shove_Vole.png",
+      lebensraum: "Land (gräbt)",
+      maxProStall: 8,
+      eiinkubation: 20,
+      nahrung: [
+        { name: "Regolith, Sand, Feststoffe", menge: 200000, einheit: "g/Zyklus" }
+      ],
+      produktion: [
+        { name: "Schmutzerde", menge: 0, einheit: "aus gefressen. Material", icon: "🟤" }
+      ],
+      varianten: [],
+      tipp: "Wandelt Regolith/Sand in Schmutzerde um. Nützlich auf Weltraum-Biomen mit viel Regolith."
+    },
     {
       id: "slickster",
       name: "Slickster",
       englisch: "Slickster",
       pack: "vanilla",
-      icon: "🫧",
-      img: "https://oxygennotincluded.wiki.gg/images/Slickster.png",
-      farbe: "#4a6a4a",
-      lebensraum: "CO₂-reiche Atmosphäre",
-      maxProStall: 8,
+      icon: "🐛",
+      img: BASE_IMG + "Slickster.png",
+      lebensraum: "Luft (CO₂)",
+      maxProStall: 4,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Kohlendioxid (CO₂)", menge: 90000, einheit: "g/Zyklus" }
+        { name: "CO₂", menge: 100000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Rohöl", menge: 33750, einheit: "g/Zyklus", icon: "🛢️" }
+        { name: "Rohöl", menge: 0, einheit: "aus CO₂", icon: "🛢️" }
       ],
-      eiinkubation: 5,
-      beschreibung: "Frisst CO₂ und produziert Rohöl – wichtig für Petroleum-Produktion.",
-      tipp: "Slickster-Ranch in CO₂-Schicht = passiver Rohöl-Nachschub.",
       varianten: [
-        { name: "Öl-Slickster",      sonderNahrung: "CO₂",       sonderProduktion: "Rohöl" },
-        { name: "Petroleum-Slickster",sonderNahrung: "Sauerstoff", sonderProduktion: "Petroleum" }
-      ]
+        { name: "Öl-Slickster (Oily Slickster)", sonderNahrung: "CO₂", sonderProduktion: "Schweres Rohöl" },
+        { name: "Ungeschickter Slickster (Longhair Slickster)", sonderNahrung: "CO₂", sonderProduktion: "Rohöl + Schilffaser" }
+      ],
+      tipp: "Wandelt CO₂ in Rohöl um – für Petrolium/Plastik-Produktion. CO₂-Überschuss sinnvoll nutzen!"
+    },
+    {
+      id: "morb",
+      name: "Morb",
+      englisch: "Morb",
+      pack: "vanilla",
+      icon: "🦠",
+      img: BASE_IMG + "Morb.png",
+      lebensraum: "Luft",
+      maxProStall: 6,
+      eiinkubation: 20,
+      nahrung: [
+        { name: "Schmutziger Sauerstoff", menge: 0, einheit: "kein Bedarf" }
+      ],
+      produktion: [
+        { name: "Schmutziger Sauerstoff + Slimekeim-Sporen", menge: 0, einheit: "passiv", icon: "☣️" }
+      ],
+      varianten: [],
+      tipp: "ACHTUNG: Produziert Sliemkeim-Sporen! Nicht in Wohnbereichen halten. Nur in isolierten Räumen."
     },
 
-    // ════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════
     // SPACED OUT!
-    // ════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════
     {
       id: "muh",
       name: "Muh",
       englisch: "Gassy Moo",
       pack: "spacedOut",
       icon: "🐄",
-      img: "https://oxygennotincluded.wiki.gg/images/Gassy_Moo.png",
-      farbe: "#4a8a5a",
-      lebensraum: "Spezielle Gasbiome (eigener Planetoid)",
-      maxProStall: 2,
+      img: BASE_IMG + "Gassy_Moo.png",
+      lebensraum: "Land (Mondbiom)",
+      maxProStall: 4,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Gasige Gräser (selbstversorgend auf Planetoid)", menge: 0, einheit: "–" }
+        { name: "Gasgras-Pflanzenhülle", menge: 400000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Erdgas", menge: 120000, einheit: "g/Zyklus", icon: "🔥" }
+        { name: "Erdgas", menge: 0, einheit: "passiv (Gasstöße)", icon: "⛽" }
       ],
-      eiinkubation: 8,
-      beschreibung: "Produziert passiv Erdgas auf speziellen Planetoiden.",
-      tipp: "Muh-Planetoid früh erkunden – passive Energie ohne Aufwand.",
-      varianten: []
+      varianten: [],
+      tipp: "Lebt auf dem Moo-Mondlet. Produziert Erdgas für Gasmotor-Generatoren. Gasgras zum Füttern nötig."
     },
     {
       id: "beeta",
@@ -625,68 +892,57 @@ const ONI = {
       englisch: "Beeta",
       pack: "spacedOut",
       icon: "🐝",
-      img: "https://oxygennotincluded.wiki.gg/images/Beeta.png",
-      farbe: "#c8a020",
-      lebensraum: "Radioaktive Biome / Uranerz-Vorkommen",
-      maxProStall: 8,
+      img: BASE_IMG + "Beeta.png",
+      lebensraum: "Luft",
+      maxProStall: 6,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Uranerz", menge: 140, einheit: "kg/Zyklus" }
+        { name: "Rohöl oder Erdgas", menge: 0, einheit: "sucht selbst" }
       ],
       produktion: [
-        { name: "Angereichertes Uran", menge: 70,  einheit: "kg/Zyklus", icon: "☢️" },
-        { name: "Atommüll",            menge: 70,  einheit: "kg/Zyklus", icon: "☣️" }
+        { name: "Strahlung (Radioaktiv!)", menge: 0, einheit: "passiv", icon: "☢️" },
+        { name: "Honigwabe (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🍯" }
       ],
-      eiinkubation: 5,
-      beschreibung: "Spaced Out! – wandelt Uranerz in angereichertes Uran um (für Nuklearreaktor).",
-      tipp: "Beeta-Ranch unverzichtbar für Uran-Anreicherung im Atomreaktor-Betrieb.",
-      varianten: []
+      varianten: [],
+      tipp: "Strahlt Radioaktivität aus – für Strahlungsforschung. Honigwabe für Nahrungsverarbeitung."
     },
     {
       id: "pokepanzer",
       name: "Pokepanzer",
       englisch: "Pokeshell",
       pack: "spacedOut",
-      icon: "🦀",
-      img: "https://oxygennotincluded.wiki.gg/images/Pokeshell.png",
-      farbe: "#8a5a3a",
-      lebensraum: "Salz- oder Süßwasser / Boden",
-      maxProStall: 8,
+      icon: "🦞",
+      img: BASE_IMG + "Pokeshell.png",
+      lebensraum: "Land",
+      maxProStall: 6,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Schalen (Eier anderer Tiere)", menge: 140, einheit: "kg/Zyklus" }
+        { name: "Pflanzliche Biomasse, Leichen", menge: 200000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Schale (Pokepanzer-Schale)", menge: 100, einheit: "kg/Zyklus", icon: "🐚" }
+        { name: "Algenpanzer (Schlachtung)", menge: 0, einheit: "Chitinschale", icon: "🦀" }
       ],
-      eiinkubation: 5,
-      beschreibung: "Spaced Out! – produziert Schalen für Baustoffherstellung.",
-      tipp: "Pokepanzer-Schale → Keramik-Herstellung.",
-      varianten: [
-        { name: "Medipanzer",    sonderNahrung: "Eier",    sonderProduktion: "Schale + Heilmittel-Zutat" },
-        { name: "Eichenpanzer",  sonderNahrung: "Holz",    sonderProduktion: "Holzkohle" }
-      ]
+      varianten: [],
+      tipp: "Chitinschale für Herstellung von Gebäuden. Frisst Leichen – nützlich für Leichen-Management."
     },
     {
       id: "sweetle",
       name: "Sweetle",
       englisch: "Sweetle",
       pack: "spacedOut",
-      icon: "🐛",
-      img: "https://oxygennotincluded.wiki.gg/images/Sweetle.png",
-      farbe: "#c8609a",
-      lebensraum: "Saccharose-reiche Umgebung",
+      icon: "🐞",
+      img: BASE_IMG + "Sweetle.png",
+      lebensraum: "Land",
       maxProStall: 8,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Saccharose", menge: 70000, einheit: "g/Zyklus" }
+        { name: "Phosphorit", menge: 20000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Nektar", menge: 3000, einheit: "g/Zyklus", icon: "🍯" }
+        { name: "Zucker (Sucrose)", menge: 0, einheit: "aus Phosphorit", icon: "🍬" }
       ],
-      eiinkubation: 4,
-      beschreibung: "Spaced Out! – wandelt Saccharose in Nektar um.",
-      tipp: "Nektar → Phytoöl → Kunststoff-Alternative in Spaced Out!",
-      varianten: [
-        { name: "Grubgrub", sonderNahrung: "Wühlfrucht", sonderProduktion: "Talg (für Kochen)" }
-      ]
+      varianten: [],
+      tipp: "Wandelt Phosphorit in Sucrose (Zucker) um – benötigt für Wühlfruchtkonserve und andere Rezepte."
     },
     {
       id: "steckschnecke",
@@ -694,52 +950,42 @@ const ONI = {
       englisch: "Plug Slug",
       pack: "spacedOut",
       icon: "🐌",
-      img: "https://oxygennotincluded.wiki.gg/images/Plug_Slug.png",
-      farbe: "#7a7a9a",
-      lebensraum: "Elektrische Kabel / Gestein",
+      img: BASE_IMG + "Plug_Slug.png",
+      lebensraum: "Land (Kabel)",
       maxProStall: 4,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Strom (aus Kabeln, die sie bewohnen)", menge: 0, einheit: "–" }
+        { name: "Elektrische Leitungen (frisst Strom)", menge: 0, einheit: "passiv" }
       ],
       produktion: [
-        { name: "Strom (gibt Energie weiter)", menge: 0, einheit: "passiv", icon: "⚡" }
+        { name: "Strom (gibt gespeicherten Strom ab)", menge: 0, einheit: "passiv", icon: "⚡" }
       ],
-      eiinkubation: 5,
-      beschreibung: "Spaced Out! – lebt in Kabeln, leitet Strom über größere Distanzen.",
-      tipp: "Ermöglicht Stromverteilung ohne Kabelverbindungen auf verschiedenen Planeten.",
-      varianten: [
-        { name: "Dunstschnecke",  sonderNahrung: "Strom", sonderProduktion: "Strom + Wärmeabgabe in Gas" },
-        { name: "Schwammschnecke",sonderNahrung: "Strom", sonderProduktion: "Strom + Wärmeabgabe in Flüssigkeit" }
-      ]
+      varianten: [],
+      tipp: "Lebt auf Kabeln. Nimmt Strom auf wenn zu viel vorhanden, gibt ihn bei Mangel ab. Natürlicher Akkumulator!"
     },
 
-    // ════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════
     // FROSTY PLANET PACK
-    // ════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════
     {
-      id: "bammut",
-      name: "Bammut",
+      id: "bammuth",
+      name: "Bammuth",
       englisch: "Bammoth",
       pack: "frostyPlanet",
       icon: "🦣",
-      img: "https://oxygennotincluded.wiki.gg/images/Bammoth.png",
-      farbe: "#8a9aaa",
-      lebensraum: "Kalte Umgebungen (Frost-Planetoid)",
+      img: BASE_IMG + "Bammoth.png",
+      lebensraum: "Land (Kälte)",
       maxProStall: 4,
+      eiinkubation: 25,
       nahrung: [
-        { name: "Federnkürbis / Nosh-Bohnen", menge: 140, einheit: "kg/Zyklus" }
+        { name: "Stechapfel oder andere Kältepflanzen", menge: 200000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Bammoth-Bratling (Nahrung)", menge: 1,  einheit: "alle 5 Zyklen", icon: "🥩" },
-        { name: "Schilffaser",                menge: 30, einheit: "kg/Zyklus",     icon: "🧵" },
-        { name: "Fleisch",                    menge: 50, einheit: "kg/Zyklus",     icon: "🍖" }
+        { name: "Rohes Fleisch (Schlachtung) – Zartes Bruststück", mombe: 0, einheit: "pro Tier", icon: "🥩" },
+        { name: "Knochen (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🦴" }
       ],
-      eiinkubation: 6,
-      beschreibung: "Frosty Planet Pack – produziert Nahrung, Schilffaser und Fleisch.",
-      tipp: "Bammut-Ranch liefert Schilffaser für Anzüge UND Nahrung – sehr effizient!",
-      varianten: [
-        { name: "Königliches Bammut", sonderNahrung: "Besondere Pflanzen", sonderProduktion: "Mehr Schilffaser + seltene Materialien" }
-      ]
+      varianten: [],
+      tipp: "Großes Kälte-Tier aus dem Frosty Planet Pack. Fleisch für Zartes Bruststück (Räucherofen)."
     },
     {
       id: "flox",
@@ -747,22 +993,18 @@ const ONI = {
       englisch: "Flox",
       pack: "frostyPlanet",
       icon: "🦊",
-      img: "https://oxygennotincluded.wiki.gg/images/Flox.png",
-      farbe: "#cc7a3a",
-      lebensraum: "Kalte Wälder / Frostige Biome",
-      maxProStall: 8,
+      img: BASE_IMG + "Flox.png",
+      lebensraum: "Land (Kälte)",
+      maxProStall: 6,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Dornenblüten-Blätter / Eispflanzen", menge: 100, einheit: "kg/Zyklus" }
+        { name: "Phosphorit (Kältebereich)", menge: 20000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Erde",  menge: 50, einheit: "kg/Zyklus", icon: "🟫" },
-        { name: "Holz",  menge: 30, einheit: "kg/Zyklus", icon: "🪵" },
-        { name: "Glas",  menge: 20, einheit: "kg/Zyklus", icon: "🔷" }
+        { name: "Kühlt Umgebung passiv", menge: 0, einheit: "Wärmepumpe", icon: "❄️" }
       ],
-      eiinkubation: 5,
-      beschreibung: "Frosty Planet Pack – produziert Erde, Holz und Glas.",
-      tipp: "Passive Glas- und Holzproduktion ohne Verarbeitung.",
-      varianten: []
+      varianten: [],
+      tipp: "Natürliche Kühlung! Hält Kältezonen kalt ohne Stromverbrauch. Phosphorit zum Füttern."
     },
     {
       id: "zapfrobbe",
@@ -770,47 +1012,41 @@ const ONI = {
       englisch: "Spigot Seal",
       pack: "frostyPlanet",
       icon: "🦭",
-      img: "https://oxygennotincluded.wiki.gg/images/Spigot_Seal.png",
-      farbe: "#5a8aaa",
-      lebensraum: "Kalte Gewässer / Eis",
+      img: BASE_IMG + "Spigot_Seal.png",
+      lebensraum: "Wasser (Kälte)",
       maxProStall: 4,
+      eiinkubation: 20,
       nahrung: [
-        { name: "Nektar / Saccharose", menge: 70000, einheit: "g/Zyklus" }
+        { name: "Seekamm-Blätter oder Fische", menge: 0, einheit: "Filterfresser" }
       ],
       produktion: [
-        { name: "Ethanol",             menge: 30000, einheit: "g/Zyklus", icon: "🍶" },
-        { name: "Talg",                menge: 10000, einheit: "g/Zyklus", icon: "🧈" }
+        { name: "Rohe Schalentiere (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🦀" }
       ],
-      eiinkubation: 6,
-      beschreibung: "Frosty Planet Pack – wandelt Nektar in Ethanol und Talg um.",
-      tipp: "Ethanol → Treibstoff für Raketen. Talg → Kochen (hohe Kalorien).",
-      varianten: []
+      varianten: [],
+      tipp: "Lebt in Kaltwasser. Rohe Schalentiere für Schalentier-Tempura (Friteuse, FP)."
     },
 
-    // ════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════
     // PREHISTORIC PLANET PACK
-    // ════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════
     {
       id: "dartel",
       name: "Dartel",
       englisch: "Dartle",
       pack: "prehistoricPlanet",
       icon: "🦎",
-      img: "https://oxygennotincluded.wiki.gg/images/Dartle.png",
-      farbe: "#6a9a5a",
-      lebensraum: "Feuchte Biome / Tautropfen-Quellen",
+      img: BASE_IMG + "Dartle.png",
+      lebensraum: "Land",
       maxProStall: 8,
+      eiinkubation: 18,
       nahrung: [
-        { name: "Tautropfen", menge: 50000, einheit: "g/Zyklus" }
+        { name: "Tautropfen (aus Tautropf-Pflanze)", menge: 0, einheit: "sucht selbst" }
       ],
       produktion: [
-        { name: "Bleichstein", menge: 10000, einheit: "g/Zyklus", icon: "🟡" },
-        { name: "Chlor",       menge: 5000,  einheit: "g/Zyklus", icon: "🟢" }
+        { name: "Rohes Fleisch (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🥩" }
       ],
-      eiinkubation: 4,
-      beschreibung: "Prehistoric Planet Pack – produziert Bleichstein und Chlor.",
-      tipp: "Bleichstein → Desinfektionsmittel und Oxylith-Herstellung.",
-      varianten: []
+      varianten: [],
+      tipp: "Kleines Tier aus PP. Frisst Tautropfen von Tautropf-Pflanzen. Fleischquelle."
     },
     {
       id: "jawbo",
@@ -818,45 +1054,37 @@ const ONI = {
       englisch: "Jawbo",
       pack: "prehistoricPlanet",
       icon: "🐊",
-      img: "https://oxygennotincluded.wiki.gg/images/Jawbo.png",
-      farbe: "#4a7a5a",
-      lebensraum: "Gewässer / Pacu-reiche Zonen",
+      img: BASE_IMG + "Jawbo.png",
+      lebensraum: "Wasser",
       maxProStall: 4,
+      eiinkubation: 22,
       nahrung: [
-        { name: "Pacu / Pacu-Filet", menge: 50000, einheit: "g/Zyklus" }
+        { name: "Seekamm-Blätter", menge: 0, einheit: "Unterwasser" }
       ],
       produktion: [
-        { name: "Rost", menge: 60000, einheit: "g/Zyklus", icon: "🟤" }
+        { name: "Jawbo-Filet (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🐟" }
       ],
-      eiinkubation: 6,
-      beschreibung: "Prehistoric Planet Pack – frisst Fisch, produziert Rost.",
-      tipp: "Rost → Sauerstoffdiffusor (O₂-Produktion ohne Strom).",
-      varianten: []
+      varianten: [],
+      tipp: "Prähistorischer Fisch. Jawbo-Filet für Geräucherten Fisch (Räucherofen, PP)."
     },
     {
       id: "lumba",
       name: "Lumba",
-      englisch: "Lumb",
+      englisch: "Lumba",
       pack: "prehistoricPlanet",
-      icon: "🦕",
-      img: "https://oxygennotincluded.wiki.gg/images/Lumb.png",
-      farbe: "#7a9a5a",
-      lebensraum: "Sumpfbiome / große offene Räume (2×2 Kacheln)",
+      icon: "🐘",
+      img: BASE_IMG + "Lumba.png",
+      lebensraum: "Land",
       maxProStall: 4,
+      eiinkubation: 25,
       nahrung: [
-        { name: "Ovagro-Feige / Dornenbeere / Sumpf-Gelee", menge: 200, einheit: "kg/Zyklus" }
+        { name: "Pflanzliche Biomasse", menge: 200000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Torf",   menge: 100, einheit: "kg/Zyklus", icon: "🟫" },
-        { name: "Algen",  menge: 50,  einheit: "kg/Zyklus", icon: "🟢" },
-        { name: "Fleisch", menge: 50, einheit: "kg/Zyklus", icon: "🍖" }
+        { name: "Zähes Fleisch (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🥩" }
       ],
-      eiinkubation: 8,
-      beschreibung: "Prehistoric Planet Pack – großes 2×2-Tier, produziert Torf und Algen.",
-      tipp: "Lumba-Ranch liefert Algen für Pacu-Fütterung – guter Kreislauf!",
-      varianten: [
-        { name: "Blum (Lumba-Variante)", sonderNahrung: "Pflanzen", sonderProduktion: "Mehr Algen" }
-      ]
+      varianten: [],
+      tipp: "Großes Prähistorie-Tier. Zähes Fleisch für Zartes Bruststück (Räucherofen, PP)."
     },
     {
       id: "mimika",
@@ -864,20 +1092,19 @@ const ONI = {
       englisch: "Mimika",
       pack: "prehistoricPlanet",
       icon: "🌸",
-      img: "https://oxygennotincluded.wiki.gg/images/Mimika.png",
-      farbe: "#c890c0",
-      lebensraum: "Blütenreiche Biome",
-      maxProStall: 8,
+      img: BASE_IMG + "Mimika.png",
+      lebensraum: "Luft/Land",
+      maxProStall: 6,
+      eiinkubation: 15,
       nahrung: [
-        { name: "Bestäubt Pflanzen (braucht keine direkte Nahrung)", menge: 0, einheit: "–" }
+        { name: "Mimika-Bud (Pflanze) oder Nektar", menge: 0, einheit: "selbständig" }
       ],
       produktion: [
-        { name: "Mimika-Knospe (Sonderpflanzen-Samen)", menge: 1, einheit: "alle 10 Zyklen", icon: "🌺" }
+        { name: "Bestäubung (erhöht Pflanzenernte)", menge: 0, einheit: "passiv", icon: "🌺" },
+        { name: "Mimillet (nach Bestäubung)", menge: 0, einheit: "passiv", icon: "🌾" }
       ],
-      eiinkubation: 5,
-      beschreibung: "Prehistoric Planet Pack – bestäubt Pflanzen und produziert seltene Knospen.",
-      tipp: "Mimika erhöht den Ernte-Ertrag umliegender Pflanzen durch Bestäubung.",
-      varianten: []
+      varianten: [],
+      tipp: "Bestäubt Schweißkornstängel und andere PP-Pflanzen. Mimillet für Geröstetes Mimillet!"
     },
     {
       id: "rhex",
@@ -885,216 +1112,157 @@ const ONI = {
       englisch: "Rhex",
       pack: "prehistoricPlanet",
       icon: "🦖",
-      img: "https://oxygennotincluded.wiki.gg/images/Rhex.png",
-      farbe: "#8a4a3a",
-      lebensraum: "Weite Areale (frisst andere Kreaturen)",
+      img: BASE_IMG + "Rhex.png",
+      lebensraum: "Land",
       maxProStall: 2,
+      eiinkubation: 30,
       nahrung: [
-        { name: "Dartel / Pips / Hatch (andere Kreaturen)", menge: 1, einheit: "Kreatur/Zyklus" }
+        { name: "Große Mengen organisches Material", menge: 500000, einheit: "g/Zyklus" }
       ],
       produktion: [
-        { name: "Brauseis",   menge: 50, einheit: "kg/Zyklus", icon: "🧊" },
-        { name: "Federfaser", menge: 20, einheit: "kg/Zyklus", icon: "🪶" },
-        { name: "Zähes Fleisch", menge: 30, einheit: "kg/Zyklus", icon: "🥩" }
+        { name: "Sehr viel Zähes Fleisch (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🥩" }
       ],
-      eiinkubation: 10,
-      beschreibung: "Prehistoric Planet Pack – Raubtier, das andere Kreaturen frisst.",
-      tipp: "Rhex-Ranch braucht eine Kreatur-Zucht (z.B. Dartel) als Futterquelle.",
-      varianten: []
+      varianten: [],
+      tipp: "Größtes Prehistoric Planet-Tier. Hoher Fleischertrag, aber braucht sehr viel Futter!"
     }
   ],
 
-  // ── GEBÄUDE & STALL-ANFORDERUNGEN ─────────────────────────
+  // ── STALL INFO ────────────────────────────────────────────
   stallInfo: {
-    groesse: "12 × 8 Kacheln (96 Kacheln gesamt)",
+    groesse: "Mindestens 4×2 Fliesen (96 Fliesen für volle Kapazität empfohlen)",
     benoetigt: [
-      "1× Viehstation (Ranching Station)",
-      "1× Viehübergabe (Critter Drop-Off)",
-      "Viehbetten je nach Tier",
-      "Lüftung oder Gasversorgung je nach Tier",
-      "Optional: Pflegestation (Grooming Station)"
+      "Grooming Station (Pflegestation) – erhöht Ei-Produktionsrate",
+      "Stall-Klappe (Critter Drop-off) – sortiert Tiere in Stall",
+      "Automatischer Stall (Auto-Wrangler) – für Schlachtung/Sortierung",
+      "Nahrungsstation oder direktes Futter im Raum",
+      "Belüftung / richtige Atmosphäre je nach Tierart",
+      "Temperatur beachten (Hatch: 0–75°C, Puft: –20–75°C)"
     ],
-    tipp: "Gepflegte Tiere produzieren 25% mehr und legen häufiger Eier."
+    tipp: "Ideale Stallgröße: 12×8 = 96 Fliesen für 8 Tiere. Grooming Station regelmäßig nutzen für maximale Ei-Rate!"
   },
 
-  // ── RESSOURCEN & MATERIALIEN ──────────────────────────────
+  // ── MATERIALIEN ───────────────────────────────────────────
   materialien: [
     {
-      kategorie: "Rohmetalle (Erze) – Basisspiel",
+      kategorie: "⛏️ Roherze & Gestein",
       pack: "vanilla",
       eintraege: [
-        { name: "Kupfererz",    englisch: "Copper Ore",   icon: "🟠", wärmeleitfähigkeit: 4.5,   schmelzpunkt: 1985, strom: false, dichte: 1500 },
-        { name: "Eisenerz",     englisch: "Iron Ore",     icon: "🟤", wärmeleitfähigkeit: 4.0,   schmelzpunkt: 1538, strom: false, dichte: 1500 },
-        { name: "Goldalmagam",  englisch: "Gold Amalgam", icon: "🟡", wärmeleitfähigkeit: 100.0, schmelzpunkt: 801,  strom: false, dichte: 2500 },
-        { name: "Wolframit",    englisch: "Wolframite",   icon: "⬛", wärmeleitfähigkeit: 60.0,  schmelzpunkt: 3422, strom: false, dichte: 7500 },
-        { name: "Aluminiumit",  englisch: "Aluminium Ore",icon: "⬜", wärmeleitfähigkeit: 5.0,   schmelzpunkt: 659,  strom: false, dichte: 2700 }
+        { name: "Rohkupfererz",   englisch: "Copper Ore",       icon: "🟠", img: BASE_IMG + "Copper_Ore.png",       wärmeleitfähigkeit: 4.5,   schmelzpunkt: 1084,  strom: false },
+        { name: "Eisenerz",       englisch: "Iron Ore",          icon: "🟤", img: BASE_IMG + "Iron_Ore.png",          wärmeleitfähigkeit: 4.0,   schmelzpunkt: 1535,  strom: false },
+        { name: "Golderz",        englisch: "Gold Amalgam",      icon: "🟡", img: BASE_IMG + "Gold_Amalgam.png",      wärmeleitfähigkeit: 4.5,   schmelzpunkt: 1063,  strom: false },
+        { name: "Rohöl",          englisch: "Crude Oil",         icon: "🛢️", img: BASE_IMG + "Crude_Oil.png",         wärmeleitfähigkeit: 0.15,  schmelzpunkt: -40,   strom: false },
+        { name: "Sandstein",      englisch: "Sandstone",         icon: "🪨", img: BASE_IMG + "Sandstone.png",         wärmeleitfähigkeit: 2.9,   schmelzpunkt: 1600,  strom: false },
+        { name: "Granit",         englisch: "Granite",           icon: "🪨", img: BASE_IMG + "Granite.png",           wärmeleitfähigkeit: 3.39,  schmelzpunkt: 1870,  strom: false },
+        { name: "Basalt",         englisch: "Basalt",            icon: "🪨", img: BASE_IMG + "Basalt.png",            wärmeleitfähigkeit: 2.0,   schmelzpunkt: 1300,  strom: false },
+        { name: "Kalkstein",      englisch: "Limestone",         icon: "🪨", img: BASE_IMG + "Limestone.png",         wärmeleitfähigkeit: 2.18,  schmelzpunkt: 2525,  strom: false },
+        { name: "Schleim",        englisch: "Slime",             icon: "🟢", img: BASE_IMG + "Slime.png",             wärmeleitfähigkeit: 0.96,  schmelzpunkt: 0,     strom: false },
+        { name: "Regolith",       englisch: "Regolith",          icon: "⚪", img: BASE_IMG + "Regolith.png",          wärmeleitfähigkeit: 0.8,   schmelzpunkt: 9726,  strom: false }
       ]
     },
     {
-      kategorie: "Raffinierte Metalle – Basisspiel",
+      kategorie: "🔧 Raffinierte Metalle",
       pack: "vanilla",
       eintraege: [
-        { name: "Kupfer",    englisch: "Copper",    icon: "🔶", wärmeleitfähigkeit: 9.2,   schmelzpunkt: 1985, strom: true, dichte: 1500 },
-        { name: "Eisen",     englisch: "Iron",      icon: "⬜", wärmeleitfähigkeit: 14.0,  schmelzpunkt: 1538, strom: true, dichte: 1500 },
-        { name: "Gold",      englisch: "Gold",      icon: "🟨", wärmeleitfähigkeit: 197.0, schmelzpunkt: 1063, strom: true, dichte: 2500 },
-        { name: "Stahl",     englisch: "Steel",     icon: "🔩", wärmeleitfähigkeit: 54.0,  schmelzpunkt: 2427, strom: true, dichte: 7800 },
-        { name: "Thermium",  englisch: "Thermium",  icon: "🔴", wärmeleitfähigkeit: 200.0, schmelzpunkt: 2977, strom: true, dichte: 5000 },
-        { name: "Niobium",   englisch: "Niobium",   icon: "🔵", wärmeleitfähigkeit: 54.0,  schmelzpunkt: 2477, strom: true, dichte: 6000 },
-        { name: "Aluminium", englisch: "Aluminium", icon: "⬜", wärmeleitfähigkeit: 205.0, schmelzpunkt: 659,  strom: true, dichte: 2700 }
+        { name: "Kupfer",         englisch: "Copper",             icon: "🟠", img: BASE_IMG + "Copper.png",             wärmeleitfähigkeit: 60.0,  schmelzpunkt: 1984,  strom: true  },
+        { name: "Eisen",          englisch: "Iron",               icon: "⚙️", img: BASE_IMG + "Iron.png",               wärmeleitfähigkeit: 55.0,  schmelzpunkt: 1535,  strom: true  },
+        { name: "Gold",           englisch: "Gold",               icon: "🥇", img: BASE_IMG + "Gold.png",               wärmeleitfähigkeit: 60.0,  schmelzpunkt: 1063,  strom: true  },
+        { name: "Stahl",          englisch: "Steel",              icon: "🔩", img: BASE_IMG + "Steel.png",              wärmeleitfähigkeit: 54.0,  schmelzpunkt: 2427,  strom: true  },
+        { name: "Thermium",       englisch: "Thermium",           icon: "🌡️", img: BASE_IMG + "Thermium.png",           wärmeleitfähigkeit: 200.0, schmelzpunkt: 2977,  strom: true  },
+        { name: "Wolfram",        englisch: "Tungsten",           icon: "⚫", img: BASE_IMG + "Tungsten.png",           wärmeleitfähigkeit: 60.0,  schmelzpunkt: 3422,  strom: true  },
+        { name: "Niobium",        englisch: "Niobium",            icon: "🔵", img: BASE_IMG + "Niobium.png",            wärmeleitfähigkeit: 54.0,  schmelzpunkt: 2477,  strom: true  },
+        { name: "Aluminium",      englisch: "Aluminum",           icon: "⚪", img: BASE_IMG + "Aluminum.png",           wärmeleitfähigkeit: 205.0, schmelzpunkt: 660,   strom: true  },
+        { name: "Temperalith",    englisch: "Temperatura",        icon: "🔥", img: BASE_IMG + "Temperatura.png",        wärmeleitfähigkeit: 0.6,   schmelzpunkt: 9726,  strom: false }
       ]
     },
     {
-      kategorie: "Steine & Gestein – Basisspiel",
+      kategorie: "🌡️ Isoliermaterialien",
       pack: "vanilla",
       eintraege: [
-        { name: "Sedimentgestein", englisch: "Sedimentary Rock", icon: "⬜", wärmeleitfähigkeit: 2.0,  schmelzpunkt: 1530, strom: false, dichte: 2500 },
-        { name: "Granit",          englisch: "Granite",          icon: "🪨", wärmeleitfähigkeit: 3.39, schmelzpunkt: 1198, strom: false, dichte: 2700 },
-        { name: "Sandstein",       englisch: "Sandstone",        icon: "🟫", wärmeleitfähigkeit: 3.0,  schmelzpunkt: 1603, strom: false, dichte: 1600 },
-        { name: "Obsidian",        englisch: "Obsidian",         icon: "⬛", wärmeleitfähigkeit: 2.0,  schmelzpunkt: 1420, strom: false, dichte: 2650 },
-        { name: "Ablativgestein",  englisch: "Igneous Rock",     icon: "🔺", wärmeleitfähigkeit: 2.0,  schmelzpunkt: 1410, strom: false, dichte: 2400 },
-        { name: "Mafin",           englisch: "Mafic Rock",       icon: "⬛", wärmeleitfähigkeit: 2.0,  schmelzpunkt: 1450, strom: false, dichte: 2900 }
+        { name: "Ablativgestein",  englisch: "Igneous Rock",      icon: "🟫", img: BASE_IMG + "Igneous_Rock.png",      wärmeleitfähigkeit: 2.0,   schmelzpunkt: 1410,  strom: false },
+        { name: "Maficgestein",    englisch: "Mafic Rock",        icon: "⚫", img: BASE_IMG + "Mafic_Rock.png",        wärmeleitfähigkeit: 1.7,   schmelzpunkt: 1500,  strom: false },
+        { name: "Sedimentgestein", englisch: "Sedimentary Rock",  icon: "🟤", img: BASE_IMG + "Sedimentary_Rock.png",  wärmeleitfähigkeit: 2.93,  schmelzpunkt: 1410,  strom: false },
+        { name: "Vakuumstein",     englisch: "Vacuum Rock",       icon: "⚫", img: BASE_IMG + "Vacuum.png",            wärmeleitfähigkeit: 0.0,   schmelzpunkt: 9726,  strom: false },
+        { name: "Plastik",         englisch: "Plastic",           icon: "🔷", img: BASE_IMG + "Plastic.png",           wärmeleitfähigkeit: 0.18,  schmelzpunkt: 159,   strom: false },
+        { name: "Glasfaser",       englisch: "Fiberglass",        icon: "⚪", img: BASE_IMG + "Fiberglass.png",        wärmeleitfähigkeit: 0.14,  schmelzpunkt: 1200,  strom: false }
       ]
     },
     {
-      kategorie: "Baustoffe – Basisspiel",
+      kategorie: "💧 Flüssigkeiten (wichtige)",
       pack: "vanilla",
       eintraege: [
-        { name: "Kunststoff", englisch: "Plastic",   icon: "🟦", wärmeleitfähigkeit: 0.170, schmelzpunkt: 160,  strom: false, dichte: 900  },
-        { name: "Glas",       englisch: "Glass",     icon: "🔷", wärmeleitfähigkeit: 1.0,   schmelzpunkt: 1600, strom: false, dichte: 2500 },
-        { name: "Keramik",    englisch: "Ceramic",   icon: "⬜", wärmeleitfähigkeit: 1.57,  schmelzpunkt: 1650, strom: false, dichte: 2000 },
-        { name: "Diamant",    englisch: "Diamond",   icon: "💎", wärmeleitfähigkeit: 700.0, schmelzpunkt: 3600, strom: false, dichte: 3510 },
-        { name: "Kohlenstoff",englisch: "Carbon",    icon: "⚫", wärmeleitfähigkeit: 2.0,   schmelzpunkt: 3600, strom: false, dichte: 2260 }
+        { name: "Wasser",         englisch: "Water",              icon: "💧", img: BASE_IMG + "Water.png",              wärmeleitfähigkeit: 0.61,  schmelzpunkt: 0,     strom: false },
+        { name: "Schmutzwasser",  englisch: "Polluted Water",     icon: "🟤", img: BASE_IMG + "Polluted_Water.png",     wärmeleitfähigkeit: 0.58,  schmelzpunkt: -20,   strom: false },
+        { name: "Petroleum",      englisch: "Petroleum",          icon: "⚫", img: BASE_IMG + "Petroleum.png",          wärmeleitfähigkeit: 0.2,   schmelzpunkt: -57,   strom: false },
+        { name: "Kühlmittel",     englisch: "Supercoolant",       icon: "🔵", img: BASE_IMG + "Supercoolant.png",       wärmeleitfähigkeit: 9.46,  schmelzpunkt: -271,  strom: false },
+        { name: "Ethanol",        englisch: "Ethanol",            icon: "🍷", img: BASE_IMG + "Ethanol.png",            wärmeleitfähigkeit: 0.17,  schmelzpunkt: -114,  strom: false },
+        { name: "Salzwasser",     englisch: "Salt Water",         icon: "🌊", img: BASE_IMG + "Salt_Water.png",         wärmeleitfähigkeit: 0.62,  schmelzpunkt: -7,    strom: false },
+        { name: "Flüssig-CO₂",   englisch: "Liquid CO2",         icon: "🫧", img: BASE_IMG + "Liquid_CO2.png",         wärmeleitfähigkeit: 0.1,   schmelzpunkt: -56,   strom: false }
       ]
     },
     {
-      kategorie: "Gase – Basisspiel",
+      kategorie: "🌬️ Gase (wichtige)",
       pack: "vanilla",
       eintraege: [
-        { name: "Sauerstoff",             englisch: "Oxygen",          icon: "💨", wärmeleitfähigkeit: 0.024,  schmelzpunkt: -183, strom: false, dichte: 1 },
-        { name: "Schmutziger Sauerstoff", englisch: "Polluted Oxygen", icon: "💚", wärmeleitfähigkeit: 0.024,  schmelzpunkt: -183, strom: false, dichte: 1 },
-        { name: "CO₂",                   englisch: "Carbon Dioxide",  icon: "☁️", wärmeleitfähigkeit: 0.015,  schmelzpunkt: -78,  strom: false, dichte: 1 },
-        { name: "Wasserstoff",            englisch: "Hydrogen",        icon: "🔵", wärmeleitfähigkeit: 0.168,  schmelzpunkt: -259, strom: false, dichte: 1 },
-        { name: "Erdgas",                 englisch: "Natural Gas",     icon: "🔥", wärmeleitfähigkeit: 0.035,  schmelzpunkt: -182, strom: false, dichte: 1 },
-        { name: "Chlor",                  englisch: "Chlorine",        icon: "🟢", wärmeleitfähigkeit: 0.0084, schmelzpunkt: -101, strom: false, dichte: 1 }
-      ]
-    },
-    {
-      kategorie: "Flüssigkeiten – Basisspiel",
-      pack: "vanilla",
-      eintraege: [
-        { name: "Wasser",        englisch: "Water",          icon: "💧", wärmeleitfähigkeit: 0.609, schmelzpunkt: 0,   strom: false, dichte: 1000 },
-        { name: "Schmutzwasser", englisch: "Polluted Water", icon: "🪣", wärmeleitfähigkeit: 0.580, schmelzpunkt: -20, strom: false, dichte: 1010 },
-        { name: "Erdöl",         englisch: "Crude Oil",      icon: "🛢️", wärmeleitfähigkeit: 0.150, schmelzpunkt: -40, strom: false, dichte: 850  },
-        { name: "Petroleum",     englisch: "Petroleum",      icon: "⛽", wärmeleitfähigkeit: 0.149, schmelzpunkt: -50, strom: false, dichte: 750  },
-        { name: "Salzwasser",    englisch: "Salt Water",     icon: "🌊", wärmeleitfähigkeit: 0.609, schmelzpunkt: -10, strom: false, dichte: 1030 },
-        { name: "Flüssiger O₂",  englisch: "Liquid Oxygen",  icon: "🧊", wärmeleitfähigkeit: 1.010, schmelzpunkt: -183,strom: false, dichte: 1141 }
-      ]
-    },
-    {
-      kategorie: "Neue Materialien – Spaced Out!",
-      pack: "spacedOut",
-      eintraege: [
-        { name: "Regolith",     englisch: "Regolith",      icon: "🟫", wärmeleitfähigkeit: 0.02,  schmelzpunkt: 1410, strom: false, dichte: 1500 },
-        { name: "Schwefel",     englisch: "Sulfur",        icon: "🟡", wärmeleitfähigkeit: 0.2,   schmelzpunkt: 115,  strom: false, dichte: 2000 },
-        { name: "Sole",         englisch: "Brine",         icon: "💧", wärmeleitfähigkeit: 0.609, schmelzpunkt: -22,  strom: false, dichte: 1100 },
-        { name: "Propangas",    englisch: "Propane",       icon: "🔥", wärmeleitfähigkeit: 0.020, schmelzpunkt: -188, strom: false, dichte: 1 },
-        { name: "Synthesegas",  englisch: "Synthesis Gas", icon: "💨", wärmeleitfähigkeit: 0.029, schmelzpunkt: -200, strom: false, dichte: 1 },
-        { name: "Phytoöl",      englisch: "Phyto Oil",     icon: "🌿", wärmeleitfähigkeit: 0.150, schmelzpunkt: -50,  strom: false, dichte: 800  },
-        { name: "Saccharose",   englisch: "Sucrose",       icon: "🍬", wärmeleitfähigkeit: 0.5,   schmelzpunkt: 186,  strom: false, dichte: 1000 },
-        { name: "Holz",         englisch: "Wood",          icon: "🪵", wärmeleitfähigkeit: 0.12,  schmelzpunkt: 400,  strom: false, dichte: 600  },
-        { name: "Sperrholz",    englisch: "Plywood",       icon: "📦", wärmeleitfähigkeit: 0.12,  schmelzpunkt: 400,  strom: false, dichte: 600  }
-      ]
-    },
-    {
-      kategorie: "Neue Materialien – Frosty Planet Pack",
-      pack: "frostyPlanet",
-      eintraege: [
-        { name: "Schnee",               englisch: "Snow",             icon: "❄️", wärmeleitfähigkeit: 0.5,  schmelzpunkt: 0,   strom: false, dichte: 400  },
-        { name: "Bernstein",            englisch: "Amber",            icon: "🟠", wärmeleitfähigkeit: 1.0,  schmelzpunkt: 300, strom: false, dichte: 1050 },
-        { name: "Gefrorenes Phytoöl",   englisch: "Frozen Phyto Oil", icon: "🧊", wärmeleitfähigkeit: 0.5,  schmelzpunkt: -50, strom: false, dichte: 900  },
-        { name: "Verschmutzte Erde",    englisch: "Toxic Sand",       icon: "🟫", wärmeleitfähigkeit: 0.9,  schmelzpunkt: 800, strom: false, dichte: 1600 }
+        { name: "Sauerstoff",          englisch: "Oxygen",          icon: "💨", img: BASE_IMG + "Oxygen.png",          wärmeleitfähigkeit: 0.026, schmelzpunkt: -218,  strom: false },
+        { name: "Schmutziger Sauerstoff", englisch: "Polluted O2", icon: "🟡", img: BASE_IMG + "Polluted_Oxygen.png", wärmeleitfähigkeit: 0.024, schmelzpunkt: -219,  strom: false },
+        { name: "CO₂",                 englisch: "Carbon Dioxide",  icon: "☁️", img: BASE_IMG + "Carbon_Dioxide.png",  wärmeleitfähigkeit: 0.015, schmelzpunkt: -56,   strom: false },
+        { name: "Wasserstoff",         englisch: "Hydrogen",        icon: "🔵", img: BASE_IMG + "Hydrogen.png",        wärmeleitfähigkeit: 0.168, schmelzpunkt: -259,  strom: false },
+        { name: "Chlor",               englisch: "Chlorine",        icon: "🟡", img: BASE_IMG + "Chlorine.png",        wärmeleitfähigkeit: 0.009, schmelzpunkt: -101,  strom: false },
+        { name: "Erdgas",              englisch: "Natural Gas",     icon: "⛽", img: BASE_IMG + "Natural_Gas.png",     wärmeleitfähigkeit: 0.035, schmelzpunkt: -182,  strom: false }
       ]
     }
-  ],
-
-  // ── KOCHGERÄTE ────────────────────────────────────────────
-  geraete: [
-    { name: "Einfacher Grill",  englisch: "Microbe Musher",  strom: 240, einheit: "W",               icon: "🥣" },
-    { name: "Elektroherd",      englisch: "Electric Grill",  strom: 240, einheit: "W",               icon: "🍳" },
-    { name: "Gasherd",          englisch: "Gas Range",       strom: 0,   einheit: "(Erdgas: 100g/s)", icon: "🔥" }
   ],
 
   // ── STROM ─────────────────────────────────────────────────
   strom: {
     generatoren: [
-      { id: "hamsterrad",    name: "Hamsterrad",           watt: 400,  pack: "vanilla",   brennstoff: "–" },
-      { id: "kohlegenerator",name: "Kohlegenerator",       watt: 600,  pack: "vanilla",   brennstoff: "Kohle: 1.000g/s" },
-      { id: "gasgenerator",  name: "Naturgasgenerator",    watt: 800,  pack: "vanilla",   brennstoff: "Erdgas: 90g/s" },
-      { id: "wasserstoffgen",name: "Wasserstoffgenerator", watt: 800,  pack: "vanilla",   brennstoff: "Wasserstoff: 100g/s" },
-      { id: "petroleumgen",  name: "Petroleumgenerator",   watt: 2000, pack: "vanilla",   brennstoff: "Petroleum: 2.000g/s" },
-      { id: "dampfturbine",  name: "Dampfturbine",         watt: 850,  pack: "vanilla",   brennstoff: "Dampf: 2kg/s" },
-      { id: "solarpanel",    name: "Solarpanel",           watt: 380,  pack: "vanilla",   brennstoff: "Sonnenlicht" },
-      { id: "kernreaktor",   name: "Kernkraftreaktor",     watt: 4000, pack: "spacedOut", brennstoff: "Angereichertes Uran" }
+      { id: "gen_hamster",    name: "Hamsterrad",              englisch: "Manual Generator",       watt: 400,   brennstoff: "Duplikant-Arbeit", pack: "vanilla",           dauerverbraucher: false },
+      { id: "gen_kohle",      name: "Kohlegenerator",          englisch: "Coal Generator",         watt: 600,   brennstoff: "1,2 kg Kohle/Zyklus", pack: "vanilla",        dauerverbraucher: true  },
+      { id: "gen_petrol",     name: "Petroleumgenerator",      englisch: "Petroleum Generator",    watt: 2000,  brennstoff: "2 kg Petroleum/Zyklus", pack: "vanilla",      dauerverbraucher: true  },
+      { id: "gen_erdgas",     name: "Erdgasgenerator",         englisch: "Natural Gas Generator",  watt: 800,   brennstoff: "90 g Erdgas/Sek", pack: "vanilla",            dauerverbraucher: true  },
+      { id: "gen_wasserstoff",name: "Wasserstoffgenerator",    englisch: "Hydrogen Generator",     watt: 800,   brennstoff: "100 g H₂/Sek", pack: "vanilla",              dauerverbraucher: true  },
+      { id: "gen_solar",      name: "Solarpanel",              englisch: "Solar Panel",            watt: 380,   brennstoff: "Sonnenlicht (Weltraum)", pack: "vanilla",      dauerverbraucher: false },
+      { id: "gen_dampf",      name: "Dampfturbine",            englisch: "Steam Turbine",          watt: 850,   brennstoff: "Dampf 125–200°C", pack: "vanilla",            dauerverbraucher: false },
+      { id: "gen_nuclear",    name: "Atomreaktor",             englisch: "Nuclear Reactor",        watt: 9000,  brennstoff: "Angereichertes Uran", pack: "spacedOut",       dauerverbraucher: true  }
     ],
     verbraucher: [
-      // ── Sauerstoff ──────────────────────────────────────────────────────
-      // dauerverbraucher: true = läuft konstant; false = nur bei Bedarf/manuell
-      { id: "algenentluefter",     name: "Algenentlüfter",          watt: 120,  kategorie: "Sauerstoff",   pack: "vanilla",   dauerverbraucher: true  },
-      { id: "elektrolyseur",       name: "Elektrolyseur",           watt: 120,  kategorie: "Sauerstoff",   pack: "vanilla",   dauerverbraucher: true  },
-      { id: "oxylgenerator",       name: "OXYL-Generator",          watt: 120,  kategorie: "Sauerstoff",   pack: "vanilla",   dauerverbraucher: true  },
-      // ── Kühlung ─────────────────────────────────────────────────────────
-      { id: "aquatuner",           name: "Aquatuner",               watt: 1200, kategorie: "Kühlung",      pack: "vanilla",   dauerverbraucher: false },
-      { id: "thermoregler",        name: "Thermoregler",            watt: 120,  kategorie: "Kühlung",      pack: "vanilla",   dauerverbraucher: false },
-      // ── Nahrung ─────────────────────────────────────────────────────────
-      { id: "einfacher_grill",     name: "Einfacher Grill",         watt: 240,  kategorie: "Nahrung",      pack: "vanilla",   dauerverbraucher: false },
-      { id: "elektroherd",         name: "Elektroherd",             watt: 240,  kategorie: "Nahrung",      pack: "vanilla",   dauerverbraucher: false },
-      { id: "gasherd",             name: "Gasherd",                 watt: 0,    kategorie: "Nahrung",      pack: "vanilla",   dauerverbraucher: false },
-      { id: "lebensmittelkuehler", name: "Lebensmittelkühler",      watt: 120,  kategorie: "Nahrung",      pack: "vanilla",   dauerverbraucher: true  },
-      // ── Pumpen ──────────────────────────────────────────────────────────
-      { id: "gaspumpe",            name: "Gaspumpe",                watt: 240,  kategorie: "Pumpen",       pack: "vanilla",   dauerverbraucher: false },
-      { id: "fluessigkeitspumpe",  name: "Flüssigkeitspumpe",       watt: 240,  kategorie: "Pumpen",       pack: "vanilla",   dauerverbraucher: false },
-      { id: "minigaspumpe",        name: "Mini-Gaspumpe",           watt: 120,  kategorie: "Pumpen",       pack: "vanilla",   dauerverbraucher: false },
-      { id: "minifluessigpumpe",   name: "Mini-Flüssigkeitspumpe",  watt: 120,  kategorie: "Pumpen",       pack: "vanilla",   dauerverbraucher: false },
-      // ── Produktion ──────────────────────────────────────────────────────
-      { id: "metallraffinerie",    name: "Metallraffinerie",        watt: 1200, kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
-      { id: "glasofen",            name: "Glasofen",                watt: 1200, kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
-      { id: "steinbrecher",        name: "Steinbrecher",            watt: 480,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
-      { id: "polymerpresse",       name: "Polymerpresse",           watt: 480,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
-      { id: "anzugfabrik",         name: "Anzugfabrik",             watt: 480,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
-      { id: "schreinerei",         name: "Schreinerei",             watt: 120,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
-      { id: "kleidungsschneiderei",name: "Kleidungsschneiderei",    watt: 480,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
-      { id: "betonmischer",        name: "Betonmischer",            watt: 120,  kategorie: "Produktion",   pack: "vanilla",   dauerverbraucher: false },
-      // ── Forschung ───────────────────────────────────────────────────────
-      { id: "forschungsstation",   name: "Forschungsstation",       watt: 100,  kategorie: "Forschung",    pack: "vanilla",   dauerverbraucher: false },
-      { id: "supercomputer",       name: "Supercomputer",           watt: 200,  kategorie: "Forschung",    pack: "vanilla",   dauerverbraucher: false },
-      { id: "raumfahrtforschung",  name: "Raumfahrt-Forschungsstation", watt: 200, kategorie: "Forschung", pack: "vanilla",   dauerverbraucher: false },
-      // ── Sanitär ─────────────────────────────────────────────────────────
-      { id: "wasserreiniger",      name: "Wasserreiniger",          watt: 120,  kategorie: "Sanitär",      pack: "vanilla",   dauerverbraucher: true  },
-      { id: "destillieranlage",    name: "Destillieranlage",        watt: 480,  kategorie: "Sanitär",      pack: "vanilla",   dauerverbraucher: false },
-      { id: "desinfektion",        name: "Desinfektionsschleuse",   watt: 100,  kategorie: "Sanitär",      pack: "vanilla",   dauerverbraucher: false },
-      // ── Beleuchtung ─────────────────────────────────────────────────────
-      { id: "deckenlampe",         name: "Deckenlampe",             watt: 10,   kategorie: "Beleuchtung",  pack: "vanilla",   dauerverbraucher: true  },
-      { id: "flutlicht",           name: "Flutlicht",               watt: 50,   kategorie: "Beleuchtung",  pack: "vanilla",   dauerverbraucher: true  },
-      { id: "tischlampe",          name: "Tischlampe",              watt: 10,   kategorie: "Beleuchtung",  pack: "vanilla",   dauerverbraucher: true  },
-      // ── Tierhaltung ─────────────────────────────────────────────────────
-      { id: "pflegestation",       name: "Pflegestation",           watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla",   dauerverbraucher: false },
-      { id: "inkubator",           name: "Inkubator",               watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla",   dauerverbraucher: true  },
-      { id: "viehstation",         name: "Viehstation",             watt: 120,  kategorie: "Tierhaltung",  pack: "vanilla",   dauerverbraucher: false },
-      // ── Komfort & Dekoration ────────────────────────────────────────────
-      { id: "sauna",               name: "Sauna",                   watt: 120,  kategorie: "Komfort",      pack: "vanilla",   dauerverbraucher: false },
-      { id: "massagekoje",         name: "Massagekoje",             watt: 60,   kategorie: "Komfort",      pack: "vanilla",   dauerverbraucher: false },
-      { id: "oelraffinerie",       name: "Ölraffinerie",            watt: 480,  kategorie: "Energie",      pack: "vanilla",   dauerverbraucher: false },
-      // ── Spaced Out! ─────────────────────────────────────────────────────
-      { id: "interplanetarrakete", name: "Interplanetarraketen-Pad", watt: 480, kategorie: "Raumfahrt",    pack: "spacedOut", dauerverbraucher: false },
-      { id: "atomreaktor_kuehlung",name: "Reaktorkühlpumpe",        watt: 480,  kategorie: "Raumfahrt",    pack: "spacedOut", dauerverbraucher: true  }
+      // Lebenserhaltung
+      { id: "vb_elektrolyseur",    name: "Elektrolyseur",         kategorie: "🫁 Lebenserhaltung",    watt: 120,  pack: "vanilla", dauerverbraucher: true  },
+      { id: "vb_kohleabscheider",  name: "Kohlensäure-Abscheider",kategorie: "🫁 Lebenserhaltung",    watt: 120,  pack: "vanilla", dauerverbraucher: true  },
+      { id: "vb_oxyl",             name: "OXYL-Generator",        kategorie: "🫁 Lebenserhaltung",    watt: 120,  pack: "vanilla", dauerverbraucher: true  },
+      { id: "vb_wasseraufber",     name: "Wasseraufbereiter",     kategorie: "🫁 Lebenserhaltung",    watt: 120,  pack: "vanilla", dauerverbraucher: false },
+      // Nahrung
+      { id: "vb_mikrobenmatscher", name: "Mikrobenmatscher",      kategorie: "🍽️ Nahrungsproduktion", watt: 60,   pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_grill",            name: "Elektrogrill",          kategorie: "🍽️ Nahrungsproduktion", watt: 60,   pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_gasherd",          name: "Gasherd",               kategorie: "🍽️ Nahrungsproduktion", watt: 0,    pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_friteuse",         name: "Friteuse",              kategorie: "🍽️ Nahrungsproduktion", watt: 60,   pack: "frostyPlanet", dauerverbraucher: false },
+      { id: "vb_raeucherofen",     name: "Räucherofen",           kategorie: "🍽️ Nahrungsproduktion", watt: 0,    pack: "prehistoricPlanet", dauerverbraucher: false },
+      // Kühlung
+      { id: "vb_aquatuner",        name: "Aquatuner",             kategorie: "🧊 Temperatur",         watt: 1200, pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_thermo_reg",       name: "Thermo-Regler",         kategorie: "🧊 Temperatur",         watt: 960,  pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_kuehlschrank",     name: "Kühlschrank",           kategorie: "🧊 Temperatur",         watt: 120,  pack: "vanilla", dauerverbraucher: true  },
+      // Forschung & Produktion
+      { id: "vb_forschung",        name: "Forschungsstation",     kategorie: "🔬 Forschung & Bau",    watt: 100,  pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_fab_super",        name: "Supercomputer",         kategorie: "🔬 Forschung & Bau",    watt: 120,  pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_metallraffinerie", name: "Metallraffinerie",      kategorie: "🔬 Forschung & Bau",    watt: 1200, pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_glasofen",         name: "Glasofen",              kategorie: "🔬 Forschung & Bau",    watt: 800,  pack: "vanilla", dauerverbraucher: false },
+      // Hygiene
+      { id: "vb_dusche",           name: "Duschkabine",           kategorie: "🚿 Hygiene",            watt: 0,    pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_waschbecken",      name: "Waschbecken",           kategorie: "🚿 Hygiene",            watt: 0,    pack: "vanilla", dauerverbraucher: false },
+      // Beleuchtung
+      { id: "vb_lampe",            name: "Deckenlampe",           kategorie: "💡 Beleuchtung",        watt: 10,   pack: "vanilla", dauerverbraucher: true  },
+      { id: "vb_hakenlicht",       name: "Hakenlicht",            kategorie: "💡 Beleuchtung",        watt: 10,   pack: "vanilla", dauerverbraucher: true  },
+      { id: "vb_lichtstab",        name: "Leuchtstab",            kategorie: "💡 Beleuchtung",        watt: 10,   pack: "vanilla", dauerverbraucher: true  },
+      // Pumpen & Transport
+      { id: "vb_gaspumpe",         name: "Gaspumpe",              kategorie: "⚙️ Pumpen & Transport", watt: 240,  pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_fluessigpumpe",    name: "Flüssigkeitspumpe",     kategorie: "⚙️ Pumpen & Transport", watt: 240,  pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_kleingaspumpe",    name: "Kleine Gaspumpe",       kategorie: "⚙️ Pumpen & Transport", watt: 60,   pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_foerderband",      name: "Förderband (Pneumatik)",kategorie: "⚙️ Pumpen & Transport", watt: 120,  pack: "vanilla", dauerverbraucher: false },
+      // Sonstiges
+      { id: "vb_transformator",    name: "Transformator",         kategorie: "🔌 Sonstiges",          watt: 0,    pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_akku_klein",       name: "Kleiner Akku",          kategorie: "🔌 Sonstiges",          watt: 0,    pack: "vanilla", dauerverbraucher: false },
+      { id: "vb_akku_gross",       name: "Großer Akku",           kategorie: "🔌 Sonstiges",          watt: 0,    pack: "vanilla", dauerverbraucher: false }
     ]
   }
-};
 
-// ── HILFSFUNKTIONEN ───────────────────────────────────────
-function getPflanzeById(id)      { return ONI.pflanzen.find(p => p.id === id); }
-function getTierById(id)         { return ONI.tiere.find(t => t.id === id); }
-function kcalProZyklus(p)        { return p.kcalProErnte / p.wachstumszyklen; }
-function pflanzenFuerDupes(p, n) {
-  return Math.ceil((n * ONI.duplikantBedarf.kalorien.wert) / kcalProZyklus(p));
-}
+};

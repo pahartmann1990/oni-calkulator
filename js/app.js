@@ -400,9 +400,10 @@ function packName(packId) {
 
 function packBadge(packId) {
   const farben = {
-    vanilla:      "tag-gruen",
-    spacedOut:    "tag-blau",
-    frostyPlanet: "tag-lila"
+    vanilla:           "tag-gruen",
+    spacedOut:         "tag-blau",
+    frostyPlanet:      "tag-lila",
+    prehistoricPlanet: "tag-orange"
   };
   const p = ONI.packs.find(x => x.id === packId);
   if (!p) return "";

@@ -9,9 +9,10 @@ const ONI = {
 
   // ── DLC PACKS ─────────────────────────────────────────────
   packs: [
-    { id: "vanilla",      name: "Basisspiel",          icon: "🌍" },
-    { id: "spacedOut",    name: "Spaced Out!",          icon: "🚀" },
-    { id: "frostyPlanet", name: "Frosty Planet Pack",   icon: "❄️" }
+    { id: "vanilla",           name: "Basisspiel",              icon: "🌍" },
+    { id: "spacedOut",         name: "Spaced Out!",             icon: "🚀" },
+    { id: "frostyPlanet",      name: "Frosty Planet Pack",      icon: "❄️" },
+    { id: "prehistoricPlanet", name: "Prehistoric Planet Pack", icon: "🦕" }
   ],
 
   // ── DUPLIKANT GRUNDBEDARF (pro Zyklus = 600 Sekunden) ─────
@@ -60,7 +61,7 @@ const ONI = {
       farbe: "#c06090",
       wachstumszyklen: 4,
       kcalProErnte: 4800,
-      roherName: "Dornbeere",
+      roherName: "Dornenbeere",
       inputs: [
         { name: "Wasser", menge: 20,  einheit: "kg/Zyklus" },
         { name: "CO₂",   menge: 150, einheit: "g/Zyklus"  }
@@ -70,8 +71,8 @@ const ONI = {
       beschreibung: "Hoher Kalorienertrag. Braucht Wasser und CO₂.",
       tipp: "Sehr effizient für fortgeschrittene Kolonien mit CO₂-Überschuss.",
       rezepte: [
-        { name: "Dornbeeren-Smoothie", kcal: 9600, zutaten: ["2× Dornbeere", "1× Wasser (Flasche)"], geraet: "Elektroherd" },
-        { name: "Gefüllte Beere",      kcal: 6000, zutaten: ["1× Dornbeere", "1× Pinchapfeffer"],   geraet: "Elektroherd" }
+        { name: "Dornbeeren-Smoothie", kcal: 9600, zutaten: ["2× Dornenbeere", "1× Wasser (Flasche)"], geraet: "Elektroherd" },
+        { name: "Gefüllte Beere",      kcal: 6000, zutaten: ["1× Dornenbeere", "1× Pinchapfeffer"],   geraet: "Elektroherd" }
       ]
     },
     {
@@ -117,7 +118,7 @@ const ONI = {
       beschreibung: "Verarbeitet Schmutzwasser. Braucht warme Umgebungen.",
       tipp: "Gut kombiniert mit Toiletten (Schmutzwasser-Kreislauf).",
       rezepte: [
-        { name: "Gefüllte Beere", kcal: 6000, zutaten: ["1× Dornbeere",  "1× Pinchapfeffer"], geraet: "Elektroherd" },
+        { name: "Gefüllte Beere", kcal: 6000, zutaten: ["1× Dornenbeere",  "1× Pinchapfeffer"], geraet: "Elektroherd" },
         { name: "Pilzwrap",       kcal: 3600, zutaten: ["1× Roher Pilz", "1× Pinchapfeffer"], geraet: "Elektroherd" },
         { name: "Pfeffer-Tofu",   kcal: 5000, zutaten: ["2× Pinchapfeffer"],                  geraet: "Elektroherd" }
       ]
@@ -297,7 +298,9 @@ const ONI = {
 
   // ── TIERE & STÄLLE ────────────────────────────────────────
   tiere: [
-    // ── BASISSPIEL ──
+    // ════════════════════════════════════════════════════════
+    // BASISSPIEL
+    // ════════════════════════════════════════════════════════
     {
       id: "hatch",
       name: "Hatch",
@@ -488,10 +491,37 @@ const ONI = {
       ]
     },
 
-    // ── SPACED OUT! ──
     {
-      id: "gasendeMuh",
-      name: "Gasende Muh",
+      id: "slickster",
+      name: "Slickster",
+      englisch: "Slickster",
+      pack: "vanilla",
+      icon: "🫧",
+      img: "https://oxygennotincluded.wiki.gg/images/Slickster.png",
+      farbe: "#4a6a4a",
+      lebensraum: "CO₂-reiche Atmosphäre",
+      maxProStall: 8,
+      nahrung: [
+        { name: "Kohlendioxid (CO₂)", menge: 90000, einheit: "g/Zyklus" }
+      ],
+      produktion: [
+        { name: "Rohöl", menge: 33750, einheit: "g/Zyklus", icon: "🛢️" }
+      ],
+      eiinkubation: 5,
+      beschreibung: "Frisst CO₂ und produziert Rohöl – wichtig für Petroleum-Produktion.",
+      tipp: "Slickster-Ranch in CO₂-Schicht = passiver Rohöl-Nachschub.",
+      varianten: [
+        { name: "Öl-Slickster",      sonderNahrung: "CO₂",       sonderProduktion: "Rohöl" },
+        { name: "Petroleum-Slickster",sonderNahrung: "Sauerstoff", sonderProduktion: "Petroleum" }
+      ]
+    },
+
+    // ════════════════════════════════════════════════════════
+    // SPACED OUT!
+    // ════════════════════════════════════════════════════════
+    {
+      id: "muh",
+      name: "Muh",
       englisch: "Gassy Moo",
       pack: "spacedOut",
       icon: "🐄",
@@ -507,7 +537,29 @@ const ONI = {
       ],
       eiinkubation: 8,
       beschreibung: "Produziert passiv Erdgas auf speziellen Planetoiden.",
-      tipp: "Gasende-Muh-Planetoid früh erkunden – passive Energie ohne Aufwand.",
+      tipp: "Muh-Planetoid früh erkunden – passive Energie ohne Aufwand.",
+      varianten: []
+    },
+    {
+      id: "beeta",
+      name: "Beeta",
+      englisch: "Beeta",
+      pack: "spacedOut",
+      icon: "🐝",
+      img: "https://oxygennotincluded.wiki.gg/images/Beeta.png",
+      farbe: "#c8a020",
+      lebensraum: "Radioaktive Biome / Uranerz-Vorkommen",
+      maxProStall: 8,
+      nahrung: [
+        { name: "Uranerz", menge: 140, einheit: "kg/Zyklus" }
+      ],
+      produktion: [
+        { name: "Angereichertes Uran", menge: 70,  einheit: "kg/Zyklus", icon: "☢️" },
+        { name: "Atommüll",            menge: 70,  einheit: "kg/Zyklus", icon: "☣️" }
+      ],
+      eiinkubation: 5,
+      beschreibung: "Spaced Out! – wandelt Uranerz in angereichertes Uran um (für Nuklearreaktor).",
+      tipp: "Beeta-Ranch unverzichtbar für Uran-Anreicherung im Atomreaktor-Betrieb.",
       varianten: []
     },
     {
@@ -582,50 +634,193 @@ const ONI = {
       ]
     },
 
-    // ── FROSTY PLANET PACK ──
+    // ════════════════════════════════════════════════════════
+    // FROSTY PLANET PACK
+    // ════════════════════════════════════════════════════════
     {
       id: "bammut",
       name: "Bammut",
-      englisch: "Bammot",
+      englisch: "Bammoth",
       pack: "frostyPlanet",
       icon: "🦣",
-      img: "https://oxygennotincluded.wiki.gg/images/Bammot.png",
+      img: "https://oxygennotincluded.wiki.gg/images/Bammoth.png",
       farbe: "#8a9aaa",
       lebensraum: "Kalte Umgebungen (Frost-Planetoid)",
       maxProStall: 4,
       nahrung: [
-        { name: "Schnee / Eisige Pflanzen", menge: 140, einheit: "kg/Zyklus" }
+        { name: "Federnkürbis / Nosh-Bohnen", menge: 140, einheit: "kg/Zyklus" }
       ],
       produktion: [
-        { name: "Fell (Wärmeisolierung)", menge: 50, einheit: "kg/Zyklus", icon: "🧶" },
-        { name: "Dung (Schmutzerde)",     menge: 70, einheit: "kg/Zyklus", icon: "🟫" }
+        { name: "Bammoth-Bratling (Nahrung)", menge: 1,  einheit: "alle 5 Zyklen", icon: "🥩" },
+        { name: "Schilffaser",                menge: 30, einheit: "kg/Zyklus",     icon: "🧵" },
+        { name: "Fleisch",                    menge: 50, einheit: "kg/Zyklus",     icon: "🍖" }
       ],
       eiinkubation: 6,
-      beschreibung: "Frosty Planet Pack – lebt in Kälte, produziert Fell für Isolierung.",
-      tipp: "Fell → wärmedämmender Baustoff. Wichtig auf kalten Planetoiden.",
+      beschreibung: "Frosty Planet Pack – produziert Nahrung, Schilffaser und Fleisch.",
+      tipp: "Bammut-Ranch liefert Schilffaser für Anzüge UND Nahrung – sehr effizient!",
       varianten: [
-        { name: "Königliches Bammut", sonderNahrung: "Eisige Pflanzen", sonderProduktion: "Mehr Fell + seltene Materialien" }
+        { name: "Königliches Bammut", sonderNahrung: "Besondere Pflanzen", sonderProduktion: "Mehr Schilffaser + seltene Materialien" }
       ]
     },
     {
-      id: "splitterflox",
-      name: "Splitterflox",
-      englisch: "Grim Reaper (Glass Deer)",
+      id: "flox",
+      name: "Flox",
+      englisch: "Flox",
       pack: "frostyPlanet",
-      icon: "🦌",
-      img: "https://oxygennotincluded.wiki.gg/images/Glass_Deer.png",
-      farbe: "#aaccee",
-      lebensraum: "Kalte Glasgrasfelder",
-      maxProStall: 4,
+      icon: "🦊",
+      img: "https://oxygennotincluded.wiki.gg/images/Flox.png",
+      farbe: "#cc7a3a",
+      lebensraum: "Kalte Wälder / Frostige Biome",
+      maxProStall: 8,
       nahrung: [
-        { name: "Glasgras / Eispflanzen", menge: 100, einheit: "kg/Zyklus" }
+        { name: "Dornenblüten-Blätter / Eispflanzen", menge: 100, einheit: "kg/Zyklus" }
       ],
       produktion: [
-        { name: "Glas", menge: 80, einheit: "kg/Zyklus", icon: "🔷" }
+        { name: "Erde",  menge: 50, einheit: "kg/Zyklus", icon: "🟫" },
+        { name: "Holz",  menge: 30, einheit: "kg/Zyklus", icon: "🪵" },
+        { name: "Glas",  menge: 20, einheit: "kg/Zyklus", icon: "🔷" }
       ],
-      eiinkubation: 7,
-      beschreibung: "Frosty Planet Pack – produziert Glas aus Eispflanzen.",
-      tipp: "Passive Glasproduktion auf dem Frostplaneten.",
+      eiinkubation: 5,
+      beschreibung: "Frosty Planet Pack – produziert Erde, Holz und Glas.",
+      tipp: "Passive Glas- und Holzproduktion ohne Verarbeitung.",
+      varianten: []
+    },
+    {
+      id: "zapfrobbe",
+      name: "Zapfrobbe",
+      englisch: "Spigot Seal",
+      pack: "frostyPlanet",
+      icon: "🦭",
+      img: "https://oxygennotincluded.wiki.gg/images/Spigot_Seal.png",
+      farbe: "#5a8aaa",
+      lebensraum: "Kalte Gewässer / Eis",
+      maxProStall: 4,
+      nahrung: [
+        { name: "Nektar / Saccharose", menge: 70000, einheit: "g/Zyklus" }
+      ],
+      produktion: [
+        { name: "Ethanol",             menge: 30000, einheit: "g/Zyklus", icon: "🍶" },
+        { name: "Talg",                menge: 10000, einheit: "g/Zyklus", icon: "🧈" }
+      ],
+      eiinkubation: 6,
+      beschreibung: "Frosty Planet Pack – wandelt Nektar in Ethanol und Talg um.",
+      tipp: "Ethanol → Treibstoff für Raketen. Talg → Kochen (hohe Kalorien).",
+      varianten: []
+    },
+
+    // ════════════════════════════════════════════════════════
+    // PREHISTORIC PLANET PACK
+    // ════════════════════════════════════════════════════════
+    {
+      id: "dartel",
+      name: "Dartel",
+      englisch: "Dartle",
+      pack: "prehistoricPlanet",
+      icon: "🦎",
+      img: "https://oxygennotincluded.wiki.gg/images/Dartle.png",
+      farbe: "#6a9a5a",
+      lebensraum: "Feuchte Biome / Tautropfen-Quellen",
+      maxProStall: 8,
+      nahrung: [
+        { name: "Tautropfen", menge: 50000, einheit: "g/Zyklus" }
+      ],
+      produktion: [
+        { name: "Bleichstein", menge: 10000, einheit: "g/Zyklus", icon: "🟡" },
+        { name: "Chlor",       menge: 5000,  einheit: "g/Zyklus", icon: "🟢" }
+      ],
+      eiinkubation: 4,
+      beschreibung: "Prehistoric Planet Pack – produziert Bleichstein und Chlor.",
+      tipp: "Bleichstein → Desinfektionsmittel und Oxylith-Herstellung.",
+      varianten: []
+    },
+    {
+      id: "jawbo",
+      name: "Jawbo",
+      englisch: "Jawbo",
+      pack: "prehistoricPlanet",
+      icon: "🐊",
+      img: "https://oxygennotincluded.wiki.gg/images/Jawbo.png",
+      farbe: "#4a7a5a",
+      lebensraum: "Gewässer / Pacu-reiche Zonen",
+      maxProStall: 4,
+      nahrung: [
+        { name: "Pacu / Pacu-Filet", menge: 50000, einheit: "g/Zyklus" }
+      ],
+      produktion: [
+        { name: "Rost", menge: 60000, einheit: "g/Zyklus", icon: "🟤" }
+      ],
+      eiinkubation: 6,
+      beschreibung: "Prehistoric Planet Pack – frisst Fisch, produziert Rost.",
+      tipp: "Rost → Sauerstoffdiffusor (O₂-Produktion ohne Strom).",
+      varianten: []
+    },
+    {
+      id: "lumba",
+      name: "Lumba",
+      englisch: "Lumb",
+      pack: "prehistoricPlanet",
+      icon: "🦕",
+      img: "https://oxygennotincluded.wiki.gg/images/Lumb.png",
+      farbe: "#7a9a5a",
+      lebensraum: "Sumpfbiome / große offene Räume (2×2 Kacheln)",
+      maxProStall: 4,
+      nahrung: [
+        { name: "Ovagro-Feige / Dornenbeere / Sumpf-Gelee", menge: 200, einheit: "kg/Zyklus" }
+      ],
+      produktion: [
+        { name: "Torf",   menge: 100, einheit: "kg/Zyklus", icon: "🟫" },
+        { name: "Algen",  menge: 50,  einheit: "kg/Zyklus", icon: "🟢" },
+        { name: "Fleisch", menge: 50, einheit: "kg/Zyklus", icon: "🍖" }
+      ],
+      eiinkubation: 8,
+      beschreibung: "Prehistoric Planet Pack – großes 2×2-Tier, produziert Torf und Algen.",
+      tipp: "Lumba-Ranch liefert Algen für Pacu-Fütterung – guter Kreislauf!",
+      varianten: [
+        { name: "Blum (Lumba-Variante)", sonderNahrung: "Pflanzen", sonderProduktion: "Mehr Algen" }
+      ]
+    },
+    {
+      id: "mimika",
+      name: "Mimika",
+      englisch: "Mimika",
+      pack: "prehistoricPlanet",
+      icon: "🌸",
+      img: "https://oxygennotincluded.wiki.gg/images/Mimika.png",
+      farbe: "#c890c0",
+      lebensraum: "Blütenreiche Biome",
+      maxProStall: 8,
+      nahrung: [
+        { name: "Bestäubt Pflanzen (braucht keine direkte Nahrung)", menge: 0, einheit: "–" }
+      ],
+      produktion: [
+        { name: "Mimika-Knospe (Sonderpflanzen-Samen)", menge: 1, einheit: "alle 10 Zyklen", icon: "🌺" }
+      ],
+      eiinkubation: 5,
+      beschreibung: "Prehistoric Planet Pack – bestäubt Pflanzen und produziert seltene Knospen.",
+      tipp: "Mimika erhöht den Ernte-Ertrag umliegender Pflanzen durch Bestäubung.",
+      varianten: []
+    },
+    {
+      id: "rhex",
+      name: "Rhex",
+      englisch: "Rhex",
+      pack: "prehistoricPlanet",
+      icon: "🦖",
+      img: "https://oxygennotincluded.wiki.gg/images/Rhex.png",
+      farbe: "#8a4a3a",
+      lebensraum: "Weite Areale (frisst andere Kreaturen)",
+      maxProStall: 2,
+      nahrung: [
+        { name: "Dartel / Pips / Hatch (andere Kreaturen)", menge: 1, einheit: "Kreatur/Zyklus" }
+      ],
+      produktion: [
+        { name: "Brauseis",   menge: 50, einheit: "kg/Zyklus", icon: "🧊" },
+        { name: "Federfaser", menge: 20, einheit: "kg/Zyklus", icon: "🪶" },
+        { name: "Zähes Fleisch", menge: 30, einheit: "kg/Zyklus", icon: "🥩" }
+      ],
+      eiinkubation: 10,
+      beschreibung: "Prehistoric Planet Pack – Raubtier, das andere Kreaturen frisst.",
+      tipp: "Rhex-Ranch braucht eine Kreatur-Zucht (z.B. Dartel) als Futterquelle.",
       varianten: []
     }
   ],

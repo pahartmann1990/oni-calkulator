@@ -13,15 +13,18 @@ const state = {
       { nr: 1, name: "Stromkreis 1", eintraege: [] }
     ],
     _naechsteNr: 2
-  }
+  },
+  aktiverTab: "uebersicht"
 };
 
 // ── INIT ──────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
+  profilAnwenden();          // gespeichertes Profil VOR dem ersten Rendern laden
   initDLC();
   initDupeControl();
   initTabs();
   renderAlles();
+  wechsleTab(state.aktiverTab, false);
 });
 
 // ── DLC INIT ──────────────────────────────────────────────
@@ -51,6 +54,10 @@ function initDupeControl() {
   const btnPlus  = document.getElementById("dupe-plus");
   const btnMinus = document.getElementById("dupe-minus");
 
+  // Anzeige mit geladenem Profil synchronisieren
+  display.textContent = state.dupes;
+  slider.value = state.dupes;
+
   function setDupes(n) {
     n = Math.max(1, Math.min(200, n));
     state.dupes = n;
@@ -67,14 +74,18 @@ function initDupeControl() {
 // ── TABS ──────────────────────────────────────────────────
 function initTabs() {
   document.querySelectorAll(".tab-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const ziel = btn.dataset.tab;
-      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("aktiv"));
-      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("aktiv"));
-      btn.classList.add("aktiv");
-      document.getElementById("tab-" + ziel).classList.add("aktiv");
-    });
+    btn.addEventListener("click", () => wechsleTab(btn.dataset.tab));
   });
+}
+
+// Programmatischer Tab-Wechsel (auch von der Bilanz-Leiste genutzt)
+function wechsleTab(ziel, speichern = true) {
+  const panel = document.getElementById("tab-" + ziel);
+  if (!panel) { ziel = "uebersicht"; }                    // Rückfall, falls Tab nicht (mehr) existiert
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("aktiv", b.dataset.tab === ziel));
+  document.querySelectorAll(".tab-panel").forEach(p => p.classList.toggle("aktiv", p.id === "tab-" + ziel));
+  state.aktiverTab = ziel;
+  if (speichern) profilSpeichern();
 }
 
 // ── ALLES RENDERN ─────────────────────────────────────────
@@ -86,6 +97,7 @@ function renderAlles() {
   renderMaterialien();
   renderStrom();
   renderRezepte();
+  stateGeaendert();   // speichert Profil + aktualisiert Bilanz-Leiste
 }
 
 // ══════════════════════════════════════════════════════════
@@ -242,6 +254,7 @@ function setPflanzeAnzahl(id, wert) {
   const n = Math.max(0, parseInt(wert) || 0);
   state.ausgewaehltePflanzen[id] = n;
   renderNahrungsTabelle();
+  stateGeaendert();
 }
 
 function renderNahrungsTabelle() {
@@ -333,6 +346,7 @@ function setTierHaben(id, val) {
   if (!state.ausgewaehlteTiere[id]) state.ausgewaehlteTiere[id] = { haben: 0, wollen: 0 };
   state.ausgewaehlteTiere[id].haben = n;
   renderTierBerechnung(id);
+  stateGeaendert();
 }
 
 function setTierWollen(id, val) {
@@ -340,6 +354,7 @@ function setTierWollen(id, val) {
   if (!state.ausgewaehlteTiere[id]) state.ausgewaehlteTiere[id] = { haben: 0, wollen: 0 };
   state.ausgewaehlteTiere[id].wollen = n;
   renderTierBerechnung(id);
+  stateGeaendert();
 }
 
 function renderTierBerechnung(id) {
@@ -956,6 +971,86 @@ function formatMenge(menge, einheit) {
     return (menge / 1000).toFixed(1) + " kg";
   }
   return menge.toLocaleString("de-DE") + " " + einheit;
+}
+
+// ══════════════════════════════════════════════════════════
+// BILANZ-LEISTE (immer sichtbar im Header, KONZEPT §3.3)
+// ══════════════════════════════════════════════════════════
+function berechneNahrungsBilanz() {
+  const bedarf = state.dupes * 2000;
+  let prod = 0, hatEingaben = false;
+  ONI.pflanzen
+    .filter(p => p.kcalProErnte > 0 && p.wachstumszyklen > 0 && state.aktivePacks.has(p.pack))
+    .forEach(p => {
+      const anzahl = state.ausgewaehltePflanzen[p.id] || 0;
+      if (anzahl > 0) {
+        hatEingaben = true;
+        prod += anzahl * (p.kcalProErnte / p.wachstumszyklen);
+      }
+    });
+  return { bedarf, prod, hatEingaben };
+}
+
+function berechneStromBilanz() {
+  let prod = 0, vb = 0, eintraege = 0;
+  const mangelKreise = [];
+  state.strom.kreise.forEach(kreis => {
+    let kProd = 0, kVb = 0;
+    kreis.eintraege.forEach(e => {
+      const item = _findStromItem(e.itemId);
+      if (!item) return;
+      eintraege++;
+      const watt = (item.watt || 0) * e.anzahl;
+      if (item.typ === "gen") kProd += watt; else kVb += watt;
+    });
+    if (kProd - kVb < 0) mangelKreise.push(kreis.name);
+    prod += kProd; vb += kVb;
+  });
+  return { saldo: prod - vb, eintraege, mangelKreise };
+}
+
+function renderBilanz() {
+  const leiste = document.getElementById("bilanz-leiste");
+  if (!leiste) return;
+
+  // 🍗 Nahrung
+  const n = berechneNahrungsBilanz();
+  let nahrungKl = "neutral", nahrungTxt = "–", nahrungTitel = "Noch keine Pflanzen eingetragen (Tab Nahrung)";
+  if (n.hatEingaben) {
+    const pct = Math.round((n.prod / n.bedarf) * 100);
+    nahrungKl  = pct >= 100 ? "ok" : pct >= 70 ? "warn" : "err";
+    nahrungTxt = pct + " %";
+    nahrungTitel = `${Math.round(n.prod).toLocaleString("de-DE")} von ${n.bedarf.toLocaleString("de-DE")} kcal/Zyklus gedeckt`;
+  }
+
+  // 💨 Sauerstoff – eigener Rechner folgt (AP4); bis dahin Bedarfs-Info
+  const o2Kg = (state.dupes * 60000 / 1000).toFixed(0);
+
+  // ⚡ Strom
+  const s = berechneStromBilanz();
+  let stromKl = "neutral", stromTxt = "–", stromTitel = "Noch keine Geräte eingetragen (Tab Strom)";
+  if (s.eintraege > 0) {
+    stromKl  = s.mangelKreise.length > 0 ? "err" : "ok";
+    stromTxt = (s.saldo >= 0 ? "+" : "") + s.saldo.toLocaleString("de-DE") + " W";
+    stromTitel = s.mangelKreise.length > 0
+      ? "Mangel in: " + s.mangelKreise.join(", ")
+      : "Alle Stromkreise gedeckt";
+  }
+
+  leiste.innerHTML = `
+    <span class="bilanz-label">BILANZ</span>
+    <button class="bilanz-chip ${nahrungKl}" onclick="wechsleTab('nahrung')" title="${nahrungTitel}">
+      🍗 Nahrung <strong>${nahrungTxt}</strong>
+    </button>
+    <button class="bilanz-chip neutral" onclick="wechsleTab('uebersicht')" title="Sauerstoff-Rechner folgt – Bedarf deiner ${state.dupes} Dupes">
+      💨 O₂ <strong>${o2Kg} kg/Zyk</strong>
+    </button>
+    <button class="bilanz-chip ${stromKl}" onclick="wechsleTab('strom')" title="${stromTitel}">
+      ⚡ Strom <strong>${stromTxt}</strong>
+    </button>
+    <button class="bilanz-chip neutral" onclick="wechsleTab('materialien')" title="Wärme-Rechner folgt">
+      🌡️ Wärme <strong>folgt</strong>
+    </button>`;
 }
 
 // Wiki-Bild mit Emoji-Fallback

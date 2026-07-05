@@ -147,6 +147,46 @@ header {
   filter: drop-shadow(0 1px 4px rgba(0,0,0,0.7));
 }
 
+/* ── BILANZ-LEISTE (im sticky Header, immer sichtbar) ───── */
+.bilanz-leiste {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px 0 10px;
+  border-top: 1px solid var(--border);
+}
+.bilanz-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  margin-right: 4px;
+}
+.bilanz-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-dim);
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.bilanz-chip:hover { border-color: var(--border-light); color: var(--text-main); }
+.bilanz-chip strong { font-weight: 800; }
+.bilanz-chip.ok      { border-color: rgba(76,175,120,0.5);  color: var(--green); background: rgba(76,175,120,0.08); }
+.bilanz-chip.warn    { border-color: var(--accent-dim);     color: var(--accent); background: var(--accent-glow); }
+.bilanz-chip.err     { border-color: rgba(232,80,80,0.6);   color: var(--red);   background: rgba(232,80,80,0.08); }
+.bilanz-chip.neutral { color: var(--text-dim); }
+
 /* ── DUPE SLIDER ────────────────────────────────────────── */
 .dupe-control {
   display: flex;

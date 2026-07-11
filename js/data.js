@@ -141,7 +141,7 @@ const ONI = {
       rezepte: [
         { name: "Frostbrötchen", kcal: 1200, geraet: "Elektrogrill", zutaten: ["3 Graupelweizenkörner"] },
         { name: "Pfefferbrot", kcal: 4000, geraet: "Gasherd", zutaten: ["10 Körner", "1 kg Pinchapfeffer-Nuss"] },
-        { name: "Soufflé-Pfannkuchen", kcal: 3600, geraet: "Elektrogrill", zutaten: ["1 kg Rohes Ei", "2 Graupelweizenkörner"] }
+        { name: "Soufflé Pfannkuchen", kcal: 3600, geraet: "Elektrogrill", zutaten: ["1 kg Rohes Ei", "2 Graupelweizenkörner"] }
       ]
     },
     {
@@ -157,7 +157,7 @@ const ONI = {
       kcalProErnte: 0,
       ernteMenge: "Pinchapfeffer-Nuss (0 kcal, nur Zutat)",
       inputs: [
-        { name: "Schmutzwasser", menge: 35, einheit: "kg/Zyklus" },
+        { name: "Verschmutztes Wasser", menge: 35, einheit: "kg/Zyklus" },
         { name: "Phosphorit", menge: 1, einheit: "kg/Zyklus" }
       ],
       atmosphaere: "Beliebig",
@@ -257,7 +257,7 @@ const ONI = {
     },
     {
       id: "balsamlilie",
-      name: "Balsamlilien",
+      name: "Balsamlilie",
       englisch: "Balm Lily",
       typ: "ressource",
       pack: "vanilla",
@@ -301,7 +301,7 @@ const ONI = {
     },
     {
       id: "oxyfarn",
-      name: "Oxyfarn",
+      name: "Oxifarn",
       englisch: "Oxyfern",
       typ: "ressource",
       pack: "vanilla",
@@ -320,7 +320,7 @@ const ONI = {
       licht: false,
       dunkelheit: false,
       beschreibung: "Wandelt CO₂ in Sauerstoff um. Kein Elektrolyseur nötig für kleine Kolonien.",
-      tipp: "Pro Oxyfarn: ~1,88 kg O₂/Zyklus. Für 8 Dupes (480g O₂/min nötig) etwa 14 Oxyfarne.",
+      tipp: "Pro Oxifarn: ~1,88 kg O₂/Zyklus. Für 8 Dupes (480g O₂/min nötig) etwa 14 Oxifarne.",
       rezepte: []
     },
     {
@@ -336,7 +336,7 @@ const ONI = {
       kcalProErnte: 0,
       ernteMenge: "Bis zu 1.500 kg Holz (5 Äste × 300 kg)",
       inputs: [
-        { name: "Schmutzwasser", menge: 70, einheit: "kg/Zyklus" },
+        { name: "Verschmutztes Wasser", menge: 70, einheit: "kg/Zyklus" },
         { name: "Schmutzerde", menge: 10, einheit: "kg/Zyklus" }
       ],
       atmosphaere: "Beliebig",
@@ -410,7 +410,7 @@ const ONI = {
       kcalProErnte: 1840,
       ernteMenge: "1 kg Moorgelee (1.840 kcal)",
       inputs: [
-        { name: "Schmutzwasser", menge: 40, einheit: "kg/Zyklus" }
+        { name: "Verschmutztes Wasser", menge: 40, einheit: "kg/Zyklus" }
       ],
       atmosphaere: "Sauerstoff, Schmutziger Sauerstoff oder CO₂",
       temperatur: { min: 10, max: 30 },
@@ -494,7 +494,7 @@ const ONI = {
       beschreibung: "Frostpflanze! Braucht Kältebereich (-55°C bis -14°C). ~267 kcal/Zyklus.",
       tipp: "Schnell wie Mehlholz (3 Zyklen), aber extreme Kälte nötig. Wild: 12 Zyklen.",
       rezepte: [
-        { name: "Stechapfelspieß", kcal: 1200, geraet: "Elektrogrill", zutaten: ["1 Stechapfel"] },
+        { name: "Stechapfel Spieß", kcal: 1200, geraet: "Elektrogrill", zutaten: ["1 Stechapfel"] },
         { name: "Beerenmatsch", kcal: 4000, geraet: "Mikrobenmatscher", zutaten: ["5 Körner", "1.600 kcal Stechapfel/Dornenbeere"] }
       ]
     },
@@ -520,7 +520,7 @@ const ONI = {
       beschreibung: "Hoher Kalorienertrag im Kältebereich. ~444 kcal/Zyklus. Braucht Ethanol.",
       tipp: "Bestes Frosty Planet Nahrungsmittel. Ethanol aus Holz/Destillierung. Wild: 36 Zyklen.",
       rezepte: [
-        { name: "Rübenpommes", kcal: 5400, geraet: "Friteuse", zutaten: ["1 kg Federrübe", "1 kg Fett"] }
+        { name: "Rübenpommes", kcal: 5400, geraet: "Fritteuse", zutaten: ["1 kg Federrübe", "1 kg Fett"] }
       ]
     },
     {
@@ -593,12 +593,12 @@ const ONI = {
       beschreibung: "Braucht Bestäubung durch Mimika oder Divergentes Tier. 3-Zyklus-Ernte wie Mehlholz.",
       tipp: "Mimika-Bud in der Nähe halten für Bestäubung. Wild: 12 Zyklen.",
       rezepte: [
-        { name: "Gemüsepuffer (Räucherofen)", kcal: 11450, geraet: "Räucherofen", zutaten: ["5.600 kcal Gemüse (Schweißkorn/Stechapfel etc.)"] }
+        { name: "Gemüsepuffer (Smoker)", kcal: 11450, geraet: "Smoker", zutaten: ["5.600 kcal Gemüse (Schweißkorn/Stechapfel etc.)"] }
       ]
     },
     {
       id: "ovagro",
-      name: "Ovagro",
+      name: "Ovagro-Knoten",
       englisch: "Ovagro Node",
       typ: "nahrung",
       pack: "prehistoricPlanet",
@@ -869,7 +869,7 @@ const ONI = {
     // ═══════════════════════════════════════════════════
     {
       id: "muh",
-      name: "Muh",
+      name: "Gasende Muh",
       englisch: "Gassy Moo",
       pack: "spacedOut",
       icon: "🐄",
@@ -969,7 +969,7 @@ const ONI = {
     // ═══════════════════════════════════════════════════
     {
       id: "bammuth",
-      name: "Bammuth",
+      name: "Bammut",
       englisch: "Bammoth",
       pack: "frostyPlanet",
       icon: "🦣",
@@ -985,7 +985,7 @@ const ONI = {
         { name: "Knochen (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🦴" }
       ],
       varianten: [],
-      tipp: "Großes Kälte-Tier aus dem Frosty Planet Pack. Fleisch für Zartes Bruststück (Räucherofen)."
+      tipp: "Großes Kälte-Tier aus dem Frosty Planet Pack. Fleisch für Zartes Bruststück (Smoker)."
     },
     {
       id: "flox",
@@ -1023,7 +1023,7 @@ const ONI = {
         { name: "Rohe Schalentiere (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🦀" }
       ],
       varianten: [],
-      tipp: "Lebt in Kaltwasser. Rohe Schalentiere für Schalentier-Tempura (Friteuse, FP)."
+      tipp: "Lebt in Kaltwasser. Rohe Schalentiere für Schalentier-Tempura (Fritteuse, FP)."
     },
 
     // ═══════════════════════════════════════════════════
@@ -1065,12 +1065,12 @@ const ONI = {
         { name: "Jawbo-Filet (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🐟" }
       ],
       varianten: [],
-      tipp: "Prähistorischer Fisch. Jawbo-Filet für Geräucherten Fisch (Räucherofen, PP)."
+      tipp: "Prähistorischer Fisch. Jawbo-Filet für Geräucherten Fisch (Smoker, PP)."
     },
     {
       id: "lumba",
-      name: "Lumba",
-      englisch: "Lumba",
+      name: "Lumb",
+      englisch: "Lumb",
       pack: "prehistoricPlanet",
       icon: "🐘",
       img: "",
@@ -1084,7 +1084,7 @@ const ONI = {
         { name: "Zähes Fleisch (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🥩" }
       ],
       varianten: [],
-      tipp: "Großes Prähistorie-Tier. Zähes Fleisch für Zartes Bruststück (Räucherofen, PP)."
+      tipp: "Großes Prähistorie-Tier. Zähes Fleisch für Zartes Bruststück (Smoker, PP)."
     },
     {
       id: "mimika",
@@ -1147,14 +1147,14 @@ const ONI = {
       kategorie: "⛏️ Roherze & Gestein",
       pack: "vanilla",
       eintraege: [
-        { name: "Rohkupfererz",   englisch: "Copper Ore",       icon: "🟠", img: BASE_IMG + "Copper_Ore.png",       wärmeleitfähigkeit: 4.5,   schmelzpunkt: 1084,  strom: false },
+        { name: "Kupfererz",   englisch: "Copper Ore",       icon: "🟠", img: BASE_IMG + "Copper_Ore.png",       wärmeleitfähigkeit: 4.5,   schmelzpunkt: 1084,  strom: false },
         { name: "Eisenerz",       englisch: "Iron Ore",          icon: "🟤", img: BASE_IMG + "Iron_Ore.png",          wärmeleitfähigkeit: 4.0,   schmelzpunkt: 1535,  strom: false },
-        { name: "Golderz",        englisch: "Gold Amalgam",      icon: "🟡", img: BASE_IMG + "Gold_Amalgam.png",      wärmeleitfähigkeit: 4.5,   schmelzpunkt: 1063,  strom: false },
+        { name: "Goldamalgam",        englisch: "Gold Amalgam",      icon: "🟡", img: BASE_IMG + "Gold_Amalgam.png",      wärmeleitfähigkeit: 4.5,   schmelzpunkt: 1063,  strom: false },
         { name: "Rohöl",          englisch: "Crude Oil",         icon: "🛢️", img: BASE_IMG + "Crude_Oil.png",         wärmeleitfähigkeit: 0.15,  schmelzpunkt: -40,   strom: false },
         { name: "Sandstein",      englisch: "Sandstone",         icon: "🪨", img: BASE_IMG + "Sandstone.png",         wärmeleitfähigkeit: 2.9,   schmelzpunkt: 1600,  strom: false },
         { name: "Granit",         englisch: "Granite",           icon: "🪨", img: BASE_IMG + "Granite.png",           wärmeleitfähigkeit: 3.39,  schmelzpunkt: 1870,  strom: false },
         { name: "Basalt",         englisch: "Basalt",            icon: "🪨", img: BASE_IMG + "Basalt.png",            wärmeleitfähigkeit: 2.0,   schmelzpunkt: 1300,  strom: false },
-        { name: "Kalkstein",      englisch: "Limestone",         icon: "🪨", img: BASE_IMG + "Limestone.png",         wärmeleitfähigkeit: 2.18,  schmelzpunkt: 2525,  strom: false },
+        { name: "Kalk",           englisch: "Lime",              icon: "🪨", img: BASE_IMG + "Lime.png",              wärmeleitfähigkeit: 2.0,   schmelzpunkt: 2570,  strom: false },
         { name: "Schleim",        englisch: "Slime",             icon: "🟢", img: BASE_IMG + "Slime.png",             wärmeleitfähigkeit: 0.96,  schmelzpunkt: 0,     strom: false },
         { name: "Regolith",       englisch: "Regolith",          icon: "⚪", img: BASE_IMG + "Regolith.png",          wärmeleitfähigkeit: 0.8,   schmelzpunkt: 9726,  strom: false }
       ]
@@ -1169,21 +1169,20 @@ const ONI = {
         { name: "Stahl",          englisch: "Steel",              icon: "🔩", img: BASE_IMG + "Steel.png",              wärmeleitfähigkeit: 54.0,  schmelzpunkt: 2427,  strom: true  },
         { name: "Thermium",       englisch: "Thermium",           icon: "🌡️", img: BASE_IMG + "Thermium.png",           wärmeleitfähigkeit: 200.0, schmelzpunkt: 2977,  strom: true  },
         { name: "Wolfram",        englisch: "Tungsten",           icon: "⚫", img: BASE_IMG + "Tungsten.png",           wärmeleitfähigkeit: 60.0,  schmelzpunkt: 3422,  strom: true  },
-        { name: "Niobium",        englisch: "Niobium",            icon: "🔵", img: BASE_IMG + "Niobium.png",            wärmeleitfähigkeit: 54.0,  schmelzpunkt: 2477,  strom: true  },
-        { name: "Aluminium",      englisch: "Aluminum",           icon: "⚪", img: BASE_IMG + "Aluminum.png",           wärmeleitfähigkeit: 205.0, schmelzpunkt: 660,   strom: true  },
-        { name: "Temperalith",    englisch: "Temperatura",        icon: "🔥", img: BASE_IMG + "Temperatura.png",        wärmeleitfähigkeit: 0.6,   schmelzpunkt: 9726,  strom: false }
+        { name: "Niob",        englisch: "Niobium",            icon: "🔵", img: BASE_IMG + "Niobium.png",            wärmeleitfähigkeit: 54.0,  schmelzpunkt: 2477,  strom: true  },
+        { name: "Aluminium",      englisch: "Aluminum",           icon: "⚪", img: BASE_IMG + "Aluminum.png",           wärmeleitfähigkeit: 205.0, schmelzpunkt: 660,   strom: true  }
       ]
     },
     {
       kategorie: "🌡️ Isoliermaterialien",
       pack: "vanilla",
       eintraege: [
-        { name: "Ablativgestein",  englisch: "Igneous Rock",      icon: "🟫", img: BASE_IMG + "Igneous_Rock.png",      wärmeleitfähigkeit: 2.0,   schmelzpunkt: 1410,  strom: false },
-        { name: "Maficgestein",    englisch: "Mafic Rock",        icon: "⚫", img: BASE_IMG + "Mafic_Rock.png",        wärmeleitfähigkeit: 1.7,   schmelzpunkt: 1500,  strom: false },
+        { name: "Magmatit",  englisch: "Igneous Rock",      icon: "🟫", img: BASE_IMG + "Igneous_Rock.png",      wärmeleitfähigkeit: 2.0,   schmelzpunkt: 1410,  strom: false },
+        { name: "Mafisches Gestein",    englisch: "Mafic Rock",        icon: "⚫", img: BASE_IMG + "Mafic_Rock.png",        wärmeleitfähigkeit: 1.7,   schmelzpunkt: 1500,  strom: false },
         { name: "Sedimentgestein", englisch: "Sedimentary Rock",  icon: "🟤", img: BASE_IMG + "Sedimentary_Rock.png",  wärmeleitfähigkeit: 2.93,  schmelzpunkt: 1410,  strom: false },
-        { name: "Vakuumstein",     englisch: "Vacuum Rock",       icon: "⚫", img: BASE_IMG + "Vacuum.png",            wärmeleitfähigkeit: 0.0,   schmelzpunkt: 9726,  strom: false },
-        { name: "Plastik",         englisch: "Plastic",           icon: "🔷", img: BASE_IMG + "Plastic.png",           wärmeleitfähigkeit: 0.18,  schmelzpunkt: 159,   strom: false },
-        { name: "Glasfaser",       englisch: "Fiberglass",        icon: "⚪", img: BASE_IMG + "Fiberglass.png",        wärmeleitfähigkeit: 0.14,  schmelzpunkt: 1200,  strom: false }
+        { name: "Abyssalit",       englisch: "Abyssalite",        icon: "🟣", img: BASE_IMG + "Abyssalite.png",        wärmeleitfähigkeit: 0.00001, schmelzpunkt: 3422, strom: false },
+        { name: "Keramik",         englisch: "Ceramic",           icon: "🟠", img: BASE_IMG + "Ceramic.png",           wärmeleitfähigkeit: 0.62,  schmelzpunkt: 1705,  strom: false },
+        { name: "Plastik",         englisch: "Plastic",           icon: "🔷", img: BASE_IMG + "Plastic.png",           wärmeleitfähigkeit: 0.18,  schmelzpunkt: 159,   strom: false }
       ]
     },
     {
@@ -1191,12 +1190,12 @@ const ONI = {
       pack: "vanilla",
       eintraege: [
         { name: "Wasser",         englisch: "Water",              icon: "💧", img: BASE_IMG + "Water.png",              wärmeleitfähigkeit: 0.61,  schmelzpunkt: 0,     strom: false },
-        { name: "Schmutzwasser",  englisch: "Polluted Water",     icon: "🟤", img: BASE_IMG + "Polluted_Water.png",     wärmeleitfähigkeit: 0.58,  schmelzpunkt: -20,   strom: false },
+        { name: "Verschmutztes Wasser",  englisch: "Polluted Water",     icon: "🟤", img: BASE_IMG + "Polluted_Water.png",     wärmeleitfähigkeit: 0.58,  schmelzpunkt: -20,   strom: false },
         { name: "Petroleum",      englisch: "Petroleum",          icon: "⚫", img: BASE_IMG + "Petroleum.png",          wärmeleitfähigkeit: 0.2,   schmelzpunkt: -57,   strom: false },
-        { name: "Kühlmittel",     englisch: "Supercoolant",       icon: "🔵", img: BASE_IMG + "Super_Coolant.png",      wärmeleitfähigkeit: 9.46,  schmelzpunkt: -271,  strom: false },
+        { name: "Superkühlmittel", englisch: "Super Coolant",     icon: "🔵", img: BASE_IMG + "Super_Coolant.png",      wärmeleitfähigkeit: 9.46,  schmelzpunkt: -271,  strom: false },
         { name: "Ethanol",        englisch: "Ethanol",            icon: "🍷", img: BASE_IMG + "Ethanol.png",            wärmeleitfähigkeit: 0.17,  schmelzpunkt: -114,  strom: false },
         { name: "Salzwasser",     englisch: "Salt Water",         icon: "🌊", img: BASE_IMG + "Salt_Water.png",         wärmeleitfähigkeit: 0.62,  schmelzpunkt: -7,    strom: false },
-        { name: "Flüssig-CO₂",   englisch: "Liquid CO2",         icon: "🫧", img: BASE_IMG + "Liquid_CO2.png",         wärmeleitfähigkeit: 0.1,   schmelzpunkt: -56,   strom: false }
+        { name: "Flüssiges Kohlendioxid",   englisch: "Liquid Carbon Dioxide",         icon: "🫧", img: BASE_IMG + "Liquid_CO2.png",         wärmeleitfähigkeit: 0.1,   schmelzpunkt: -56,   strom: false }
       ]
     },
     {
@@ -1204,10 +1203,10 @@ const ONI = {
       pack: "vanilla",
       eintraege: [
         { name: "Sauerstoff",          englisch: "Oxygen",          icon: "💨", img: BASE_IMG + "Oxygen.png",          wärmeleitfähigkeit: 0.026, schmelzpunkt: -218,  strom: false },
-        { name: "Schmutziger Sauerstoff", englisch: "Polluted O2", icon: "🟡", img: BASE_IMG + "Polluted_Oxygen.png", wärmeleitfähigkeit: 0.024, schmelzpunkt: -219,  strom: false },
-        { name: "CO₂",                 englisch: "Carbon Dioxide",  icon: "☁️", img: BASE_IMG + "Carbon_Dioxide.png",  wärmeleitfähigkeit: 0.015, schmelzpunkt: -56,   strom: false },
-        { name: "Wasserstoff",         englisch: "Hydrogen",        icon: "🔵", img: BASE_IMG + "Hydrogen.png",        wärmeleitfähigkeit: 0.168, schmelzpunkt: -259,  strom: false },
-        { name: "Chlor",               englisch: "Chlorine",        icon: "🟡", img: BASE_IMG + "Chlorine.png",        wärmeleitfähigkeit: 0.009, schmelzpunkt: -101,  strom: false },
+        { name: "Verschmutzter Sauerstoff", englisch: "Polluted Oxygen", icon: "🟡", img: BASE_IMG + "Polluted_Oxygen.png", wärmeleitfähigkeit: 0.024, schmelzpunkt: -219,  strom: false },
+        { name: "Kohlendioxid",        englisch: "Carbon Dioxide",  icon: "☁️", img: BASE_IMG + "Carbon_Dioxide.png",  wärmeleitfähigkeit: 0.015, schmelzpunkt: -56,   strom: false },
+        { name: "Wasserstoff",         englisch: "Hydrogen Gas",        icon: "🔵", img: BASE_IMG + "Hydrogen.png",        wärmeleitfähigkeit: 0.168, schmelzpunkt: -259,  strom: false },
+        { name: "Chlorgas",            englisch: "Chlorine Gas",    icon: "🟡", img: BASE_IMG + "Chlorine.png",        wärmeleitfähigkeit: 0.009, schmelzpunkt: -101,  strom: false },
         { name: "Erdgas",              englisch: "Natural Gas",     icon: "⛽", img: BASE_IMG + "Natural_Gas.png",     wärmeleitfähigkeit: 0.035, schmelzpunkt: -182,  strom: false }
       ]
     }
@@ -1222,7 +1221,7 @@ const ONI = {
       eintraege: [
         { name: "Eis",            englisch: "Ice",            icon: "🧊", img: BASE_IMG + "Ice.png",            wärmeleitfähigkeit: 2.18,  schmelzpunkt: 0,    strom: false },
         { name: "Schnee",         englisch: "Snow",           icon: "❄️", img: BASE_IMG + "Snow.png",           wärmeleitfähigkeit: 0.60,  schmelzpunkt: 0,    strom: false },
-        { name: "Soleeis",        englisch: "Brine Ice",      icon: "🧊", img: BASE_IMG + "Brine_Ice.png",      wärmeleitfähigkeit: 2.21,  schmelzpunkt: -7,   strom: false },
+        { name: "Sole-Eis",        englisch: "Brine Ice",      icon: "🧊", img: BASE_IMG + "Brine_Ice.png",      wärmeleitfähigkeit: 2.21,  schmelzpunkt: -7,   strom: false },
         { name: "Sole",           englisch: "Brine",          icon: "🌊", img: BASE_IMG + "Brine.png",          wärmeleitfähigkeit: 0.42,  schmelzpunkt: -24,  strom: false },
         { name: "Torf",           englisch: "Peat",           icon: "🟫", img: BASE_IMG + "Peat.png",           wärmeleitfähigkeit: 0.15,  schmelzpunkt: 2527, strom: false },
         { name: "Nektar",         englisch: "Nectar",         icon: "🍯", img: BASE_IMG + "Nectar.png",         wärmeleitfähigkeit: 0.15,  schmelzpunkt: -30,  strom: false }
@@ -1234,7 +1233,7 @@ const ONI = {
       eintraege: [
         { name: "Bernstein",      englisch: "Amber",          icon: "🟠", img: BASE_IMG + "Amber.png",          wärmeleitfähigkeit: 0.69,  schmelzpunkt: 95,   strom: false },
         { name: "Harz",           englisch: "Resin",          icon: "🟤", img: BASE_IMG + "Resin.png",          wärmeleitfähigkeit: 0.20,  schmelzpunkt: 190,  strom: false },
-        { name: "Fossil",         englisch: "Fossil",         icon: "🦴", img: BASE_IMG + "Fossil.png",         wärmeleitfähigkeit: 2.9,   schmelzpunkt: 1600, strom: false },
+        { name: "Fossilien",         englisch: "Fossil",         icon: "🦴", img: BASE_IMG + "Fossil.png",         wärmeleitfähigkeit: 2.9,   schmelzpunkt: 1600, strom: false },
         { name: "Phytoöl",        englisch: "Phyto Oil",      icon: "🫙", img: BASE_IMG + "Phyto_Oil.png",      wärmeleitfähigkeit: 0.15,  schmelzpunkt: -60,  strom: false },
         { name: "Torf",           englisch: "Peat",           icon: "🟫", img: BASE_IMG + "Peat.png",           wärmeleitfähigkeit: 0.15,  schmelzpunkt: 2527, strom: false }
       ]
@@ -1246,8 +1245,8 @@ const ONI = {
         { name: "Uranerz",        englisch: "Uranium Ore",    icon: "☢️", img: BASE_IMG + "Uranium_Ore.png",    wärmeleitfähigkeit: 4.0,   schmelzpunkt: 1132, strom: false },
         { name: "Angereichertes Uran", englisch: "Enriched Uranium", icon: "☢️", img: BASE_IMG + "Enriched_Uranium.png", wärmeleitfähigkeit: 18.5,  schmelzpunkt: 1132, strom: true  },
         { name: "Blei",           englisch: "Lead",           icon: "⚫", img: BASE_IMG + "Lead.png",           wärmeleitfähigkeit: 35.3,  schmelzpunkt: 328,  strom: true  },
-        { name: "Sucrose",        englisch: "Sucrose",        icon: "🍬", img: BASE_IMG + "Sucrose.png",        wärmeleitfähigkeit: 0.19,  schmelzpunkt: 186,  strom: false },
-        { name: "Fullerit",       englisch: "Fullerene",      icon: "🔵", img: BASE_IMG + "Fullerene.png",      wärmeleitfähigkeit: 0.0,   schmelzpunkt: 3527, strom: false }
+        { name: "Saccharose",        englisch: "Sucrose",        icon: "🍬", img: BASE_IMG + "Sucrose.png",        wärmeleitfähigkeit: 0.19,  schmelzpunkt: 186,  strom: false },
+        { name: "Fulleren",       englisch: "Fullerene",      icon: "🔵", img: BASE_IMG + "Fullerene.png",      wärmeleitfähigkeit: 0.0,   schmelzpunkt: 3527, strom: false }
       ]
     }
   ],
@@ -1268,7 +1267,7 @@ const ONI = {
     },
     {
       id: "oxyl_destillierung",
-      name: "OXYL-Generator",
+      name: "Sauerstoff-Diffusor",
       englisch: "Oxygen Diffuser",
       icon: "🌀",
       img: BASE_IMG + "Oxygen_Diffuser.png",
@@ -1280,7 +1279,7 @@ const ONI = {
     },
     {
       id: "oxyfarn",
-      name: "Oxyfarn (Heim)",
+      name: "Oxifarn (Heim)",
       englisch: "Oxyfern (Tamed)",
       icon: "🌿",
       img: BASE_IMG + "Oxyfern.png",
@@ -1288,11 +1287,11 @@ const ONI = {
       wasserVerbrauch: 19,
       stromVerbrauch: 0,
       pack: "vanilla",
-      tipp: "Passiv, stromlos. 1 Oxyfarn ≈ 1,88 kg O₂/Zyklus. Braucht CO₂-Atmosphäre und Wasser."
+      tipp: "Passiv, stromlos. 1 Oxifarn ≈ 1,88 kg O₂/Zyklus. Braucht CO₂-Atmosphäre und Wasser."
     },
     {
       id: "oxyfarn_wild",
-      name: "Oxyfarn (Wild)",
+      name: "Oxifarn (Wild)",
       englisch: "Oxyfern (Wild)",
       icon: "🌱",
       img: BASE_IMG + "Oxyfern.png",
@@ -1365,7 +1364,7 @@ const ONI = {
       haltbarkeit: 8,   zutaten: ["1 kg Rohes Ei (von Tieren)"],
       tipp: "Eier von Pacu (Tropisch), Hatch, Drecko etc. Zutat für Pilzquiche (Q5)."
     },
-    { id: "souffle_pfannkuchen", name: "Soufflé-Pfannkuchen", englisch: "Souffle Pancakes",
+    { id: "souffle_pfannkuchen", name: "Soufflé Pfannkuchen", englisch: "Soufflé Pancakes",
       geraet: "Elektrogrill", pack: "vanilla",        kcalAusgang: 3600, qualitaet: 3,
       haltbarkeit: 8,   zutaten: ["1 kg Rohes Ei", "2 Graupelweizenkörner ODER Wedelkörner"],
       tipp: "Gute Qualität ohne Gasherd! Bestes Frühspiel-Essen mit Eiern."
@@ -1400,7 +1399,7 @@ const ONI = {
       haltbarkeit: 8,   zutaten: ["1 Mimillet (Mimika-Pflanze + Bestäubung)"],
       tipp: "Prehistoric Planet. Mimika-Buds + Mimika-Tier für Bestäubung nötig."
     },
-    { id: "stechapfelspies",  name: "Stechapfelspieß",        englisch: "Pikeapple Skewer",
+    { id: "stechapfelspies",  name: "Stechapfel Spieß",        englisch: "Pikeapple Skewer",
       geraet: "Elektrogrill", pack: "frostyPlanet",   kcalAusgang: 1200, qualitaet: 1,
       haltbarkeit: 8,   zutaten: ["1 Stechapfel (Stechapfelstrauch, FP)"],
       tipp: "Frosty Planet. Einfach herzustellen – Kältebereich (-55°C bis -14°C) nötig."
@@ -1416,7 +1415,7 @@ const ONI = {
       haltbarkeit: 8,   zutaten: ["1 kg Frittierter Pilz (Elektrogrill)", "4 kg Salat (Wasserkraut)"],
       tipp: "Viel Salat benötigt (4 kg). Wasserkraut-Farm + Dämmerkappe kombinieren."
     },
-    { id: "surf_turf",        name: "Surf'n'Turf",            englisch: "Surf n Turf",
+    { id: "surf_turf",        name: "Surf'n'Turf",            englisch: "Surf'n'Turf",
       geraet: "Gasherd",      pack: "vanilla",        kcalAusgang: 6000, qualitaet: 4,
       haltbarkeit: 8,   zutaten: ["1 kg Barbeque (Elektrogrill)", "1 kg Gekochte Meeresfrüchte"],
       tipp: "Braucht Land- UND Wasservieh. Sehr gute Kalorien!"
@@ -1451,42 +1450,42 @@ const ONI = {
       haltbarkeit: 8,   zutaten: ["3 Körner", "4 kg Wühlfrucht", "1 kg Knorpelbeere"],
       tipp: "Spaced Out! Hervorragend. Spindeldürre Wühlfruchtpflanze + Dornenblüte + Körner."
     },
-    // ─ Friteuse (Frosty Planet Pack) ─
+    // ─ Fritteuse (Frosty Planet Pack) ─
     { id: "ruebenpommes",     name: "Rübenpommes",            englisch: "Squash Fries",
-      geraet: "Friteuse",     pack: "frostyPlanet",   kcalAusgang: 5400, qualitaet: 3,
+      geraet: "Fritteuse",     pack: "frostyPlanet",   kcalAusgang: 5400, qualitaet: 3,
       haltbarkeit: 8,   zutaten: ["1 kg Federrübe (Federrübenpflanze)", "1 kg Fett"],
       tipp: "Frosty Planet. Sehr hohe Kalorien (5.400 kcal)! Gute Effizienz."
     },
-    { id: "happs_miam",       name: "Happs-Miam",            englisch: "Nosh Noms",
-      geraet: "Friteuse",     pack: "frostyPlanet",   kcalAusgang: 5000, qualitaet: 3,
+    { id: "happs_miam",       name: "Happs Miam",            englisch: "Nosh Noms",
+      geraet: "Fritteuse",     pack: "frostyPlanet",   kcalAusgang: 5000, qualitaet: 3,
       haltbarkeit: 8,   zutaten: ["6 Happsbohnen (Happspross)", "1 kg Fett"],
-      tipp: "Happspross ist Basisspiel-Pflanze, Friteuse braucht Frosty Planet Pack."
+      tipp: "Happspross ist Basisspiel-Pflanze, Fritteuse braucht Frosty Planet Pack."
     },
     { id: "fisch_taco",       name: "Fisch Taco",             englisch: "Fish Taco",
-      geraet: "Friteuse",     pack: "frostyPlanet",   kcalAusgang: 4200, qualitaet: 4,
+      geraet: "Fritteuse",     pack: "frostyPlanet",   kcalAusgang: 4200, qualitaet: 4,
       haltbarkeit: 8,   zutaten: ["1 kg Pacu-Filet", "2 Körner", "2,4 kg Fett"],
       tipp: "Toll! Pacu-Ranch + Getreide + Fett kombinieren."
     },
     { id: "schalentier_tempura", name: "Schalentier-Tempura", englisch: "Shellfish Tempura",
-      geraet: "Friteuse",     pack: "frostyPlanet",   kcalAusgang: 4200, qualitaet: 4,
+      geraet: "Fritteuse",     pack: "frostyPlanet",   kcalAusgang: 4200, qualitaet: 4,
       haltbarkeit: 8,   zutaten: ["1 kg Rohe Schalentiere (Zapfrobbe/Pokepanzer)", "2 Körner", "2,4 kg Fett"],
       tipp: "Wie Fisch Taco aber mit Schalentieren. Zapfrobbe aus Frosty Planet Pack nutzen."
     },
-    // ─ Räucherofen (Prehistoric Planet Pack) ─
+    // ─ Smoker (Prehistoric Planet Pack) ─
     { id: "zartes_bruststueck", name: "Zartes Bruststück",    englisch: "Tender Brisket",
-      geraet: "Räucherofen",  pack: "prehistoricPlanet", kcalAusgang: 16000, qualitaet: 5,
+      geraet: "Smoker",  pack: "prehistoricPlanet", kcalAusgang: 16000, qualitaet: 5,
       haltbarkeit: 8,   zutaten: ["6 kg Zähes Fleisch (Lumba/Rhex)", "100 kg Torf/Holz (Brennstoff)"],
       tipp: "Prehistoric Planet. Massiver Kalorienertrag (16.000 kcal)! Lumba-Ranch empfohlen."
     },
     { id: "geraeucherter_fisch", name: "Geräucherter Fisch",  englisch: "Smoked Fish",
-      geraet: "Räucherofen",  pack: "prehistoricPlanet", kcalAusgang: 11200, qualitaet: 4,
+      geraet: "Smoker",  pack: "prehistoricPlanet", kcalAusgang: 11200, qualitaet: 4,
       haltbarkeit: 8,   zutaten: ["6.000 kcal Pacu-Filet ODER Jawbo-Filet", "100 kg Torf/Holz"],
       tipp: "Jawbo aus PP oder normaler Pacu verwendbar. Sehr hohe Kalorien."
     },
     { id: "gemuesepuffer",    name: "Gemüsepuffer",           englisch: "Veggie Poppers",
-      geraet: "Räucherofen",  pack: "prehistoricPlanet", kcalAusgang: 11450, qualitaet: 4,
+      geraet: "Smoker",  pack: "prehistoricPlanet", kcalAusgang: 11450, qualitaet: 4,
       haltbarkeit: 8,   zutaten: ["5.600 kcal Gemüse (Schweißkorn / Stechapfel / Spindeldürre Wühlfrucht)", "100 kg Torf/Holz"],
-      tipp: "Vegetarische Option für Räucherofen. Schweißkornstängel liefert schnell Biomasse."
+      tipp: "Vegetarische Option für Smoker. Schweißkornstängel liefert schnell Biomasse."
     }
   ],
 
@@ -1494,47 +1493,46 @@ const ONI = {
   strom: {
     generatoren: [
       { id:"gen_hamster",    name:"Hamsterrad",           englisch:"Manual Generator",      icon:"🏃", img:BASE_IMG+"Manual_Generator.png",      watt:400,  brennstoff:"Duplikant-Arbeit",        pack:"vanilla",          dauerverbraucher:false },
-      { id:"gen_kohle",      name:"Kohlegenerator",       englisch:"Coal Generator",         icon:"🪨", img:BASE_IMG+"Coal_Generator.png",        watt:600,  brennstoff:"1,2 kg Kohle/Zyklus",    pack:"vanilla",          dauerverbraucher:true  },
-      { id:"gen_petrol",     name:"Petroleumgenerator",   englisch:"Petroleum Generator",   icon:"⛽", img:BASE_IMG+"Petroleum_Generator.png",   watt:2000, brennstoff:"2 kg Petroleum/Zyklus",  pack:"vanilla",          dauerverbraucher:true  },
-      { id:"gen_erdgas",     name:"Erdgasgenerator",      englisch:"Natural Gas Generator", icon:"🔥", img:BASE_IMG+"Natural_Gas_Generator.png", watt:800,  brennstoff:"90 g Erdgas/Sek",        pack:"vanilla",          dauerverbraucher:true  },
-      { id:"gen_wasserstoff",name:"Wasserstoffgenerator", englisch:"Hydrogen Generator",    icon:"💠", img:BASE_IMG+"Hydrogen_Generator.png",    watt:800,  brennstoff:"100 g H₂/Sek",           pack:"vanilla",          dauerverbraucher:true  },
-      { id:"gen_solar",      name:"Solarpanel",           englisch:"Solar Panel",            icon:"☀️", img:BASE_IMG+"Solar_Panel.png",           watt:380,  brennstoff:"Sonnenlicht (Weltraum)", pack:"vanilla",          dauerverbraucher:false },
+      { id:"gen_kohle",      name:"Kohle-Generator",       englisch:"Coal Generator",         icon:"🪨", img:BASE_IMG+"Coal_Generator.png",        watt:600,  brennstoff:"1,2 kg Kohle/Zyklus",    pack:"vanilla",          dauerverbraucher:true  },
+      { id:"gen_petrol",     name:"Petroleum-Generator",   englisch:"Petroleum Generator",   icon:"⛽", img:BASE_IMG+"Petroleum_Generator.png",   watt:2000, brennstoff:"2 kg Petroleum/Zyklus",  pack:"vanilla",          dauerverbraucher:true  },
+      { id:"gen_erdgas",     name:"Erdgas-Generator",      englisch:"Natural Gas Generator", icon:"🔥", img:BASE_IMG+"Natural_Gas_Generator.png", watt:800,  brennstoff:"90 g Erdgas/Sek",        pack:"vanilla",          dauerverbraucher:true  },
+      { id:"gen_wasserstoff",name:"Wasserstoff-Generator", englisch:"Hydrogen Generator",    icon:"💠", img:BASE_IMG+"Hydrogen_Generator.png",    watt:800,  brennstoff:"100 g H₂/Sek",           pack:"vanilla",          dauerverbraucher:true  },
+      { id:"gen_solar",      name:"Solarmodul",           englisch:"Solar Panel",            icon:"☀️", img:BASE_IMG+"Solar_Panel.png",           watt:380,  brennstoff:"Sonnenlicht (Weltraum)", pack:"vanilla",          dauerverbraucher:false },
       { id:"gen_dampf",      name:"Dampfturbine",         englisch:"Steam Turbine",          icon:"♨️", img:BASE_IMG+"Steam_Turbine.png",         watt:850,  brennstoff:"Dampf 125–200°C",        pack:"vanilla",          dauerverbraucher:false },
-      { id:"gen_nuclear",    name:"Atomreaktor",          englisch:"Nuclear Reactor",        icon:"☢️", img:BASE_IMG+"Nuclear_Reactor.png",       watt:9000, brennstoff:"Angereichertes Uran",    pack:"spacedOut",        dauerverbraucher:true  }
+      { id:"gen_nuclear",    name:"Forschungsreaktor",          englisch:"Research Reactor",        icon:"☢️", img:BASE_IMG+"Nuclear_Reactor.png",       watt:9000, brennstoff:"Angereichertes Uran",    pack:"spacedOut",        dauerverbraucher:true  }
     ],
     verbraucher: [
       { id:"vb_elektrolyseur",    name:"Elektrolyseur",          englisch:"Electrolyzer",            icon:"⚗️", img:BASE_IMG+"Electrolyzer.png",           kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"O₂+H₂ Erzeugung: 53 kg O₂/Zyklus. Braucht Wasser." },
-      { id:"vb_kohleabscheider",  name:"Kohlensäure-Abscheider", englisch:"Carbon Skimmer",          icon:"☁️", img:BASE_IMG+"Carbon_Skimmer.png",         kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"Entfernt CO₂ aus der Luft. Braucht Wasser." },
-      { id:"vb_oxyl",             name:"OXYL-Generator",         englisch:"Oxygen Diffuser",         icon:"🌀", img:BASE_IMG+"Oxygen_Diffuser.png",        kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"Einfache O₂-Quelle aus Algen. 90 g/s O₂." },
-      { id:"vb_wasseraufber",     name:"Wasseraufbereiter",      englisch:"Water Purifier",          icon:"💧", img:BASE_IMG+"Water_Purifier.png",         kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Reinigt Schmutzwasser zu Wasser." },
+      { id:"vb_kohleabscheider",  name:"Luftreiniger", englisch:"Carbon Skimmer",          icon:"☁️", img:BASE_IMG+"Carbon_Skimmer.png",         kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"Entfernt CO₂ aus der Luft. Braucht Wasser." },
+      { id:"vb_oxyl",             name:"Sauerstoff-Diffusor",         englisch:"Oxygen Diffuser",         icon:"🌀", img:BASE_IMG+"Oxygen_Diffuser.png",        kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"Einfache O₂-Quelle aus Algen. 90 g/s O₂." },
+      { id:"vb_wasseraufber",     name:"Flüssigkeitsfilter",      englisch:"Water Sieve",          icon:"💧", img:BASE_IMG+"Water_Purifier.png",         kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Reinigt Schmutzwasser zu Wasser." },
       { id:"vb_mikrobenmatscher", name:"Mikrobenmatscher",       englisch:"Microbe Musher",          icon:"🧪", img:BASE_IMG+"Microbe_Musher.png",         kat:"🍽️ Nahrungsproduktion", watt:60,   pack:"vanilla",          dauerverbraucher:false, tipp:"Einfache Rezepte. Nur bei Bedarf aktiv." },
       { id:"vb_grill",            name:"Elektrogrill",           englisch:"Electric Grill",          icon:"🔥", img:BASE_IMG+"Electric_Grill.png",         kat:"🍽️ Nahrungsproduktion", watt:60,   pack:"vanilla",          dauerverbraucher:false, tipp:"Mittlere Rezepte. Basis für Gasherd-Kombinationen." },
       { id:"vb_gasherd",          name:"Gasherd",                englisch:"Gas Range",               icon:"🍽️",img:BASE_IMG+"Gas_Range.png",              kat:"🍽️ Nahrungsproduktion", watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom! Benötigt Erdgas oder Wasserstoff." },
-      { id:"vb_friteuse",         name:"Friteuse",               englisch:"Deep Fryer",              icon:"🛢️",img:BASE_IMG+"Deep_Fryer.png",             kat:"🍽️ Nahrungsproduktion", watt:60,   pack:"frostyPlanet",     dauerverbraucher:false, tipp:"Frosty Planet. Hochkalorische Rezepte mit Fett." },
-      { id:"vb_raeucherofen",     name:"Räucherofen",            englisch:"Smoker",                  icon:"💨", img:BASE_IMG+"Smoker.png",                 kat:"🍽️ Nahrungsproduktion", watt:0,    pack:"prehistoricPlanet",dauerverbraucher:false, tipp:"Kein Strom. PP-Exklusiv. Benötigt Torf/Holz." },
-      { id:"vb_aquatuner",        name:"Aquatuner",              englisch:"Thermo Aquatuner",        icon:"❄️", img:BASE_IMG+"Thermo_Aquatuner.png",       kat:"🧊 Temperatur",         watt:1200, pack:"vanilla",          dauerverbraucher:false, tipp:"Kühlt Flüssigkeiten -14°C/Durchgang. Schweres Kabel!" },
-      { id:"vb_thermo_reg",       name:"Thermo-Regler",          englisch:"Thermo Regulator",        icon:"🌡️",img:BASE_IMG+"Thermo_Regulator.png",       kat:"🧊 Temperatur",         watt:960,  pack:"vanilla",          dauerverbraucher:false, tipp:"Kühlt Gas -14°C/Durchgang." },
+      { id:"vb_friteuse",         name:"Fritteuse",               englisch:"Deep Fryer",              icon:"🛢️",img:BASE_IMG+"Deep_Fryer.png",             kat:"🍽️ Nahrungsproduktion", watt:60,   pack:"frostyPlanet",     dauerverbraucher:false, tipp:"Frosty Planet. Hochkalorische Rezepte mit Fett." },
+      { id:"vb_raeucherofen",     name:"Smoker",            englisch:"Smoker",                  icon:"💨", img:BASE_IMG+"Smoker.png",                 kat:"🍽️ Nahrungsproduktion", watt:0,    pack:"prehistoricPlanet",dauerverbraucher:false, tipp:"Kein Strom. PP-Exklusiv. Benötigt Torf/Holz." },
+      { id:"vb_aquatuner",        name:"Wasserkühler",              englisch:"Thermo Aquatuner",        icon:"❄️", img:BASE_IMG+"Thermo_Aquatuner.png",       kat:"🧊 Temperatur",         watt:1200, pack:"vanilla",          dauerverbraucher:false, tipp:"Kühlt Flüssigkeiten -14°C/Durchgang. Schweres Kabel!" },
+      { id:"vb_thermo_reg",       name:"Klimagerät",          englisch:"Thermo Regulator",        icon:"🌡️",img:BASE_IMG+"Thermo_Regulator.png",       kat:"🧊 Temperatur",         watt:960,  pack:"vanilla",          dauerverbraucher:false, tipp:"Kühlt Gas -14°C/Durchgang." },
       { id:"vb_kuehlschrank",     name:"Kühlschrank",            englisch:"Refrigerator",            icon:"🧊", img:BASE_IMG+"Refrigerator.png",           kat:"🧊 Temperatur",         watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"Verlängert Haltbarkeit von Nahrung massiv." },
       { id:"vb_forschung",        name:"Forschungsstation",      englisch:"Research Station",        icon:"🔬", img:BASE_IMG+"Research_Station.png",       kat:"🔬 Forschung & Bau",    watt:100,  pack:"vanilla",          dauerverbraucher:false, tipp:"Basisforschung." },
-      { id:"vb_fab_super",        name:"Supercomputer",          englisch:"Super Computer",          icon:"🖥️",img:BASE_IMG+"Super_Computer.png",         kat:"🔬 Forschung & Bau",    watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Fortgeschrittene Forschung." },
+      { id:"vb_fab_super",        name:"Super-Computer",          englisch:"Super Computer",          icon:"🖥️",img:BASE_IMG+"Super_Computer.png",         kat:"🔬 Forschung & Bau",    watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Fortgeschrittene Forschung." },
       { id:"vb_metallraffinerie", name:"Metallraffinerie",       englisch:"Metal Refinery",          icon:"🏭", img:BASE_IMG+"Metal_Refinery.png",         kat:"🔬 Forschung & Bau",    watt:1200, pack:"vanilla",          dauerverbraucher:false, tipp:"Schmilzt Erze. Schweres Kabel empfohlen!" },
-      { id:"vb_glasofen",         name:"Glasofen",               englisch:"Glass Forge",             icon:"🫧", img:BASE_IMG+"Glass_Forge.png",            kat:"🔬 Forschung & Bau",    watt:800,  pack:"vanilla",          dauerverbraucher:false, tipp:"Produziert Glas aus Sand." },
-      { id:"vb_polymerpresse",    name:"Polymerpresse",          englisch:"Polymer Press",           icon:"🔷", img:BASE_IMG+"Polymer_Press.png",          kat:"🔬 Forschung & Bau",    watt:240,  pack:"vanilla",          dauerverbraucher:false, tipp:"Plastik aus Petroleum." },
-      { id:"vb_dusche",           name:"Duschkabine",            englisch:"Shower",                  icon:"🚿", img:BASE_IMG+"Shower.png",                 kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Wasser → Schmutzwasser." },
+      { id:"vb_glasofen",         name:"Glasschmiede",               englisch:"Glass Forge",             icon:"🫧", img:BASE_IMG+"Glass_Forge.png",            kat:"🔬 Forschung & Bau",    watt:800,  pack:"vanilla",          dauerverbraucher:false, tipp:"Produziert Glas aus Sand." },
+      { id:"vb_polymerpresse",    name:"Polymer-Presse",          englisch:"Polymer Press",           icon:"🔷", img:BASE_IMG+"Polymer_Press.png",          kat:"🔬 Forschung & Bau",    watt:240,  pack:"vanilla",          dauerverbraucher:false, tipp:"Plastik aus Petroleum." },
+      { id:"vb_dusche",           name:"Dusche",            englisch:"Shower",                  icon:"🚿", img:BASE_IMG+"Shower.png",                 kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Wasser → Schmutzwasser." },
       { id:"vb_waschbecken",      name:"Waschbecken",            englisch:"Sink",                    icon:"🪣", img:BASE_IMG+"Sink.png",                   kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Hygienepunkt." },
       { id:"vb_toilette",         name:"Plumpsklo",              englisch:"Outhouse",                icon:"🚽", img:BASE_IMG+"Outhouse.png",               kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Basistoilette." },
-      { id:"vb_spueltoilette",    name:"Spültoilette",           englisch:"Flush Toilet",            icon:"🚽", img:BASE_IMG+"Flush_Toilet.png",           kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Braucht Wasser." },
+      { id:"vb_spueltoilette",    name:"Toilette",           englisch:"Lavatory",            icon:"🚽", img:BASE_IMG+"Flush_Toilet.png",           kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Braucht Wasser." },
       { id:"vb_lampe",            name:"Deckenlampe",            englisch:"Ceiling Light",           icon:"💡", img:BASE_IMG+"Ceiling_Light.png",          kat:"💡 Beleuchtung",        watt:10,   pack:"vanilla",          dauerverbraucher:true,  tipp:"4×4 Tiles. Pflicht für Dornenblüte (≥200 Lux)." },
-      { id:"vb_hakenlicht",       name:"Hakenlicht",             englisch:"Gantry Light",            icon:"🔦", img:BASE_IMG+"Gantry_Light.png",           kat:"💡 Beleuchtung",        watt:10,   pack:"vanilla",          dauerverbraucher:true,  tipp:"Hängelampe für Decken." },
-      { id:"vb_lichtstab",        name:"Leuchtstab",             englisch:"Floor Lamp",              icon:"🕯️",img:BASE_IMG+"Floor_Lamp.png",             kat:"💡 Beleuchtung",        watt:10,   pack:"vanilla",          dauerverbraucher:true,  tipp:"Bodenlampe. Breitere Ausleuchtung." },
+      { id:"vb_lichtstab",        name:"Lampe",             englisch:"Lamp",              icon:"🕯️",img:BASE_IMG+"Floor_Lamp.png",             kat:"💡 Beleuchtung",        watt:10,   pack:"vanilla",          dauerverbraucher:true,  tipp:"Bodenlampe. Breitere Ausleuchtung." },
       { id:"vb_gaspumpe",         name:"Gaspumpe",               englisch:"Gas Pump",                icon:"💨", img:BASE_IMG+"Gas_Pump.png",               kat:"⚙️ Pumpen & Transport", watt:240,  pack:"vanilla",          dauerverbraucher:false, tipp:"500 g/s Gas. Nur bei Bedarf." },
       { id:"vb_fluessigpumpe",    name:"Flüssigkeitspumpe",      englisch:"Liquid Pump",             icon:"💧", img:BASE_IMG+"Liquid_Pump.png",            kat:"⚙️ Pumpen & Transport", watt:240,  pack:"vanilla",          dauerverbraucher:false, tipp:"10 kg/s Flüssigkeit. Nur bei Bedarf." },
-      { id:"vb_kleingaspumpe",    name:"Kleine Gaspumpe",        englisch:"Mini Gas Pump",           icon:"🌬️",img:BASE_IMG+"Mini_Gas_Pump.png",          kat:"⚙️ Pumpen & Transport", watt:60,   pack:"vanilla",          dauerverbraucher:false, tipp:"125 g/s Gas. Günstig und kompakt." },
-      { id:"vb_foerderband",      name:"Pneumatischer Lader",    englisch:"Pneumatic Loader",        icon:"📦", img:BASE_IMG+"Pneumatic_Loader.png",       kat:"⚙️ Pumpen & Transport", watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Raketenfracht laden/entladen." },
-      { id:"vb_transformator",    name:"Transformator",          englisch:"Power Transformer",       icon:"🔌", img:BASE_IMG+"Power_Transformer.png",      kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Verbindet Kreise. Max. 1.000W." },
+      { id:"vb_kleingaspumpe",    name:"Mini-Gaspumpe",        englisch:"Mini Gas Pump",           icon:"🌬️",img:BASE_IMG+"Mini_Gas_Pump.png",          kat:"⚙️ Pumpen & Transport", watt:60,   pack:"vanilla",          dauerverbraucher:false, tipp:"125 g/s Gas. Günstig und kompakt." },
+      { id:"vb_foerderband",      name:"Förderschienen-Belader",    englisch:"Conveyor Loader",        icon:"📦", img:BASE_IMG+"Pneumatic_Loader.png",       kat:"⚙️ Pumpen & Transport", watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Raketenfracht laden/entladen." },
+      { id:"vb_transformator",    name:"Kleiner Transformator",          englisch:"Power Transformer",       icon:"🔌", img:BASE_IMG+"Power_Transformer.png",      kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Verbindet Kreise. Max. 1.000W." },
       { id:"vb_transfomator_lg",  name:"Großer Transformator",   englisch:"Large Power Transformer", icon:"🔌", img:BASE_IMG+"Large_Power_Transformer.png",kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Max. 4.000W." },
-      { id:"vb_akku_klein",       name:"Kleiner Akku",           englisch:"Small Battery",           icon:"🔋", img:BASE_IMG+"Small_Battery.png",          kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kapazität: 10 kJ." },
-      { id:"vb_akku_gross",       name:"Smarter Akku",           englisch:"Smart Battery",           icon:"🔋", img:BASE_IMG+"Smart_Battery.png",          kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kapazität: 20 kJ. Automatisierbar." }
+      { id:"vb_akku_klein",       name:"Batterie",           englisch:"Battery",           icon:"🔋", img:BASE_IMG+"Small_Battery.png",          kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kapazität: 10 kJ." },
+      { id:"vb_akku_gross",       name:"Intelligente Batterie",           englisch:"Smart Battery",           icon:"🔋", img:BASE_IMG+"Smart_Battery.png",          kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kapazität: 20 kJ. Automatisierbar." }
     ]
   }
 

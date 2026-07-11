@@ -49,11 +49,16 @@ Umgesetzt: `js/state.js` (Profil-Speicherung mit Version + Migration + try/catch
 - **Wo kann's schiefgehen:** Ø-Rechnung über Aktiv-/Ruhephasen falsch (häufigster Fehler bei Geysir-Rechnern) → Formel gegen ONI-Wiki-Geysir-Rechner verifizieren, 3 Geysir-Typen als eingebaute Selbsttests · SHC/Masse-Einheiten (g vs. kg, DTU) → interne Einheiten festschreiben wie AP3
 - **Abnahme:** §7 + Vergleichsrechnung gegen oni-assistant/Wiki für dieselben Eingaben.
 
-### AP5 – Deutsche Begriffe (i18n)
+### AP5 – Deutsche Begriffe (i18n) — 🟡 TEIL 1 ERLEDIGT (05.07.2026)
+**Erledigt:** `tools/extract_po.py` (Python statt Node — Node nicht installiert) liest die `strings.po` direkt aus dem lokal installierten Workshop-Mod (ZIP in `.bin`) und erzeugt `i18n/de.json` (1.777 Namen inkl. Traits/Krankheiten/Attribute für AP2). Alle 174 Website-Namen gegen das Sprachpaket geprüft: 60+ Korrekturen per `tools/fix_namen.py` (mit Abbruch-Schutz bei unerwarteten Treffern) — u. a. Aquatuner→Wasserkühler, OXYL-Generator→Sauerstoff-Diffusor, Solarpanel→Solarmodul, Atomreaktor→Forschungsreaktor, Ablativgestein→Magmatit. 4 erfundene Einträge entfernt (Temperalith, Vakuumstein, Glasfaser, Hakenlicht), echte Isolatoren ergänzt (Abyssalit, Keramik), falsche englische Namen korrigiert (Water Sieve, Research Reactor, Lavatory, Conveyor Loader, Battery, Lime). Im Browser verifiziert inkl. Rezept-Geräte-Zuordnung (Fritteuse/Smoker).
+**Offen:** Sprachumschalter DE/EN/beides über `js/i18n.js` mit `t()`-Funktion.
+
+<details><summary>Ursprüngliche Planung</summary>
 - **Ziel:** Wörterbuch EN↔DE aus dem Sprachpaket; Anzeige DE / EN / „beides".
 - **Dateien:** `tools/extract-po.mjs` (liest `strings.po` von GitHub `Ni42/Oxygen_Not_Included_German`), erzeugt `i18n/de.json`; `js/i18n.js` mit `t()`-Funktion
 - **Wo kann's schiefgehen:** .po-Schlüssel passen nicht zu unseren Datensatz-IDs → Datensätze tragen ab AP2 die Original-String-Keys des Spiels · Sonderzeichen/Umlaute kaputt → alles UTF-8, Test mit „Wärmeleitfähigkeit" · fehlende Übersetzung → Rückfall auf Englisch, nie leerer Text
 - **Abnahme:** §7 + Stichprobe 30 Begriffe im Spiel vs. Website identisch.
+</details>
 
 ### AP6 – Save-Import Stufe A + Ordner-Überwachung (M2A/M3)
 - **Ziel:** Drag & Drop liest Dateikopf (Name, Zyklus, Dupe-Zahl, DLCs – versionsunabhängig, bereits erfolgreich getestet); optional Ordner einmal freigeben → automatische Aktualisierung bei jedem Autosave.

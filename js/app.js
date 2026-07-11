@@ -156,7 +156,7 @@ function renderUebersicht() {
       </div>
       <div class="bedarf-karte" style="border-color:var(--green)">
         <div class="bedarf-icon">🌿</div>
-        <div class="bedarf-name">Oxyfarne (Heim) nötig</div>
+        <div class="bedarf-name">Oxifarne (Heim) nötig</div>
         <div class="bedarf-wert" style="color:var(--green)">${oxyfarne}</div>
         <div class="bedarf-einheit">stromlos – braucht CO₂-Atmo.</div>
       </div>
@@ -740,7 +740,7 @@ function renderStrom() {
       <span class="tipp-icon">💡</span>
       <div>
         <strong>⏱️ Dauerstrom</strong> = läuft immer (Elektrolyseur, Lampen, Kühlschrank …)<br>
-        <strong>⚡ Bedarf</strong> = nur wenn aktiv (Aquatuner, Grill, Pumpen …)<br>
+        <strong>⚡ Bedarf</strong> = nur wenn aktiv (Wasserkühler, Grill, Pumpen …)<br>
         <strong>Kabelgrenze:</strong> Normal 1.000W · Leitend 2.000W · Schwer 20.000W
       </div>
     </div>`;
@@ -777,8 +777,8 @@ function renderRezepte() {
     { id: "Mikrobenmatscher", icon: "🧪", tipp: "Kein Strom für einfache Rezepte nötig" },
     { id: "Elektrogrill",     icon: "🔥", tipp: "60W · Basis für viele Zwischen-Rezepte" },
     { id: "Gasherd",          icon: "🍽️", tipp: "Kein Strom · Benötigt Erdgas oder Wasserstoff" },
-    { id: "Friteuse",         icon: "🛢️", tipp: "60W · Nur mit Frosty Planet Pack" },
-    { id: "Räucherofen",      icon: "💨", tipp: "Kein Strom · Nur mit Prehistoric Planet Pack · Benötigt Holz/Torf" }
+    { id: "Fritteuse",        icon: "🛢️", tipp: "60W · Nur mit Frosty Planet Pack" },
+    { id: "Smoker",           icon: "💨", tipp: "Kein Strom · Nur mit Prehistoric Planet Pack · Benötigt Holz/Torf" }
   ];
 
   const aktiveRezepte = ONI.rezepte.filter(r => state.aktivePacks.has(r.pack));

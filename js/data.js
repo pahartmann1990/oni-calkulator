@@ -6,7 +6,7 @@
 // 1 Zyklus = 600 Sekunden | Wachstum: Heim = in Pflanztrog, Wild = Naturboden
 // ============================================================
 
-const BASE_IMG = "https://oxygennotincluded.wiki.gg/images/";
+const BASE_IMG = "img/game/";  // Original-Spielgrafiken, lokal (Quelle: oxygennotincluded.wiki.gg)
 
 const ONI = {
 
@@ -358,7 +358,7 @@ const ONI = {
       typ: "wild-einmalig",
       pack: "vanilla",
       icon: "🥔",
-      img: BASE_IMG + "Muckroot.png",
+      img: BASE_IMG + "Buried_Muckroot.png",
       wachstumszyklen: 0,
       wachstumszyklenwild: 0,
       kcalProErnte: 800,
@@ -1195,7 +1195,7 @@ const ONI = {
         { name: "Superkühlmittel", englisch: "Super Coolant",     icon: "🔵", img: BASE_IMG + "Super_Coolant.png",      wärmeleitfähigkeit: 9.46,  schmelzpunkt: -271,  strom: false },
         { name: "Ethanol",        englisch: "Ethanol",            icon: "🍷", img: BASE_IMG + "Ethanol.png",            wärmeleitfähigkeit: 0.17,  schmelzpunkt: -114,  strom: false },
         { name: "Salzwasser",     englisch: "Salt Water",         icon: "🌊", img: BASE_IMG + "Salt_Water.png",         wärmeleitfähigkeit: 0.62,  schmelzpunkt: -7,    strom: false },
-        { name: "Flüssiges Kohlendioxid",   englisch: "Liquid Carbon Dioxide",         icon: "🫧", img: BASE_IMG + "Liquid_CO2.png",         wärmeleitfähigkeit: 0.1,   schmelzpunkt: -56,   strom: false }
+        { name: "Flüssiges Kohlendioxid",   englisch: "Liquid Carbon Dioxide",         icon: "🫧", img: BASE_IMG + "Liquid_Carbon_Dioxide.png",         wärmeleitfähigkeit: 0.1,   schmelzpunkt: -56,   strom: false }
       ]
     },
     {
@@ -1205,7 +1205,7 @@ const ONI = {
         { name: "Sauerstoff",          englisch: "Oxygen",          icon: "💨", img: BASE_IMG + "Oxygen.png",          wärmeleitfähigkeit: 0.026, schmelzpunkt: -218,  strom: false },
         { name: "Verschmutzter Sauerstoff", englisch: "Polluted Oxygen", icon: "🟡", img: BASE_IMG + "Polluted_Oxygen.png", wärmeleitfähigkeit: 0.024, schmelzpunkt: -219,  strom: false },
         { name: "Kohlendioxid",        englisch: "Carbon Dioxide",  icon: "☁️", img: BASE_IMG + "Carbon_Dioxide.png",  wärmeleitfähigkeit: 0.015, schmelzpunkt: -56,   strom: false },
-        { name: "Wasserstoff",         englisch: "Hydrogen Gas",        icon: "🔵", img: BASE_IMG + "Hydrogen.png",        wärmeleitfähigkeit: 0.168, schmelzpunkt: -259,  strom: false },
+        { name: "Wasserstoff",         englisch: "Hydrogen Gas",        icon: "🔵", img: BASE_IMG + "Hydrogen_Gas.png",        wärmeleitfähigkeit: 0.168, schmelzpunkt: -259,  strom: false },
         { name: "Chlorgas",            englisch: "Chlorine Gas",    icon: "🟡", img: BASE_IMG + "Chlorine.png",        wärmeleitfähigkeit: 0.009, schmelzpunkt: -101,  strom: false },
         { name: "Erdgas",              englisch: "Natural Gas",     icon: "⛽", img: BASE_IMG + "Natural_Gas.png",     wärmeleitfähigkeit: 0.035, schmelzpunkt: -182,  strom: false }
       ]
@@ -1245,7 +1245,7 @@ const ONI = {
         { name: "Uranerz",        englisch: "Uranium Ore",    icon: "☢️", img: BASE_IMG + "Uranium_Ore.png",    wärmeleitfähigkeit: 4.0,   schmelzpunkt: 1132, strom: false },
         { name: "Angereichertes Uran", englisch: "Enriched Uranium", icon: "☢️", img: BASE_IMG + "Enriched_Uranium.png", wärmeleitfähigkeit: 18.5,  schmelzpunkt: 1132, strom: true  },
         { name: "Blei",           englisch: "Lead",           icon: "⚫", img: BASE_IMG + "Lead.png",           wärmeleitfähigkeit: 35.3,  schmelzpunkt: 328,  strom: true  },
-        { name: "Saccharose",        englisch: "Sucrose",        icon: "🍬", img: BASE_IMG + "Sucrose.png",        wärmeleitfähigkeit: 0.19,  schmelzpunkt: 186,  strom: false },
+        { name: "Saccharose",        englisch: "Sucrose",        icon: "🍬", img: BASE_IMG + "Sucrose_(Spaced_Out).png",        wärmeleitfähigkeit: 0.19,  schmelzpunkt: 186,  strom: false },
         { name: "Fulleren",       englisch: "Fullerene",      icon: "🔵", img: BASE_IMG + "Fullerene.png",      wärmeleitfähigkeit: 0.0,   schmelzpunkt: 3527, strom: false }
       ]
     }
@@ -1499,13 +1499,13 @@ const ONI = {
       { id:"gen_wasserstoff",name:"Wasserstoff-Generator", englisch:"Hydrogen Generator",    icon:"💠", img:BASE_IMG+"Hydrogen_Generator.png",    watt:800,  brennstoff:"100 g H₂/Sek",           pack:"vanilla",          dauerverbraucher:true  },
       { id:"gen_solar",      name:"Solarmodul",           englisch:"Solar Panel",            icon:"☀️", img:BASE_IMG+"Solar_Panel.png",           watt:380,  brennstoff:"Sonnenlicht (Weltraum)", pack:"vanilla",          dauerverbraucher:false },
       { id:"gen_dampf",      name:"Dampfturbine",         englisch:"Steam Turbine",          icon:"♨️", img:BASE_IMG+"Steam_Turbine.png",         watt:850,  brennstoff:"Dampf 125–200°C",        pack:"vanilla",          dauerverbraucher:false },
-      { id:"gen_nuclear",    name:"Forschungsreaktor",          englisch:"Research Reactor",        icon:"☢️", img:BASE_IMG+"Nuclear_Reactor.png",       watt:9000, brennstoff:"Angereichertes Uran",    pack:"spacedOut",        dauerverbraucher:true  }
+      { id:"gen_nuclear",    name:"Forschungsreaktor",          englisch:"Research Reactor",        icon:"☢️", img:BASE_IMG+"Research_Reactor.png",       watt:9000, brennstoff:"Angereichertes Uran",    pack:"spacedOut",        dauerverbraucher:true  }
     ],
     verbraucher: [
       { id:"vb_elektrolyseur",    name:"Elektrolyseur",          englisch:"Electrolyzer",            icon:"⚗️", img:BASE_IMG+"Electrolyzer.png",           kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"O₂+H₂ Erzeugung: 53 kg O₂/Zyklus. Braucht Wasser." },
       { id:"vb_kohleabscheider",  name:"Luftreiniger", englisch:"Carbon Skimmer",          icon:"☁️", img:BASE_IMG+"Carbon_Skimmer.png",         kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"Entfernt CO₂ aus der Luft. Braucht Wasser." },
       { id:"vb_oxyl",             name:"Sauerstoff-Diffusor",         englisch:"Oxygen Diffuser",         icon:"🌀", img:BASE_IMG+"Oxygen_Diffuser.png",        kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:true,  tipp:"Einfache O₂-Quelle aus Algen. 90 g/s O₂." },
-      { id:"vb_wasseraufber",     name:"Flüssigkeitsfilter",      englisch:"Water Sieve",          icon:"💧", img:BASE_IMG+"Water_Purifier.png",         kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Reinigt Schmutzwasser zu Wasser." },
+      { id:"vb_wasseraufber",     name:"Flüssigkeitsfilter",      englisch:"Water Sieve",          icon:"💧", img:BASE_IMG+"Water_Sieve.png",         kat:"🫁 Lebenserhaltung",    watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Reinigt Schmutzwasser zu Wasser." },
       { id:"vb_mikrobenmatscher", name:"Mikrobenmatscher",       englisch:"Microbe Musher",          icon:"🧪", img:BASE_IMG+"Microbe_Musher.png",         kat:"🍽️ Nahrungsproduktion", watt:60,   pack:"vanilla",          dauerverbraucher:false, tipp:"Einfache Rezepte. Nur bei Bedarf aktiv." },
       { id:"vb_grill",            name:"Elektrogrill",           englisch:"Electric Grill",          icon:"🔥", img:BASE_IMG+"Electric_Grill.png",         kat:"🍽️ Nahrungsproduktion", watt:60,   pack:"vanilla",          dauerverbraucher:false, tipp:"Mittlere Rezepte. Basis für Gasherd-Kombinationen." },
       { id:"vb_gasherd",          name:"Gasherd",                englisch:"Gas Range",               icon:"🍽️",img:BASE_IMG+"Gas_Range.png",              kat:"🍽️ Nahrungsproduktion", watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom! Benötigt Erdgas oder Wasserstoff." },
@@ -1522,16 +1522,16 @@ const ONI = {
       { id:"vb_dusche",           name:"Dusche",            englisch:"Shower",                  icon:"🚿", img:BASE_IMG+"Shower.png",                 kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Wasser → Schmutzwasser." },
       { id:"vb_waschbecken",      name:"Waschbecken",            englisch:"Sink",                    icon:"🪣", img:BASE_IMG+"Sink.png",                   kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Hygienepunkt." },
       { id:"vb_toilette",         name:"Plumpsklo",              englisch:"Outhouse",                icon:"🚽", img:BASE_IMG+"Outhouse.png",               kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Basistoilette." },
-      { id:"vb_spueltoilette",    name:"Toilette",           englisch:"Lavatory",            icon:"🚽", img:BASE_IMG+"Flush_Toilet.png",           kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Braucht Wasser." },
+      { id:"vb_spueltoilette",    name:"Toilette",           englisch:"Lavatory",            icon:"🚽", img:BASE_IMG+"Lavatory.png",           kat:"🚿 Hygiene",            watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kein Strom. Braucht Wasser." },
       { id:"vb_lampe",            name:"Deckenlampe",            englisch:"Ceiling Light",           icon:"💡", img:BASE_IMG+"Ceiling_Light.png",          kat:"💡 Beleuchtung",        watt:10,   pack:"vanilla",          dauerverbraucher:true,  tipp:"4×4 Tiles. Pflicht für Dornenblüte (≥200 Lux)." },
-      { id:"vb_lichtstab",        name:"Lampe",             englisch:"Lamp",              icon:"🕯️",img:BASE_IMG+"Floor_Lamp.png",             kat:"💡 Beleuchtung",        watt:10,   pack:"vanilla",          dauerverbraucher:true,  tipp:"Bodenlampe. Breitere Ausleuchtung." },
+      { id:"vb_lichtstab",        name:"Lampe",             englisch:"Lamp",              icon:"🕯️",img:BASE_IMG+"Lamp.png",             kat:"💡 Beleuchtung",        watt:10,   pack:"vanilla",          dauerverbraucher:true,  tipp:"Bodenlampe. Breitere Ausleuchtung." },
       { id:"vb_gaspumpe",         name:"Gaspumpe",               englisch:"Gas Pump",                icon:"💨", img:BASE_IMG+"Gas_Pump.png",               kat:"⚙️ Pumpen & Transport", watt:240,  pack:"vanilla",          dauerverbraucher:false, tipp:"500 g/s Gas. Nur bei Bedarf." },
       { id:"vb_fluessigpumpe",    name:"Flüssigkeitspumpe",      englisch:"Liquid Pump",             icon:"💧", img:BASE_IMG+"Liquid_Pump.png",            kat:"⚙️ Pumpen & Transport", watt:240,  pack:"vanilla",          dauerverbraucher:false, tipp:"10 kg/s Flüssigkeit. Nur bei Bedarf." },
       { id:"vb_kleingaspumpe",    name:"Mini-Gaspumpe",        englisch:"Mini Gas Pump",           icon:"🌬️",img:BASE_IMG+"Mini_Gas_Pump.png",          kat:"⚙️ Pumpen & Transport", watt:60,   pack:"vanilla",          dauerverbraucher:false, tipp:"125 g/s Gas. Günstig und kompakt." },
-      { id:"vb_foerderband",      name:"Förderschienen-Belader",    englisch:"Conveyor Loader",        icon:"📦", img:BASE_IMG+"Pneumatic_Loader.png",       kat:"⚙️ Pumpen & Transport", watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Raketenfracht laden/entladen." },
+      { id:"vb_foerderband",      name:"Förderschienen-Belader",    englisch:"Conveyor Loader",        icon:"📦", img:BASE_IMG+"Conveyor_Loader.png",       kat:"⚙️ Pumpen & Transport", watt:120,  pack:"vanilla",          dauerverbraucher:false, tipp:"Raketenfracht laden/entladen." },
       { id:"vb_transformator",    name:"Kleiner Transformator",          englisch:"Power Transformer",       icon:"🔌", img:BASE_IMG+"Power_Transformer.png",      kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Verbindet Kreise. Max. 1.000W." },
       { id:"vb_transfomator_lg",  name:"Großer Transformator",   englisch:"Large Power Transformer", icon:"🔌", img:BASE_IMG+"Large_Power_Transformer.png",kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Max. 4.000W." },
-      { id:"vb_akku_klein",       name:"Batterie",           englisch:"Battery",           icon:"🔋", img:BASE_IMG+"Small_Battery.png",          kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kapazität: 10 kJ." },
+      { id:"vb_akku_klein",       name:"Batterie",           englisch:"Battery",           icon:"🔋", img:BASE_IMG+"Battery.png",          kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kapazität: 10 kJ." },
       { id:"vb_akku_gross",       name:"Intelligente Batterie",           englisch:"Smart Battery",           icon:"🔋", img:BASE_IMG+"Smart_Battery.png",          kat:"🔌 Elektrik",           watt:0,    pack:"vanilla",          dauerverbraucher:false, tipp:"Kapazität: 20 kJ. Automatisierbar." }
     ]
   }

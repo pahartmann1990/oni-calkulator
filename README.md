@@ -54,7 +54,8 @@ Mit deutschen Mod-Übersetzungen · Kostenlos · Open Source
 ## 📚 Quellen
 
 - [ONI Wiki (wiki.gg)](https://oxygennotincluded.wiki.gg)
-- Deutsche Mod Übersetzungen
+- Deutsche Namen: [German Translation [inkl. DLCs]](https://steamcommunity.com/sharedfiles/filedetails/?id=929139073) (automatisch abgeglichen via `tools/extract_po.py`)
+- Bilder in `img/game/`: Original-Spielgrafiken © Klei Entertainment, bezogen über das ONI Wiki (wiki.gg). Nutzung als nicht-kommerzielles Fan-Projekt.
 - Klei Entertainment – Oxygen Not Included
 
 ---

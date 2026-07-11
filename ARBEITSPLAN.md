@@ -31,11 +31,15 @@ Umgesetzt: `js/state.js` (Profil-Speicherung mit Version + Migration + try/catch
 - **Abnahme:** KONZEPT §7 komplett, zusätzlich: bisherige Rechner liefern exakt dieselben Zahlen wie vorher (Vergleich mit Live-Version).
 </details>
 
-### AP2 – Duplikanten-Tab
+### AP2 – Duplikanten-Tab ✅ ERLEDIGT (11.07.2026, v3.0)
+Jeder Dupe einzeln (Name, 16 Traits, Krankheiten), Bedarf fließt in alle Bilanzen; Basiswerte korrigiert (1.000 kcal statt 2.000!, CO₂ 1,2 kg). Einstellungen-Tab (Sprache DE/EN/beides, Profil-Export/Import) gleich mitgebaut. DLCs Bionic + Aquatic ergänzt. Mod „KalkulatorSync" kompiliert gegen Spiel-DLLs und im Dev-Ordner installiert (Runtime-Test im Spiel steht aus → AP9-Abnahme). Alles im Browser getestet.
+
+<details><summary>Ursprüngliche Planung</summary>
 - **Ziel:** Dupes einzeln anlegen (Skills, Traits, Krankheiten, Moral); Bedarfe fließen in alle Bilanzen.
 - **Dateien:** `js/ui/` (Dupe-Karten), `js/calc/food.js` (kcal je Dupe), `js/data/traits.js`, `js/data/diseases.js` (zunächst handgepflegt aus Wiki, ab AP8 generiert)
 - **Wo kann's schiefgehen:** Traits, die sich gegenseitig ausschließen → Validierung beim Anlegen · Krankheits-Modifikatoren falsch → jede Zahl mit Wiki-Quelle im Datensatz dokumentiert (`quelle:`-Feld) · 18+ Dupe-Karten machen die Seite träge → Rendering nur des aktiven Tabs
 - **Abnahme:** §7 + Testfall „18 Dupes wie deine echte Kolonie anlegen → kcal-Summe manuell nachgerechnet".
+</details>
 
 ### AP3 – Energie-Tab
 - **Ziel:** Generatoren/Verbraucher/Batterien, Netto-Watt, Brennstoff-Reichweite, Empfehlung.

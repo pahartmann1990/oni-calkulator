@@ -1233,11 +1233,32 @@ function renderEinstellungen() {
       </div>
       <div class="card">
         <div class="card-title">🔄 Datenquelle</div>
-        <div style="font-size:13px;display:flex;flex-direction:column;gap:6px">
-          <div>✅ <strong>Manuell</strong> – aktiv</div>
-          <div style="color:var(--text-dim)">🔜 Spielstand-Import (.sav per Drag & Drop)</div>
-          <div style="color:var(--text-dim)">🔜 Auto-Sync mit Save-Ordner (Chrome/Edge)</div>
-          <div style="color:var(--text-dim)">🔜 Live-Mod „KalkulatorSync"</div>
+        <div style="font-size:13px;display:flex;flex-direction:column;gap:10px">
+          <div>✋ <strong>Manuell</strong> – Eingaben direkt auf den Tabs</div>
+          <div>
+            📂 <strong>Spielstand-Import:</strong> .sav-Datei einfach <strong>auf die Seite ziehen</strong>
+            oder hier wählen:
+            <label class="btn-secondary" style="display:block;text-align:center;cursor:pointer;margin-top:6px">
+              .sav-Datei wählen
+              <input type="file" accept=".sav" style="display:none" onchange="if(this.files[0]) savDateiVerarbeiten(this.files[0])">
+            </label>
+            <div style="font-size:11px;color:var(--text-dim);margin-top:4px">
+              Liest Kolonie-Name, Zyklus, Dupe-Anzahl und DLCs (versionsunabhängig).
+              Save-Ordner: Dokumente\\Klei\\OxygenNotIncluded\\cloud_save_files bzw. save_files
+            </div>
+          </div>
+          <div>
+            🔄 <strong>Auto-Sync:</strong> Ordner einmal freigeben → aktualisiert alle 5 s automatisch
+            (neuestes Autosave <em>oder</em> Live-Daten des Mods „KalkulatorSync")
+            ${ordnerSyncVerfuegbar()
+              ? `<div style="display:flex;gap:8px;margin-top:6px">
+                   <button class="btn-secondary" style="flex:1" onclick="ordnerSyncStarten()">📂 Ordner überwachen</button>
+                   <button class="btn-secondary" onclick="ordnerSyncStoppen()">⏹ Stopp</button>
+                 </div>`
+              : `<div style="font-size:11px;color:var(--red);margin-top:4px">⚠️ Dein Browser kann das nicht – bitte Chrome oder Edge nutzen (Firefox: Drag & Drop verwenden)</div>`}
+          </div>
+          <div id="sync-meldung" style="font-size:12px;color:var(--text-dim)">${state.syncMeldung ? state.syncMeldung.text : "Noch keine Synchronisation."}</div>
+          ${state.syncStatus ? `<div style="font-size:11px;color:var(--green)">Zuletzt: ${state.syncStatus}</div>` : ""}
         </div>
       </div>
       <div class="card">

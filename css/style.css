@@ -993,6 +993,18 @@ hr {
   pointer-events: none;
 }
 
+/* ── EIGENE ONI-STIL-ICONS (SVG) ────────────────────────── */
+.ic {
+  width: 17px;
+  height: 17px;
+  vertical-align: -3px;
+  flex-shrink: 0;
+}
+.ic-gross { width: 32px; height: 32px; }
+.tab-btn .ic { color: inherit; }
+.bilanz-chip .ic { color: inherit; }
+.bedarf-icon img { object-fit: contain; image-rendering: crisp-edges; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5)); }
+
 /* ── DUPLIKANTEN-TAB (AP2) ──────────────────────────────── */
 .dupe-karte { border-left: 3px solid var(--border-light); }
 .dupe-karte.dupe-krank {

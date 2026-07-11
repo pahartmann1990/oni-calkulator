@@ -183,13 +183,23 @@ function renderUebersicht() {
     { key: "wasserWaschbecken",  gesamt: d.wasserWaschbecken.wert * n },
   ];
 
+  // Original-Spielgrafiken bzw. eigene ONI-Stil-Icons statt Emojis
+  const bedarfGrafik = {
+    kalorien:          `<svg class="ic ic-gross" style="color:var(--accent)"><use href="#ic-nahrung"/></svg>`,
+    sauerstoff:        `<img src="img/game/Oxygen.png" width="34" height="34" alt="O₂" onerror="this.outerHTML='💨'">`,
+    co2Produktion:     `<img src="img/game/Carbon_Dioxide.png" width="34" height="34" alt="CO₂" onerror="this.outerHTML='☁️'">`,
+    wasserToilette:    `<img src="img/game/Water.png" width="34" height="34" alt="Wasser" onerror="this.outerHTML='💧'">`,
+    schmutzwasser:     `<img src="img/game/Polluted_Water.png" width="34" height="34" alt="Verschmutztes Wasser" onerror="this.outerHTML='🪣'">`,
+    wasserWaschbecken: `<img src="img/game/Water.png" width="34" height="34" alt="Wasser" onerror="this.outerHTML='🚿'">`
+  };
+
   container.innerHTML = eintraege.map(e => {
     const item   = d[e.key];
     const gesamt = e.gesamt;
     const anzeige = gesamt >= 1000 ? (gesamt / 1000).toFixed(1) + " kg" : gesamt.toLocaleString("de-DE") + " g";
     return `
       <div class="bedarf-karte">
-        <div class="bedarf-icon">${item.icon}</div>
+        <div class="bedarf-icon">${bedarfGrafik[e.key] || item.icon}</div>
         <div class="bedarf-name">${item.name}</div>
         <div class="bedarf-wert">${item.einheit === "kcal" ? gesamt.toLocaleString("de-DE") : anzeige}</div>
         <div class="bedarf-einheit">${item.einheit === "kcal" ? "kcal / Zyklus" : "/ Zyklus"}</div>
@@ -1349,16 +1359,16 @@ function renderBilanz() {
   leiste.innerHTML = `
     <span class="bilanz-label">BILANZ</span>
     <button class="bilanz-chip ${nahrungKl}" onclick="wechsleTab('nahrung')" title="${nahrungTitel}">
-      🍗 Nahrung <strong>${nahrungTxt}</strong>
+      <svg class="ic"><use href="#ic-nahrung"/></svg> Nahrung <strong>${nahrungTxt}</strong>
     </button>
     <button class="bilanz-chip neutral" onclick="wechsleTab('duplikanten')" title="Sauerstoff-Rechner folgt – Bedarf deiner ${kolonie.anzahl} Dupes inkl. Traits">
-      💨 O₂ <strong>${o2Kg} kg/Zyk</strong>
+      <svg class="ic"><use href="#ic-o2"/></svg> O₂ <strong>${o2Kg} kg/Zyk</strong>
     </button>
     <button class="bilanz-chip ${stromKl}" onclick="wechsleTab('strom')" title="${stromTitel}">
-      ⚡ Strom <strong>${stromTxt}</strong>
+      <svg class="ic"><use href="#ic-strom"/></svg> Strom <strong>${stromTxt}</strong>
     </button>
     <button class="bilanz-chip neutral" onclick="wechsleTab('materialien')" title="Wärme-Rechner folgt">
-      🌡️ Wärme <strong>folgt</strong>
+      <svg class="ic"><use href="#ic-waerme"/></svg> Wärme <strong>folgt</strong>
     </button>`;
 }
 

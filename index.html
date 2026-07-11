@@ -11,6 +11,81 @@
 <body>
 
 <!-- ════════════════════════════════════════════════════════
+     SELBST GEZEICHNETE UI-ICONS IM ONI-STIL (SVG-Symbole)
+     Dicke Konturen + Spielfarben, nutzbar via <use href="#ic-...">
+════════════════════════════════════════════════════════ -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Nahrung: Keule -->
+  <symbol id="ic-nahrung" viewBox="0 0 24 24">
+    <path d="M14.5 3.5c3.3 0 6 2.7 6 6 0 2.9-2.1 5.3-4.8 5.9l-4.6 4.6c-.6.6-1.5.6-2.1 0l-.4-.4-1 1c-.5.5-1.4.5-1.9 0s-.5-1.4 0-1.9l1-1-.4-.4c-.6-.6-.6-1.5 0-2.1l4.6-4.6c.5-2.8 2.8-5.1 5.6-5.1z"
+          fill="currentColor" opacity="0.9"/>
+    <circle cx="15.5" cy="8.5" r="2.2" fill="#0d0f1a" opacity="0.35"/>
+  </symbol>
+  <!-- Sauerstoff: Blasen -->
+  <symbol id="ic-o2" viewBox="0 0 24 24">
+    <circle cx="9" cy="13" r="6.2" fill="currentColor" opacity="0.9"/>
+    <circle cx="17.5" cy="7.5" r="3.4" fill="currentColor" opacity="0.7"/>
+    <circle cx="18.5" cy="16.5" r="2.2" fill="currentColor" opacity="0.55"/>
+    <circle cx="7.2" cy="11" r="1.8" fill="#fff" opacity="0.35"/>
+  </symbol>
+  <!-- Strom: Blitz im Sechseck (ONI-Stromnetz) -->
+  <symbol id="ic-strom" viewBox="0 0 24 24">
+    <path d="M12 1.5 21 6.8v10.4L12 22.5 3 17.2V6.8z" fill="currentColor" opacity="0.35"/>
+    <path d="M13.2 3 7 13.2h3.8L9.6 21l6.9-10.6h-3.9z" fill="currentColor"/>
+  </symbol>
+  <!-- Wärme: Thermometer -->
+  <symbol id="ic-waerme" viewBox="0 0 24 24">
+    <path d="M10 3.5a2.5 2.5 0 0 1 5 0v9.2a5.5 5.5 0 1 1-5 0z" fill="currentColor" opacity="0.45"/>
+    <circle cx="12.5" cy="17.5" r="3.2" fill="currentColor"/>
+    <rect x="11.4" y="7" width="2.2" height="9" rx="1.1" fill="currentColor"/>
+  </symbol>
+  <!-- Übersicht: Messuhr -->
+  <symbol id="ic-uebersicht" viewBox="0 0 24 24">
+    <path d="M12 4a9 9 0 0 1 9 9c0 2.6-1.1 4.9-2.9 6.6H5.9A8.97 8.97 0 0 1 3 13a9 9 0 0 1 9-9z" fill="currentColor" opacity="0.4"/>
+    <path d="M12 13 17 8.2c.5-.5 1.2.2.8.8L14 14.2a1.6 1.6 0 1 1-2-1.2z" fill="currentColor"/>
+  </symbol>
+  <!-- Duplikant: Kopf mit Sauerstoffmaske -->
+  <symbol id="ic-dupe" viewBox="0 0 24 24">
+    <circle cx="12" cy="9" r="6" fill="currentColor" opacity="0.9"/>
+    <path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5z" fill="currentColor" opacity="0.55"/>
+    <circle cx="9.8" cy="8.5" r="1.2" fill="#0d0f1a"/>
+    <circle cx="14.2" cy="8.5" r="1.2" fill="#0d0f1a"/>
+  </symbol>
+  <!-- Pflanze: Spross -->
+  <symbol id="ic-pflanze" viewBox="0 0 24 24">
+    <path d="M12 21v-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M12 13C12 8 8.5 5.5 4 5.5c0 5 3.5 7.5 8 7.5z" fill="currentColor" opacity="0.9"/>
+    <path d="M12 10.5c0-3.7 2.6-5.5 6-5.5 0 3.7-2.6 5.5-6 5.5z" fill="currentColor" opacity="0.6"/>
+  </symbol>
+  <!-- Tier: Pfote -->
+  <symbol id="ic-tier" viewBox="0 0 24 24">
+    <ellipse cx="7" cy="8.5" rx="2.1" ry="2.8" fill="currentColor" opacity="0.75"/>
+    <ellipse cx="12" cy="6.8" rx="2.1" ry="2.8" fill="currentColor" opacity="0.75"/>
+    <ellipse cx="17" cy="8.5" rx="2.1" ry="2.8" fill="currentColor" opacity="0.75"/>
+    <path d="M12 11c3.8 0 6.5 2.6 6.5 5.4 0 1.8-1.4 3.1-3.2 3.1-1.2 0-2.2-.6-3.3-.6s-2.1.6-3.3.6c-1.8 0-3.2-1.3-3.2-3.1C5.5 13.6 8.2 11 12 11z" fill="currentColor"/>
+  </symbol>
+  <!-- Material: Ziegel -->
+  <symbol id="ic-material" viewBox="0 0 24 24">
+    <rect x="3" y="5" width="8.4" height="5.4" rx="1" fill="currentColor" opacity="0.9"/>
+    <rect x="12.6" y="5" width="8.4" height="5.4" rx="1" fill="currentColor" opacity="0.6"/>
+    <rect x="7.8" y="11.6" width="8.4" height="5.4" rx="1" fill="currentColor" opacity="0.75"/>
+    <rect x="3" y="18.2" width="8.4" height="2.8" rx="1" fill="currentColor" opacity="0.5"/>
+    <rect x="12.6" y="18.2" width="8.4" height="2.8" rx="1" fill="currentColor" opacity="0.85"/>
+  </symbol>
+  <!-- Rezept: Kochtopf -->
+  <symbol id="ic-rezept" viewBox="0 0 24 24">
+    <path d="M4 10h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="currentColor" opacity="0.9"/>
+    <rect x="2" y="8.6" width="20" height="2.6" rx="1.3" fill="currentColor"/>
+    <path d="M9 6.5c0-1.5 1.2-1.5 1.2-3M13.8 6.5c0-1.5 1.2-1.5 1.2-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.7"/>
+  </symbol>
+  <!-- Einstellungen: ONI-Zahnrad -->
+  <symbol id="ic-zahnrad" viewBox="0 0 24 24">
+    <path d="M12 2.5l1.7 2.6 3-.8.4 3.1 3.1.4-.8 3 2.6 1.7-2.6 1.7.8 3-3.1.4-.4 3.1-3-.8L12 22.5l-1.7-2.6-3 .8-.4-3.1-3.1-.4.8-3L2 12.5l2.6-1.7-.8-3 3.1-.4.4-3.1 3 .8z" fill="currentColor" opacity="0.9"/>
+    <circle cx="12" cy="12.5" r="3.4" fill="#0d0f1a" opacity="0.6"/>
+  </symbol>
+</svg>
+
+<!-- ════════════════════════════════════════════════════════
      HEADER
 ════════════════════════════════════════════════════════ -->
 <header>
@@ -21,7 +96,7 @@
       <div class="logo-icon">⚗️</div>
       <div class="logo-text">
         <h1>ONI Kalkulator</h1>
-        <p>Oxygen Not Included · Deutsch · v3.0</p>
+        <p>Oxygen Not Included · Deutsch · v3.3</p>
       </div>
     </div>
 
@@ -57,14 +132,14 @@
 
   <!-- ── TABS ──────────────────────────────────────────── -->
   <div class="tab-bar">
-    <button class="tab-btn aktiv" data-tab="uebersicht">📊 Übersicht</button>
-    <button class="tab-btn" data-tab="duplikanten">🧑‍🚀 Duplikanten</button>
-    <button class="tab-btn" data-tab="nahrung">🌱 Nahrung & Pflanzen</button>
-    <button class="tab-btn" data-tab="tiere">🐾 Tiere & Ställe</button>
-    <button class="tab-btn" data-tab="materialien">⚙️ Materialien</button>
-    <button class="tab-btn" data-tab="strom">⚡ Strom</button>
-    <button class="tab-btn" data-tab="rezepte">🍳 Rezepte</button>
-    <button class="tab-btn" data-tab="einstellungen">⚙️ Einstellungen</button>
+    <button class="tab-btn aktiv" data-tab="uebersicht"><svg class="ic"><use href="#ic-uebersicht"/></svg> Übersicht</button>
+    <button class="tab-btn" data-tab="duplikanten"><svg class="ic"><use href="#ic-dupe"/></svg> Duplikanten</button>
+    <button class="tab-btn" data-tab="nahrung"><svg class="ic"><use href="#ic-pflanze"/></svg> Nahrung & Pflanzen</button>
+    <button class="tab-btn" data-tab="tiere"><svg class="ic"><use href="#ic-tier"/></svg> Tiere & Ställe</button>
+    <button class="tab-btn" data-tab="materialien"><svg class="ic"><use href="#ic-material"/></svg> Materialien</button>
+    <button class="tab-btn" data-tab="strom"><svg class="ic"><use href="#ic-strom"/></svg> Strom</button>
+    <button class="tab-btn" data-tab="rezepte"><svg class="ic"><use href="#ic-rezept"/></svg> Rezepte</button>
+    <button class="tab-btn" data-tab="einstellungen"><svg class="ic"><use href="#ic-zahnrad"/></svg> Einstellungen</button>
   </div>
 
   <!-- ══════════════════════════════════════════════════════
@@ -73,7 +148,7 @@
   <div class="tab-panel" id="tab-duplikanten">
     <div class="section-header">
       <div>
-        <div class="section-title">🧑‍🚀 Duplikanten</div>
+        <div class="section-title"><svg class="ic" style="width:22px;height:22px;color:var(--accent)"><use href="#ic-dupe"/></svg> Duplikanten</div>
         <div class="section-sub">Deine Dupes einzeln – Eigenschaften und Krankheiten verändern den Bedarf automatisch</div>
       </div>
     </div>
@@ -86,7 +161,7 @@
   <div class="tab-panel" id="tab-einstellungen">
     <div class="section-header">
       <div>
-        <div class="section-title">⚙️ Einstellungen</div>
+        <div class="section-title"><svg class="ic" style="width:22px;height:22px;color:var(--accent)"><use href="#ic-zahnrad"/></svg> Einstellungen</div>
         <div class="section-sub">Sprache, Profil-Sicherung und Datenquellen</div>
       </div>
     </div>
@@ -100,7 +175,7 @@
 
     <div class="section-header">
       <div>
-        <div class="section-title">📊 Duplikanten-Bedarf pro Zyklus</div>
+        <div class="section-title"><svg class="ic" style="width:22px;height:22px;color:var(--accent)"><use href="#ic-uebersicht"/></svg> Duplikanten-Bedarf pro Zyklus</div>
         <div class="section-sub">Was brauchen deine Duplikanten, was produzieren sie?</div>
       </div>
     </div>
@@ -146,7 +221,7 @@
 
     <div class="section-header">
       <div>
-        <div class="section-title">🌱 Nahrungsrechner</div>
+        <div class="section-title"><svg class="ic" style="width:22px;height:22px;color:var(--accent)"><use href="#ic-pflanze"/></svg> Nahrungsrechner</div>
         <div class="section-sub">Wähle Pflanzen links aus – rechts siehst du Bedarf vs. Produktion</div>
       </div>
     </div>
@@ -188,7 +263,7 @@
 
     <div class="section-header">
       <div>
-        <div class="section-title">🐾 Tiere & Ställe</div>
+        <div class="section-title"><svg class="ic" style="width:22px;height:22px;color:var(--accent)"><use href="#ic-tier"/></svg> Tiere &amp; Ställe</div>
         <div class="section-sub">Übersicht aller Tiere – gib an wie viele du hast oder möchtest</div>
       </div>
     </div>
@@ -208,7 +283,7 @@
 
     <div class="section-header">
       <div>
-        <div class="section-title">⚙️ Materialien & Ressourcen</div>
+        <div class="section-title"><svg class="ic" style="width:22px;height:22px;color:var(--accent)"><use href="#ic-material"/></svg> Materialien &amp; Ressourcen</div>
         <div class="section-sub">Wärmeleitfähigkeit, Schmelzpunkt und Stromeigenschaften</div>
       </div>
     </div>
@@ -232,7 +307,7 @@
   <div class="tab-panel" id="tab-strom">
     <div class="section-header">
       <div>
-        <div class="section-title">⚡ Stromrechner</div>
+        <div class="section-title"><svg class="ic" style="width:22px;height:22px;color:var(--accent)"><use href="#ic-strom"/></svg> Stromrechner</div>
         <div class="section-sub">Generatoren und Verbraucher – Überschuss und Mangel pro Stromkreis</div>
       </div>
     </div>
@@ -245,7 +320,7 @@
   <div class="tab-panel" id="tab-rezepte">
     <div class="section-header">
       <div>
-        <div class="section-title">🍳 Kochrezepte</div>
+        <div class="section-title"><svg class="ic" style="width:22px;height:22px;color:var(--accent)"><use href="#ic-rezept"/></svg> Kochrezepte</div>
         <div class="section-sub">Alle Gerichte – Zutaten, Kalorien und Qualitätsstufe</div>
       </div>
     </div>

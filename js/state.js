@@ -18,6 +18,8 @@ function profilSpeichern() {
       const daten = {
         version: PROFIL_VERSION,
         dupes: state.dupes,
+        dupesListe: state.dupesListe,
+        sprache: state.sprache,
         aktivePacks: [...state.aktivePacks],
         ausgewaehltePflanzen: state.ausgewaehltePflanzen,
         ausgewaehlteTiere: state.ausgewaehlteTiere,
@@ -52,6 +54,8 @@ function profilAnwenden() {
 
   // Feld für Feld defensiv übernehmen (nie blind ersetzen)
   if (Number.isFinite(daten.dupes)) state.dupes = Math.max(1, Math.min(200, daten.dupes));
+  if (Array.isArray(daten.dupesListe)) state.dupesListe = daten.dupesListe.filter(d => d && typeof d === "object" && d.name);
+  if (["de", "en", "beide"].includes(daten.sprache)) state.sprache = daten.sprache;
   if (Array.isArray(daten.aktivePacks)) {
     state.aktivePacks = new Set(daten.aktivePacks);
     state.aktivePacks.add("vanilla"); // Basisspiel immer aktiv

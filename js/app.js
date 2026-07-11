@@ -5,6 +5,8 @@
 // ── ZUSTAND ──────────────────────────────────────────────
 const state = {
   dupes: 8,
+  dupesListe: [],          // AP2: individuelle Dupes { id, name, traits: [], krankheit: "gesund" }
+  sprache: "de",           // "de" | "en" | "beide"
   aktivePacks: new Set(["vanilla"]),
   ausgewaehltePflanzen: {},  // { pflanzeId: anzahl }
   ausgewaehlteTiere: {},     // { tierId: { haben: 0, wollen: 0 } }
@@ -20,12 +22,69 @@ const state = {
 // ── INIT ──────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   profilAnwenden();          // gespeichertes Profil VOR dem ersten Rendern laden
+  stelleDupesListeSicher();  // Migration: aus reiner Anzahl eine Dupe-Liste machen
   initDLC();
   initDupeControl();
   initTabs();
   renderAlles();
   wechsleTab(state.aktiverTab, false);
 });
+
+// ══════════════════════════════════════════════════════════
+// KOLONIE-BERECHNUNG (AP2) – eine Wahrheit für alle Tabs
+// ══════════════════════════════════════════════════════════
+let _dupeNr = 1;
+function neuerDupe(name) {
+  return { id: "d" + Date.now() + "_" + (_dupeNr++), name: name || ("Duplikant " + _dupeNr), traits: [], krankheit: "gesund" };
+}
+
+function stelleDupesListeSicher() {
+  if (!Array.isArray(state.dupesListe)) state.dupesListe = [];
+  // Migration von altem Profil (nur Anzahl) → Liste
+  while (state.dupesListe.length < state.dupes) {
+    state.dupesListe.push(neuerDupe("Duplikant " + (state.dupesListe.length + 1)));
+  }
+  if (state.dupesListe.length > state.dupes) state.dupes = state.dupesListe.length;
+}
+
+function traitById(id) { return ONI.traits.find(t => t.id === id) || null; }
+function krankheitById(id) { return ONI.krankheiten.find(k => k.id === id) || ONI.krankheiten[0]; }
+
+// Bedarf EINES Dupes inkl. Traits (Basis: 1.000 kcal, 100 g/s O₂ – Quelle wiki)
+function berechneDupeBedarf(dupe) {
+  let kcal = ONI.dupeBasis.kcalZyklus;
+  let o2 = ONI.dupeBasis.o2GproS;
+  (dupe.traits || []).forEach(tid => {
+    const t = traitById(tid);
+    if (t) { kcal += t.kcalZyklus; o2 += t.o2GproS; }
+  });
+  return { kcal, o2GproS: o2, o2Zyklus: o2 * 600, co2Zyklus: ONI.dupeBasis.co2GproS * 600 };
+}
+
+// Gesamtbedarf der Kolonie
+function berechneKolonieBedarf() {
+  const s = { anzahl: state.dupesListe.length, kcal: 0, o2Zyklus: 0, co2Zyklus: 0, kranke: 0 };
+  state.dupesListe.forEach(d => {
+    const b = berechneDupeBedarf(d);
+    s.kcal += b.kcal; s.o2Zyklus += b.o2Zyklus; s.co2Zyklus += b.co2Zyklus;
+    if (d.krankheit && d.krankheit !== "gesund") s.kranke++;
+  });
+  return s;
+}
+
+// ── Sprachanzeige (Einstellungen): de / en / beide ─────────
+function zeigeName(e) {
+  if (!e) return "";
+  if (state.sprache === "en") return e.englisch || e.name;
+  if (state.sprache === "beide" && e.englisch && e.englisch !== e.name) return e.name + " (" + e.englisch + ")";
+  return e.name;
+}
+function zweitName(e) {
+  if (!e) return "";
+  if (state.sprache === "en") return e.name;
+  if (state.sprache === "beide") return "";
+  return e.englisch || "";
+}
 
 // ── DLC INIT ──────────────────────────────────────────────
 function initDLC() {
@@ -60,6 +119,9 @@ function initDupeControl() {
 
   function setDupes(n) {
     n = Math.max(1, Math.min(200, n));
+    // Liste anpassen: hinten auffüllen bzw. kürzen
+    while (state.dupesListe.length < n) state.dupesListe.push(neuerDupe("Duplikant " + (state.dupesListe.length + 1)));
+    if (state.dupesListe.length > n) state.dupesListe.length = n;
     state.dupes = n;
     display.textContent = n;
     slider.value = n;
@@ -91,12 +153,14 @@ function wechsleTab(ziel, speichern = true) {
 // ── ALLES RENDERN ─────────────────────────────────────────
 function renderAlles() {
   renderUebersicht();
+  renderDuplikanten();
   renderNahrung();
   renderPflanzDetailKarten();
   renderTiere();
   renderMaterialien();
   renderStrom();
   renderRezepte();
+  renderEinstellungen();
   stateGeaendert();   // speichert Profil + aktualisiert Bilanz-Leiste
 }
 
@@ -106,20 +170,22 @@ function renderAlles() {
 function renderUebersicht() {
   const container = document.getElementById("bedarf-karten");
   const d = ONI.duplikantBedarf;
-  const n = state.dupes;
+  const n = state.dupesListe.length;
+  const kolonie = berechneKolonieBedarf();
 
+  // Traits fließen in kcal/O₂/CO₂ ein, Rest skaliert mit der Anzahl
   const eintraege = [
-    { key: "kalorien",           mult: n    },
-    { key: "sauerstoff",         mult: n    },
-    { key: "co2Produktion",      mult: n    },
-    { key: "wasserToilette",     mult: n    },
-    { key: "schmutzwasser",      mult: n    },
-    { key: "wasserWaschbecken",  mult: n    },
+    { key: "kalorien",           gesamt: kolonie.kcal },
+    { key: "sauerstoff",         gesamt: kolonie.o2Zyklus },
+    { key: "co2Produktion",      gesamt: kolonie.co2Zyklus },
+    { key: "wasserToilette",     gesamt: d.wasserToilette.wert * n },
+    { key: "schmutzwasser",      gesamt: d.schmutzwasser.wert * n },
+    { key: "wasserWaschbecken",  gesamt: d.wasserWaschbecken.wert * n },
   ];
 
   container.innerHTML = eintraege.map(e => {
     const item   = d[e.key];
-    const gesamt = item.wert * e.mult;
+    const gesamt = e.gesamt;
     const anzeige = gesamt >= 1000 ? (gesamt / 1000).toFixed(1) + " kg" : gesamt.toLocaleString("de-DE") + " g";
     return `
       <div class="bedarf-karte">
@@ -130,9 +196,9 @@ function renderUebersicht() {
       </div>`;
   }).join("");
 
-  // Zusammenfassung + O2 Rechner
-  const o2Bedarf   = n * 60000;  // g/Zyklus
-  const co2Prod    = n * 20000;  // g/Zyklus
+  // Zusammenfassung + O2 Rechner (Elektrolyseur: 888 g O₂/s, Diffusor-Farn: Werte s. data)
+  const o2Bedarf   = kolonie.o2Zyklus;   // g/Zyklus, inkl. Traits
+  const co2Prod    = kolonie.co2Zyklus;  // g/Zyklus
   const electro    = Math.ceil(o2Bedarf / 53280);
   const oxyfarne   = Math.ceil(o2Bedarf / 18780);
   const wasserElec = (electro * 71.4).toFixed(1);
@@ -141,10 +207,10 @@ function renderUebersicht() {
     <div class="tipp-box" style="margin-bottom:12px">
       <span class="tipp-icon">💡</span>
       <div>
-        <strong>${n} Duplikant${n !== 1 ? "en" : ""}</strong> brauchen pro Zyklus (600s) insgesamt
-        <strong>${(n * 2000).toLocaleString("de-DE")} kcal</strong> Nahrung,
+        <strong>${n} Duplikant${n !== 1 ? "en" : ""}</strong> ${kolonie.kranke > 0 ? `(davon <strong style="color:var(--red)">${kolonie.kranke} krank</strong>)` : ""} brauchen pro Zyklus (600s) insgesamt
+        <strong>${kolonie.kcal.toLocaleString("de-DE")} kcal</strong> Nahrung,
         <strong>${((o2Bedarf) / 1000).toFixed(0)} kg</strong> Sauerstoff und produzieren
-        <strong>${((co2Prod) / 1000).toFixed(0)} kg</strong> CO₂.
+        <strong>${((co2Prod) / 1000).toFixed(1)} kg</strong> CO₂.
       </div>
     </div>
     <div class="grid-3" style="gap:12px;margin-bottom:20px">
@@ -185,23 +251,24 @@ function renderPflanzItem(p) {
   const istNahrung = p.kcalProErnte > 0 && p.wachstumszyklen > 0;
   const kpz = istNahrung ? (p.kcalProErnte / p.wachstumszyklen).toFixed(0) : "–";
   const benoetigt = istNahrung
-    ? Math.ceil((state.dupes * 2000) / (p.kcalProErnte / p.wachstumszyklen))
+    ? Math.ceil(berechneKolonieBedarf().kcal / (p.kcalProErnte / p.wachstumszyklen))
     : "–";
 
   const wildInfo = p.wachstumszyklenwild > 0
     ? `<span style="color:var(--text-dim);font-size:10px">🌲 Wild: ${p.wachstumszyklenwild}Z</span>`
     : "";
 
+  const zn = zweitName(p);
   const kcalAnzeige = istNahrung
-    ? `${kpz} kcal/Zyk · 🏠${p.wachstumszyklen}Z ${p.wachstumszyklenwild > 0 ? "· 🌲"+p.wachstumszyklenwild+"Z" : ""} · <em>${p.englisch}</em>`
-    : `<span style="color:var(--text-dim)">${p.typ === "wild-einmalig" ? "🌿 Einmalig (Wildnis)" : p.typ === "ressource" ? "📦 Ressource" : "📦 Ressource"}</span> · <em>${p.englisch}</em>`;
+    ? `${kpz} kcal/Zyk · 🏠${p.wachstumszyklen}Z ${p.wachstumszyklenwild > 0 ? "· 🌲"+p.wachstumszyklenwild+"Z" : ""}${zn ? " · <em>" + zn + "</em>" : ""}`
+    : `<span style="color:var(--text-dim)">${p.typ === "wild-einmalig" ? "🌿 Einmalig (Wildnis)" : p.typ === "ressource" ? "📦 Ressource" : "📦 Ressource"}</span>${zn ? " · <em>" + zn + "</em>" : ""}`;
 
   return `
     <div class="pflanz-item ${ausgewaehlt ? "ausgewaehlt" : ""} ${!aktiv ? "dlc-inaktiv" : ""}"
          data-id="${p.id}" onclick="togglePflanze('${p.id}', event)">
       <span class="pflanz-icon">${wikiImg(p, 36)}</span>
       <div class="pflanz-info">
-        <div class="pflanz-name">${p.name}</div>
+        <div class="pflanz-name">${zeigeName(p)}</div>
         <div class="pflanz-kcal">${kcalAnzeige}</div>
         ${!aktiv ? `<span class="tag tag-lila">${packName(p.pack)}</span>` : ""}
       </div>
@@ -259,7 +326,7 @@ function setPflanzeAnzahl(id, wert) {
 
 function renderNahrungsTabelle() {
   const container = document.getElementById("nahrung-tabelle");
-  const gesamtBedarf = state.dupes * 2000;
+  const gesamtBedarf = berechneKolonieBedarf().kcal;
 
   let gesamtProduktion = 0;
   // Bugfix: Pflanzen ohne kcalProErnte > 0 NICHT in der Nahrungstabelle anzeigen
@@ -281,7 +348,7 @@ function renderNahrungsTabelle() {
 
       return `
         <tr>
-          <td><span class="pflanz-icon">${wikiImg(p, 24)}</span> ${p.name}</td>
+          <td><span class="pflanz-icon">${wikiImg(p, 24)}</span> ${zeigeName(p)}</td>
           <td style="color:var(--text-dim)">${anzahl}</td>
           <td style="color:var(--accent)">${anzahl > 0 ? Math.round(produktion).toLocaleString("de-DE") + " kcal" : "–"}</td>
           <td style="color:var(--blue)">${benoetigt} Stück</td>
@@ -438,8 +505,8 @@ function renderTiere() {
         <div class="tier-header">
           <span class="tier-icon">${wikiImg(tier, 52, "wiki-img-tier")}</span>
           <div>
-            <div class="tier-name">${tier.name}</div>
-            <div class="tier-englisch">${tier.englisch} · ${packBadge(tier.pack)}</div>
+            <div class="tier-name">${zeigeName(tier)}</div>
+            <div class="tier-englisch">${zweitName(tier) ? zweitName(tier) + " · " : ""}${packBadge(tier.pack)}</div>
             <div style="font-size:11px;color:var(--text-dim);margin-top:2px">
               🏠 ${tier.lebensraum} · max. ${tier.maxProStall} pro Stall
             </div>
@@ -659,7 +726,7 @@ function renderStrom() {
     return `<option value="">— Gerät wählen —</option>` +
       Object.entries(kategorien).map(([kat, items]) =>
         `<optgroup label="${kat}">${items.map(it =>
-          `<option value="${it.id}">${it.name} (${it.typ === "gen" ? "+" : it.watt > 0 ? "-" : ""}${it.watt}W)</option>`
+          `<option value="${it.id}">${zeigeName(it)} (${it.typ === "gen" ? "+" : it.watt > 0 ? "-" : ""}${it.watt}W)</option>`
         ).join("")}</optgroup>`
       ).join("");
   }
@@ -691,7 +758,7 @@ function renderStrom() {
         <div class="kreis-eintrag">
           <div class="ke-img">${_stromImg(item)}</div>
           <div class="ke-info">
-            <div class="ke-name">${item.name} ${dauerBadge}</div>
+            <div class="ke-name">${zeigeName(item)} ${dauerBadge}</div>
             <div class="ke-tipp">${item.tipp || ""}</div>
           </div>
           <div class="ke-watt" style="color:${wattFarbe}">${wattAnz}</div>
@@ -797,8 +864,8 @@ function renderRezepte() {
       return `
         <tr>
           <td>
-            <div style="font-weight:700;color:var(--text-head);font-size:13px">${r.name}</div>
-            <div style="font-size:10px;color:var(--text-dim)">${r.englisch}</div>
+            <div style="font-weight:700;color:var(--text-head);font-size:13px">${zeigeName(r)}</div>
+            ${zweitName(r) ? `<div style="font-size:10px;color:var(--text-dim)">${zweitName(r)}</div>` : ""}
           </td>
           <td>
             ${r.zutaten.map(z => `<div style="font-size:12px;color:var(--text-main)">• ${z}</div>`).join("")}
@@ -901,8 +968,8 @@ function renderPflanzDetailKarten() {
         <div class="pflanze-detail-header">
           <span class="pflanze-detail-icon">${wikiImg(p, 48)}</span>
           <div>
-            <div style="font-size:15px;font-weight:700;color:var(--text-head)">${p.name}</div>
-            <div style="font-size:11px;color:var(--text-dim)">${p.englisch}</div>
+            <div style="font-size:15px;font-weight:700;color:var(--text-head)">${zeigeName(p)}</div>
+            ${zweitName(p) ? `<div style="font-size:11px;color:var(--text-dim)">${zweitName(p)}</div>` : ""}
             <div style="margin-top:3px">${packBadge(p.pack)} <span style="font-size:10px;color:var(--text-dim)">${typLabel}</span></div>
           </div>
         </div>
@@ -958,7 +1025,9 @@ function packBadge(packId) {
     vanilla:           "tag-gruen",
     spacedOut:         "tag-blau",
     frostyPlanet:      "tag-lila",
-    prehistoricPlanet: "tag-orange"
+    bionicBooster:     "tag-blau",
+    prehistoricPlanet: "tag-orange",
+    aquaticPlanet:     "tag-blau"
   };
   const p = ONI.packs.find(x => x.id === packId);
   if (!p) return "";
@@ -974,10 +1043,220 @@ function formatMenge(menge, einheit) {
 }
 
 // ══════════════════════════════════════════════════════════
+// TAB: DUPLIKANTEN (AP2)
+// ══════════════════════════════════════════════════════════
+function dupeHinzufuegen() {
+  state.dupesListe.push(neuerDupe("Duplikant " + (state.dupesListe.length + 1)));
+  state.dupes = state.dupesListe.length;
+  document.getElementById("dupe-anzeige").textContent = state.dupes;
+  document.getElementById("dupe-slider").value = state.dupes;
+  renderAlles();
+}
+
+function dupeEntfernen(id) {
+  if (state.dupesListe.length <= 1) return;
+  state.dupesListe = state.dupesListe.filter(d => d.id !== id);
+  state.dupes = state.dupesListe.length;
+  document.getElementById("dupe-anzeige").textContent = state.dupes;
+  document.getElementById("dupe-slider").value = state.dupes;
+  renderAlles();
+}
+
+function dupeName(id, wert) {
+  const d = state.dupesListe.find(x => x.id === id);
+  if (d) { d.name = (wert || "").slice(0, 30) || d.name; stateGeaendert(); }
+}
+
+function dupeTraitToggle(id, traitId) {
+  const d = state.dupesListe.find(x => x.id === id);
+  if (!d) return;
+  if (!Array.isArray(d.traits)) d.traits = [];
+  const idx = d.traits.indexOf(traitId);
+  if (idx >= 0) d.traits.splice(idx, 1); else d.traits.push(traitId);
+  renderAlles();
+}
+
+function dupeKrankheit(id, krankheitId) {
+  const d = state.dupesListe.find(x => x.id === id);
+  if (d) { d.krankheit = krankheitId; renderAlles(); }
+}
+
+function renderDuplikanten() {
+  const container = document.getElementById("duplikanten-inhalt");
+  if (!container) return;
+  const kolonie = berechneKolonieBedarf();
+
+  // Linke Seite: Bedarf gesamt
+  const links = `
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title">📋 Kolonie-Bedarf (${kolonie.anzahl} Dupes)</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+        <div>🍽️ Nahrung: <strong style="color:var(--accent)">${kolonie.kcal.toLocaleString("de-DE")} kcal/Zyklus</strong></div>
+        <div>💨 Sauerstoff: <strong style="color:var(--blue)">${(kolonie.o2Zyklus/1000).toFixed(1)} kg/Zyklus</strong></div>
+        <div>☁️ CO₂-Ausstoß: <strong>${(kolonie.co2Zyklus/1000).toFixed(1)} kg/Zyklus</strong></div>
+        ${kolonie.kranke > 0 ? `<div style="color:var(--red)">🤒 <strong>${kolonie.kranke} krank</strong> – Krankenstation & Medizin einplanen!</div>` : ""}
+      </div>
+      <hr>
+      <div style="font-size:11px;color:var(--text-dim)">
+        Basis pro Dupe: 1.000 kcal · 100 g/s O₂ · 2 g/s CO₂ (Standard-Schwierigkeit).
+        Traits wie „${zeigeName(traitById("calorieburner"))}" oder „${zeigeName(traitById("mouthbreather"))}" ändern den Bedarf automatisch.
+      </div>
+    </div>
+    <button class="btn-primary" style="width:100%" onclick="dupeHinzufuegen()">+ Duplikant hinzufügen</button>`;
+
+  // Rechte Seite: Dupe-Karten
+  const karten = state.dupesListe.map(d => {
+    const b = berechneDupeBedarf(d);
+    const k = krankheitById(d.krankheit);
+    const istKrank = d.krankheit && d.krankheit !== "gesund";
+    const traitTags = (d.traits || []).map(tid => {
+      const t = traitById(tid);
+      return t ? `<span class="tag ${t.kcalZyklus > 0 || t.o2GproS > 0 ? "tag-rot" : t.o2GproS < 0 ? "tag-gruen" : "tag-blau"}" title="${t.info}">${zeigeName(t)}</span>` : "";
+    }).join("");
+
+    return `
+      <div class="card dupe-karte ${istKrank ? "dupe-krank" : ""}" style="padding:14px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <span style="font-size:26px">${istKrank ? "🤒" : "🧑‍🚀"}</span>
+          <input type="text" class="dupe-name-input" value="${d.name.replace(/"/g, "&quot;")}"
+                 maxlength="30" onchange="dupeName('${d.id}', this.value)" title="Name ändern">
+          <button class="ke-del" onclick="dupeEntfernen('${d.id}')" title="Duplikant entfernen">🗑</button>
+        </div>
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:6px">
+          🍽️ <strong style="color:var(--accent)">${b.kcal.toLocaleString("de-DE")} kcal</strong> ·
+          💨 <strong style="color:var(--blue)">${b.o2GproS} g/s</strong> O₂
+        </div>
+        <div style="margin-bottom:8px">${traitTags || '<span style="font-size:11px;color:var(--text-dim)">Keine Eigenschaften gewählt</span>'}</div>
+        <details>
+          <summary style="cursor:pointer;font-size:11px;color:var(--text-dim);padding:4px 0">⚙️ Eigenschaften wählen (${(d.traits||[]).length})</summary>
+          <div class="trait-liste">
+            ${ONI.traits.map(t => `
+              <label class="trait-zeile" title="${t.info}">
+                <input type="checkbox" ${(d.traits||[]).includes(t.id) ? "checked" : ""}
+                       onchange="dupeTraitToggle('${d.id}', '${t.id}')">
+                <span>${zeigeName(t)}</span>
+                <span class="trait-effekt">${t.kcalZyklus ? (t.kcalZyklus>0?"+":"")+t.kcalZyklus+" kcal" : ""}${t.o2GproS ? " "+(t.o2GproS>0?"+":"")+t.o2GproS+" g/s O₂" : ""}</span>
+              </label>`).join("")}
+          </div>
+        </details>
+        <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:11px;color:var(--text-dim)">Krankheit:</span>
+          <select class="strom-add-sel" style="flex:1;min-width:0" onchange="dupeKrankheit('${d.id}', this.value)" title="${k.info}">
+            ${ONI.krankheiten.map(kr => `<option value="${kr.id}" ${d.krankheit === kr.id ? "selected" : ""}>${zeigeName(kr)}</option>`).join("")}
+          </select>
+        </div>
+        ${istKrank ? `<div style="font-size:11px;color:var(--red);margin-top:6px">⚠️ ${k.info}</div>` : ""}
+      </div>`;
+  }).join("");
+
+  container.innerHTML = `
+    <div class="nahrung-layout">
+      <div>${links}</div>
+      <div class="grid-auto">${karten}</div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// TAB: EINSTELLUNGEN
+// ══════════════════════════════════════════════════════════
+function setSprache(s) {
+  if (["de", "en", "beide"].includes(s)) { state.sprache = s; renderAlles(); }
+}
+
+function profilExport() {
+  try {
+    const daten = localStorage.getItem("oni-kalkulator-profil") || "{}";
+    const blob = new Blob([daten], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "oni-kalkulator-profil.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } catch (e) { alert("Export fehlgeschlagen: " + e.message); }
+}
+
+function profilImport(input) {
+  const datei = input.files && input.files[0];
+  if (!datei) return;
+  const leser = new FileReader();
+  leser.onload = () => {
+    try {
+      JSON.parse(leser.result); // Validierung
+      localStorage.setItem("oni-kalkulator-profil", leser.result);
+      location.reload();
+    } catch (e) { alert("Ungültige Profildatei: " + e.message); }
+  };
+  leser.readAsText(datei);
+}
+
+function profilZuruecksetzen() {
+  if (!confirm("Wirklich ALLE Eingaben löschen und neu starten?")) return;
+  try { localStorage.removeItem("oni-kalkulator-profil"); } catch (e) {}
+  location.reload();
+}
+
+function renderEinstellungen() {
+  const container = document.getElementById("einstellungen-inhalt");
+  if (!container) return;
+  container.innerHTML = `
+    <div class="grid-2" style="gap:16px;align-items:start">
+      <div class="card">
+        <div class="card-title">🌐 Sprache der Spielbegriffe</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+          ${[["de","🇩🇪 Deutsch (Sprachpaket)"],["en","🇬🇧 Englisch (Original)"],["beide","🇩🇪+🇬🇧 Beides – „Mehlholz (Mealwood)“"]].map(([w, t]) => `
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+              <input type="radio" name="sprache" value="${w}" ${state.sprache === w ? "checked" : ""} onchange="setSprache('${w}')">
+              <span>${t}</span>
+            </label>`).join("")}
+        </div>
+        <hr>
+        <p style="font-size:11px;color:var(--text-dim)">
+          Deutsche Namen stammen aus dem offiziellen Sprachpaket
+          „German Translation [inkl. DLCs]" (Workshop 929139073).
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">💾 Profil</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn-secondary" onclick="profilExport()">⬇️ Profil als Datei sichern</button>
+          <label class="btn-secondary" style="text-align:center;cursor:pointer">
+            ⬆️ Profil aus Datei laden
+            <input type="file" accept=".json" style="display:none" onchange="profilImport(this)">
+          </label>
+          <button class="btn-secondary" style="border-color:var(--red);color:var(--red)" onclick="profilZuruecksetzen()">🗑 Alles zurücksetzen</button>
+        </div>
+        <hr>
+        <p style="font-size:11px;color:var(--text-dim)">
+          Alles wird automatisch im Browser gespeichert. Die Datei-Sicherung ist für
+          Gerätewechsel oder als Backup gedacht.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">🔄 Datenquelle</div>
+        <div style="font-size:13px;display:flex;flex-direction:column;gap:6px">
+          <div>✅ <strong>Manuell</strong> – aktiv</div>
+          <div style="color:var(--text-dim)">🔜 Spielstand-Import (.sav per Drag & Drop)</div>
+          <div style="color:var(--text-dim)">🔜 Auto-Sync mit Save-Ordner (Chrome/Edge)</div>
+          <div style="color:var(--text-dim)">🔜 Live-Mod „KalkulatorSync"</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">ℹ️ Version & Daten</div>
+        <div style="font-size:12px;color:var(--text-dim);line-height:1.7">
+          ONI Kalkulator <strong style="color:var(--text-main)">v3.0</strong><br>
+          Basiswerte: Standard-Schwierigkeit (1.000 kcal/Dupe/Zyklus)<br>
+          Spielversion-Referenz: Build 737790 (alle DLCs)<br>
+          Bilder: Original-Spielgrafiken © Klei Entertainment
+        </div>
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════
 // BILANZ-LEISTE (immer sichtbar im Header, KONZEPT §3.3)
 // ══════════════════════════════════════════════════════════
 function berechneNahrungsBilanz() {
-  const bedarf = state.dupes * 2000;
+  const bedarf = berechneKolonieBedarf().kcal;
   let prod = 0, hatEingaben = false;
   ONI.pflanzen
     .filter(p => p.kcalProErnte > 0 && p.wachstumszyklen > 0 && state.aktivePacks.has(p.pack))
@@ -1023,8 +1302,9 @@ function renderBilanz() {
     nahrungTitel = `${Math.round(n.prod).toLocaleString("de-DE")} von ${n.bedarf.toLocaleString("de-DE")} kcal/Zyklus gedeckt`;
   }
 
-  // 💨 Sauerstoff – eigener Rechner folgt (AP4); bis dahin Bedarfs-Info
-  const o2Kg = (state.dupes * 60000 / 1000).toFixed(0);
+  // 💨 Sauerstoff – eigener Rechner folgt (AP4); bis dahin Bedarfs-Info inkl. Traits
+  const kolonie = berechneKolonieBedarf();
+  const o2Kg = (kolonie.o2Zyklus / 1000).toFixed(0);
 
   // ⚡ Strom
   const s = berechneStromBilanz();
@@ -1042,7 +1322,7 @@ function renderBilanz() {
     <button class="bilanz-chip ${nahrungKl}" onclick="wechsleTab('nahrung')" title="${nahrungTitel}">
       🍗 Nahrung <strong>${nahrungTxt}</strong>
     </button>
-    <button class="bilanz-chip neutral" onclick="wechsleTab('uebersicht')" title="Sauerstoff-Rechner folgt – Bedarf deiner ${state.dupes} Dupes">
+    <button class="bilanz-chip neutral" onclick="wechsleTab('duplikanten')" title="Sauerstoff-Rechner folgt – Bedarf deiner ${kolonie.anzahl} Dupes inkl. Traits">
       💨 O₂ <strong>${o2Kg} kg/Zyk</strong>
     </button>
     <button class="bilanz-chip ${stromKl}" onclick="wechsleTab('strom')" title="${stromTitel}">

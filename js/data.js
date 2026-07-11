@@ -15,16 +15,21 @@ const ONI = {
     { id: "vanilla",           name: "Basisspiel",              icon: "🌍" },
     { id: "spacedOut",         name: "Spaced Out!",             icon: "🚀" },
     { id: "frostyPlanet",      name: "Frosty Planet Pack",      icon: "❄️" },
-    { id: "prehistoricPlanet", name: "Prehistoric Planet Pack", icon: "🦕" }
+    { id: "bionicBooster",     name: "Bionic Booster Pack",     icon: "🦾" },
+    { id: "prehistoricPlanet", name: "Prehistoric Planet Pack", icon: "🦕" },
+    { id: "aquaticPlanet",     name: "Aquatic Planet Pack",     icon: "🌊" }
   ],
 
   // ── DUPLIKANT GRUNDBEDARF (pro Zyklus = 600 Sekunden) ─────
+  // Quelle: oxygennotincluded.wiki.gg – Standard-Schwierigkeit.
+  // Kalorien 1.000 kcal/Zyklus (nicht 2.000!), CO₂ 2 g/s = 1,2 kg/Zyklus.
+  // Toilette (Lavatory): 5 kg Wasser rein, 11,7 kg verschmutzt raus pro Nutzung (~1×/Zyklus).
   duplikantBedarf: {
-    kalorien:          { wert: 2000,  einheit: "kcal", icon: "🍽️", name: "Kalorien" },
+    kalorien:          { wert: 1000,  einheit: "kcal", icon: "🍽️", name: "Kalorien" },
     sauerstoff:        { wert: 60000, einheit: "g",    icon: "💨", name: "Sauerstoff (verbraucht)" },
-    co2Produktion:     { wert: 20000, einheit: "g",    icon: "☁️", name: "CO₂ (produziert)" },
-    wasserToilette:    { wert: 15000, einheit: "g",    icon: "💧", name: "Wasser (Toilette)" },
-    schmutzwasser:     { wert: 11700, einheit: "g",    icon: "🪣", name: "Schmutzwasser (produziert)" },
+    co2Produktion:     { wert: 1200,  einheit: "g",    icon: "☁️", name: "CO₂ (produziert)" },
+    wasserToilette:    { wert: 5000,  einheit: "g",    icon: "💧", name: "Wasser (Toilette)" },
+    schmutzwasser:     { wert: 11700, einheit: "g",    icon: "🪣", name: "Verschmutztes Wasser (produziert)" },
     wasserWaschbecken: { wert: 5000,  einheit: "g",    icon: "🚿", name: "Wasser (Waschbecken)" }
   },
 

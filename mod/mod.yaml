@@ -1,0 +1,3 @@
+title: "ONI Kalkulator Sync"
+description: "Exportiert den Kolonie-Zustand (Duplikanten, Kalorien, Krankheiten, Zyklus) alle 5 Sekunden als JSON-Datei für den ONI Kalkulator (pahartmann1990.github.io/oni-calkulator). Nur lesend – ändert nichts am Spiel, schreibt nichts in den Spielstand, sendet nichts ins Internet. / Exports colony state to a local JSON file for the ONI Kalkulator website. Read-only."
+staticID: "KalkulatorSync"

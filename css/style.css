@@ -993,6 +993,45 @@ hr {
   pointer-events: none;
 }
 
+/* ── DUPLIKANTEN-TAB (AP2) ──────────────────────────────── */
+.dupe-karte { border-left: 3px solid var(--border-light); }
+.dupe-karte.dupe-krank {
+  border-left-color: var(--red);
+  border-image: none;
+}
+.dupe-name-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-base);
+  border: 1px solid var(--border);
+  color: var(--text-head);
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-family: inherit;
+}
+.dupe-name-input:focus { outline: none; border-color: var(--accent); }
+.trait-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 220px;
+  overflow-y: auto;      /* scrollt NUR in der Liste, nie die Seite blockieren */
+  padding: 6px 2px;
+}
+.trait-zeile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.trait-zeile:hover { background: var(--bg-hover); }
+.trait-effekt { margin-left: auto; font-size: 10px; color: var(--accent); white-space: nowrap; }
+
 /* ── FOOTER ─────────────────────────────────────────────── */
 footer {
   text-align: center;

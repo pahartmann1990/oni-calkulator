@@ -21,7 +21,7 @@
       <div class="logo-icon">⚗️</div>
       <div class="logo-text">
         <h1>ONI Kalkulator</h1>
-        <p>Oxygen Not Included · Deutsch · v2.3</p>
+        <p>Oxygen Not Included · Deutsch · v3.0</p>
       </div>
     </div>
 
@@ -29,8 +29,10 @@
     <div class="dlc-selector">
       <div class="dlc-badge aktiv" data-pack="vanilla">🌍 Basisspiel</div>
       <div class="dlc-badge" data-pack="spacedOut">🚀 Spaced Out!</div>
-      <div class="dlc-badge" data-pack="frostyPlanet">❄️ Frosty Planet Pack</div>
-      <div class="dlc-badge" data-pack="prehistoricPlanet">🦕 Prehistoric Planet Pack</div>
+      <div class="dlc-badge" data-pack="frostyPlanet">❄️ Frosty</div>
+      <div class="dlc-badge" data-pack="bionicBooster">🦾 Bionic</div>
+      <div class="dlc-badge" data-pack="prehistoricPlanet">🦕 Prehistoric</div>
+      <div class="dlc-badge" data-pack="aquaticPlanet">🌊 Aquatic</div>
     </div>
 
     <!-- Duplikanten-Anzahl -->
@@ -56,11 +58,39 @@
   <!-- ── TABS ──────────────────────────────────────────── -->
   <div class="tab-bar">
     <button class="tab-btn aktiv" data-tab="uebersicht">📊 Übersicht</button>
+    <button class="tab-btn" data-tab="duplikanten">🧑‍🚀 Duplikanten</button>
     <button class="tab-btn" data-tab="nahrung">🌱 Nahrung & Pflanzen</button>
     <button class="tab-btn" data-tab="tiere">🐾 Tiere & Ställe</button>
     <button class="tab-btn" data-tab="materialien">⚙️ Materialien</button>
     <button class="tab-btn" data-tab="strom">⚡ Strom</button>
     <button class="tab-btn" data-tab="rezepte">🍳 Rezepte</button>
+    <button class="tab-btn" data-tab="einstellungen">⚙️ Einstellungen</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       TAB: DUPLIKANTEN (AP2)
+  ══════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-duplikanten">
+    <div class="section-header">
+      <div>
+        <div class="section-title">🧑‍🚀 Duplikanten</div>
+        <div class="section-sub">Deine Dupes einzeln – Eigenschaften und Krankheiten verändern den Bedarf automatisch</div>
+      </div>
+    </div>
+    <div id="duplikanten-inhalt"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       TAB: EINSTELLUNGEN
+  ══════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-einstellungen">
+    <div class="section-header">
+      <div>
+        <div class="section-title">⚙️ Einstellungen</div>
+        <div class="section-sub">Sprache, Profil-Sicherung und Datenquellen</div>
+      </div>
+    </div>
+    <div id="einstellungen-inhalt"></div>
   </div>
 
   <!-- ══════════════════════════════════════════════════════
@@ -241,6 +271,7 @@
 
 <!-- Scripts -->
 <script src="js/data.js"></script>
+<script src="js/data-dupes.js"></script>
 <script src="js/state.js"></script>
 <script src="js/app.js"></script>
 

@@ -670,6 +670,142 @@ const ONI = {
       beschreibung: "Einmalige Wildpflanze im Gartenbiom (Prehistoric Planet Pack). Nicht anbaubar.",
       tipp: "Notfallnahrung im Gartenbiom. Nur einmal erntbar.",
       rezepte: []
+    },
+
+    // ── AQUATIC PLANET PACK (DLC5) ────────────────────────────
+    // Belegt: Namen (Sprachpaket), Grundfunktion (wiki/gamerant).
+    // Genaue Anbauwerte folgen mit dem Spieldaten-Dump (AP8) – Wiki ist noch Stub.
+    {
+      id: "muschelspross", name: "Muschelspross", englisch: "Mussel Sprout",
+      typ: "wild-einmalig", pack: "aquaticPlanet", icon: "🦪",
+      img: BASE_IMG + "Mussel_Sprout.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 2800,
+      ernteMenge: "1 Muschelzunge (2.800 kcal, einmalig)",
+      inputs: [], atmosphaere: "Strand-Biom", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Nicht vermehrbar – einmalige Ernte. Versucht beim Ernten wegzukriechen (sehr langsam).",
+      tipp: "2.800 kcal pro Fund, aber Qualität −1. Besser als Zutat nutzen.", rezepte: []
+    },
+    {
+      id: "turmseetang", name: "Turmseetang", englisch: "Tower Kelp",
+      typ: "ressource", pack: "aquaticPlanet", icon: "🌿",
+      img: BASE_IMG + "Tower_Kelp.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Nori + Lebensraum für Tangquappen",
+      inputs: [], atmosphaere: "Unter Wasser", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Riesiger Seetang – Heimat der Tangquappen (je 10 kg Nori bei Ernte). Anbauwerte folgen (AP8).",
+      tipp: "Nori-Quelle für Sushi-Rolle und Nigiri. Tangquappen füttern die Erzhülle.", rezepte: []
+    },
+    {
+      id: "pinpoket", name: "Pinpoket", englisch: "Pinpoket",
+      typ: "ressource", pack: "aquaticPlanet", icon: "🦔",
+      img: BASE_IMG + "Pinpoket.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Zutat für Uni (7.200 kcal an der Sushi-Bar)",
+      inputs: [], atmosphaere: "Abyss-Biom", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Seeigel-Pflanze aus dem Abyss-Biom. Anbauwerte folgen (AP8).",
+      tipp: "1 Pinpoket → 7.200 kcal Uni. Sehr lohnend!", rezepte: []
+    },
+    {
+      id: "schlotkoralle", name: "Schlotkoralle", englisch: "Flue Coral",
+      typ: "ressource", pack: "aquaticPlanet", icon: "🪸",
+      img: BASE_IMG + "Flue_Coral.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Sauerstoff (Werte folgen)",
+      inputs: [], atmosphaere: "Unter Wasser", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Sauerstoff-erzeugende Koralle – belüftet Wasserbereiche. Werte folgen (AP8).",
+      tipp: "Natürliche O₂-Quelle unter Wasser – ideal für Blinklicht-Fische.", rezepte: []
+    },
+    {
+      id: "gummipalme", name: "Gummipalme", englisch: "Gum Palm",
+      typ: "ressource", pack: "aquaticPlanet", icon: "🌴",
+      img: BASE_IMG + "Gum_Palm.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Werte folgen (AP8)",
+      inputs: [], atmosphaere: "Strand-Biom", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Palme des Strand-Bioms. Werte folgen (AP8).",
+      tipp: "Teil des Strand-Bioms im Aquatic Planet Pack.", rezepte: []
+    },
+    {
+      id: "pettapouf", name: "Petta Pouf", englisch: "Petta Pouf",
+      typ: "ressource", pack: "aquaticPlanet", icon: "🌺",
+      img: BASE_IMG + "Petta_Pouf.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Werte folgen (AP8)",
+      inputs: [], atmosphaere: "Unter Wasser", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Biolumineszente Wasserpflanze. Werte folgen (AP8).",
+      tipp: "Leuchtet – natürliche Lichtquelle unter Wasser.", rezepte: []
+    },
+    {
+      id: "tublia", name: "Tublia", englisch: "Tublia",
+      typ: "ressource", pack: "aquaticPlanet", icon: "🪱",
+      img: BASE_IMG + "Tublia.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Futter für Glühtintenfische",
+      inputs: [], atmosphaere: "Abyss-Biom", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Röhrenwurm-Pflanze aus dem Abyss-Biom. Werte folgen (AP8).",
+      tipp: "Glühtintenfische fressen 25 % Tublia-Wachstum pro Zyklus.", rezepte: []
+    },
+    {
+      id: "zwiebelwebe", name: "Zwiebelwebe", englisch: "Bulbloom",
+      typ: "ressource", pack: "aquaticPlanet", icon: "🧅",
+      img: BASE_IMG + "Bulbloom.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Werte folgen (AP8)",
+      inputs: [], atmosphaere: "Abyss-Biom", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Leuchtende Abyss-Pflanze. Werte folgen (AP8).",
+      tipp: "Teil des Abyss-Bioms in der Tiefe.", rezepte: []
+    },
+    {
+      id: "seestern", name: "Seestern", englisch: "Starnacle",
+      typ: "ressource", pack: "aquaticPlanet", icon: "⭐",
+      img: BASE_IMG + "Starnacle.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Perlen (Futter für Seepferdchen)",
+      inputs: [], atmosphaere: "Unter Wasser", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Wird von Blinklicht-Fischen gedüngt (+13 % Wachstum). Werte folgen (AP8).",
+      tipp: "Perlen-Quelle: Seepferdchen fressen 3,1 kg Perle/Zyklus.", rezepte: []
+    },
+    {
+      id: "sodicane", name: "Sodicane", englisch: "Sodicane",
+      typ: "ressource", pack: "aquaticPlanet", icon: "🎋",
+      img: BASE_IMG + "Sodicane.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Salzstangen-Zutat (Werte folgen)",
+      inputs: [], atmosphaere: "Strand-Biom", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Salzrohr-Pflanze. Werte folgen (AP8).",
+      tipp: "Quelle für Salzstangen (Zutat für Edamame).", rezepte: []
+    },
+    {
+      id: "clampum", name: "Clampum", englisch: "Clampum",
+      typ: "ressource", pack: "aquaticPlanet", icon: "🐚",
+      img: BASE_IMG + "Clampum.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Werte folgen (AP8)",
+      inputs: [], atmosphaere: "Unter Wasser", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Muschel-Pflanze. Werte folgen (AP8).",
+      tipp: "Teil der Unterwasser-Biome.", rezepte: []
+    },
+    {
+      id: "hushacups", name: "Husha Cups", englisch: "Husha Cups",
+      typ: "ressource", pack: "aquaticPlanet", icon: "🍥",
+      img: BASE_IMG + "Husha_Cups.png",
+      wachstumszyklen: 0, wachstumszyklenwild: 0, kcalProErnte: 0,
+      ernteMenge: "Werte folgen (AP8)",
+      inputs: [], atmosphaere: "Unter Wasser", temperatur: null,
+      licht: false, dunkelheit: false,
+      beschreibung: "Becherförmige Wasserpflanze. Werte folgen (AP8).",
+      tipp: "Teil der Unterwasser-Biome.", rezepte: []
     }
   ],
 
@@ -1129,6 +1265,156 @@ const ONI = {
       ],
       varianten: [],
       tipp: "Größtes Prehistoric Planet-Tier. Hoher Fleischertrag, aber braucht sehr viel Futter!"
+    },
+
+    // ── AQUATIC PLANET PACK (DLC5) – Quelle: wiki.gg / gamerant ──
+    {
+      id: "slogo",
+      name: "Slogo",
+      englisch: "Slogo",
+      pack: "aquaticPlanet",
+      icon: "🐌",
+      img: BASE_IMG + "Slogo.png",
+      lebensraum: "Land",
+      maxProStall: null,
+      eiinkubation: null,
+      nahrung: [
+        { name: "Salz", menge: 100000, einheit: "g/Zyklus" }
+      ],
+      produktion: [
+        { name: "Erde", menge: 50000, einheit: "g/Zyklus", icon: "🟫" },
+        { name: "Muzin (max.)", menge: 30000, einheit: "g/Zyklus", icon: "🧪" },
+        { name: "800 kcal Fleisch (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🥩" }
+      ],
+      varianten: [
+        { name: "Gildgo", sonderNahrung: "100 kg Schwefel/Zyklus (Abyss-Biom)", sonderProduktion: "50 kg Obsidian + Muzin; Häutung wird zu Goldamalgam" }
+      ],
+      tipp: "Schneckenartig, Lebensdauer 25 Zyklen. Häutung ergibt Kalk. Frisst enorme Mengen Salz!"
+    },
+    {
+      id: "beakon",
+      name: "Blinklicht",
+      englisch: "Beakon",
+      pack: "aquaticPlanet",
+      icon: "🐠",
+      img: BASE_IMG + "Beakon.png",
+      lebensraum: "Wasser (braucht O₂-Zugang)",
+      maxProStall: null,
+      eiinkubation: null,
+      nahrung: [
+        { name: "Phosphorit", menge: 10000, einheit: "g/Zyklus" }
+      ],
+      produktion: [
+        { name: "Kalk", menge: 5000, einheit: "g/Zyklus", icon: "🪨" },
+        { name: "Seestern-Wachstum +13 %/Zyk", menge: 0, einheit: "", icon: "⭐" },
+        { name: "1.000 kcal Fischfilet (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🐟" }
+      ],
+      varianten: [],
+      tipp: "Leuchtet, wenn glücklich – lebende Lampe! Lebensdauer 25 Zyklen."
+    },
+    {
+      id: "blowter",
+      name: "Blähter",
+      englisch: "Blowter",
+      pack: "aquaticPlanet",
+      icon: "🐡",
+      img: BASE_IMG + "Blowter.png",
+      lebensraum: "Wasser",
+      maxProStall: null,
+      eiinkubation: null,
+      nahrung: [
+        { name: "Salat (Wasserkraut)", menge: 400, einheit: "kcal/Zyklus" }
+      ],
+      produktion: [
+        { name: "Sauerstoff", menge: 15000, einheit: "g/Zyklus", icon: "💨" },
+        { name: "Wasserkraut-Wachstum +8 %/Zyk", menge: 0, einheit: "", icon: "🌿" },
+        { name: "1.000 kcal Fischfilet (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🐟" }
+      ],
+      varianten: [],
+      tipp: "Lebender Sauerstoff-Erzeuger unter Wasser: 15 kg O₂/Zyklus! Lebensdauer 25 Zyklen."
+    },
+    {
+      id: "seaquine",
+      name: "Seepferdchen",
+      englisch: "Seaquine",
+      pack: "aquaticPlanet",
+      icon: "🌊",
+      img: BASE_IMG + "Seaquine.png",
+      lebensraum: "Wasser",
+      maxProStall: null,
+      eiinkubation: null,
+      nahrung: [
+        { name: "Perle", menge: 3125, einheit: "g/Zyklus" }
+      ],
+      produktion: [
+        { name: "Schleim", menge: 12000, einheit: "g/Zyklus", icon: "🟢" },
+        { name: "Ovalen (melken)", menge: 100000, einheit: "g pro Melken", icon: "🥛" },
+        { name: "1.000 kcal Fischfilet (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🐟" }
+      ],
+      varianten: [],
+      tipp: "Melkbar an der Aquatischen Melkstation → Ovalen für Kaviar. Lebensdauer 100 Zyklen."
+    },
+    {
+      id: "orehull",
+      name: "Erzhülle",
+      englisch: "Orehull",
+      pack: "aquaticPlanet",
+      icon: "🐢",
+      img: BASE_IMG + "Orehull.png",
+      lebensraum: "Wasser",
+      maxProStall: null,
+      eiinkubation: null,
+      nahrung: [
+        { name: "Tangquappen", menge: 2, einheit: "Stück/Zyklus" }
+      ],
+      produktion: [
+        { name: "Nori", menge: 20000, einheit: "g/Zyklus", icon: "🍙" },
+        { name: "Verschmutzter Schlamm", menge: 50000, einheit: "g/Zyklus", icon: "🟤" },
+        { name: "Eisenerz (Scheren)", menge: 250000, einheit: "g pro Schur", icon: "⛏️" },
+        { name: "6.000 kcal Rohe Schalentiere (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🦪" }
+      ],
+      varianten: [],
+      tipp: "Schildkröte mit Erzpanzer: Scheren bringt 250 kg Eisenerz! Lebensdauer 100 Zyklen."
+    },
+    {
+      id: "kelpole",
+      name: "Tangquappe",
+      englisch: "Kelpole",
+      pack: "aquaticPlanet",
+      icon: "🪸",
+      img: BASE_IMG + "Kelpole.png",
+      lebensraum: "Wasser (lebt im Turmseetang)",
+      maxProStall: null,
+      eiinkubation: null,
+      nahrung: [
+        { name: "Kein Futter nötig", menge: 0, einheit: "" }
+      ],
+      produktion: [
+        { name: "Nori (Ernte)", menge: 10000, einheit: "g pro Ernte", icon: "🍙" }
+      ],
+      varianten: [],
+      tipp: "Larve aus dem Turmseetang, Lebensdauer nur 5 Zyklen. Futter für die Erzhülle."
+    },
+    {
+      id: "glosquid",
+      name: "Glühtintenfisch",
+      englisch: "Glo Squid",
+      pack: "aquaticPlanet",
+      icon: "🦑",
+      img: BASE_IMG + "Glo_Squid.png",
+      lebensraum: "Wasser",
+      maxProStall: null,
+      eiinkubation: null,
+      nahrung: [
+        { name: "Tublia (25 % Wachstum/Zyk)", menge: 0, einheit: "" }
+      ],
+      produktion: [
+        { name: "Abyssalit", menge: 20000, einheit: "g/Zyklus", icon: "🟣" },
+        { name: "Tintenfischtinte (melken)", menge: 200000, einheit: "g pro Melken", icon: "🖤" },
+        { name: "9.600 kcal Calamari (Schlachtung)", menge: 0, einheit: "pro Tier", icon: "🦑" }
+      ],
+      varianten: [],
+      tipp: "Erzeugt Abyssalit – den besten Isolator! Wird aggressiv, wenn Eier in der Nähe sind. Lebensdauer 100 Zyklen."
     }
   ],
 
@@ -1491,6 +1777,38 @@ const ONI = {
       geraet: "Smoker",  pack: "prehistoricPlanet", kcalAusgang: 11450, qualitaet: 4,
       haltbarkeit: 8,   zutaten: ["5.600 kcal Gemüse (Schweißkorn / Stechapfel / Spindeldürre Wühlfrucht)", "100 kg Torf/Holz"],
       tipp: "Vegetarische Option für Smoker. Schweißkornstängel liefert schnell Biomasse."
+    },
+
+    // ── AQUATIC PLANET PACK (Sushi-Bar & Roh) – Quelle: gamerant/wiki ──
+    { id: "sushirolle",       name: "Sushi-Rolle",            englisch: "Sushi Roll",
+      geraet: "Sushi-Bar", pack: "aquaticPlanet", kcalAusgang: 3600, qualitaet: 4,
+      haltbarkeit: 0,   zutaten: ["1.700 kcal Läusebrot", "1 kg Nori", "1.000 kcal Fischfilet"],
+      tipp: "Fischfilet kommt von Blinklicht, Blähter oder Seepferdchen."
+    },
+    { id: "nigiri",           name: "Nigiri",                 englisch: "Nigiri",
+      geraet: "Sushi-Bar", pack: "aquaticPlanet", kcalAusgang: 3600, qualitaet: 5,
+      haltbarkeit: 0,   zutaten: ["1.700 kcal Läusebrot", "1 kg Nori", "800 kcal Calamari"],
+      tipp: "Hervorragende Qualität (+5) – Calamari liefert der Glühtintenfisch."
+    },
+    { id: "uni",              name: "Uni",                    englisch: "Uni",
+      geraet: "Sushi-Bar", pack: "aquaticPlanet", kcalAusgang: 7200, qualitaet: 3,
+      haltbarkeit: 0,   zutaten: ["1 Pinpoket"],
+      tipp: "Sehr kalorienreich: 7.200 kcal aus einer Pinpoket-Pflanze."
+    },
+    { id: "edamame",          name: "Edamame",                englisch: "Edamame",
+      geraet: "Sushi-Bar", pack: "aquaticPlanet", kcalAusgang: 1450, qualitaet: 3,
+      haltbarkeit: 0,   zutaten: ["1 Happsbohne", "600 kcal Salzstangen"],
+      tipp: "Kombiniert Happspross (Basisspiel) mit Aquatic-Zutaten."
+    },
+    { id: "muschelzunge",     name: "Muschelzunge",           englisch: "Mussel Tongue",
+      geraet: "Ernte/Roh", pack: "aquaticPlanet", kcalAusgang: 2800, qualitaet: -1,
+      haltbarkeit: 0,   zutaten: ["Muschelspross (geerntet)"],
+      tipp: "Roh essbar, aber eklig (Qualität −1) – besser weiterverarbeiten."
+    },
+    { id: "calamari",         name: "Calamari",               englisch: "Calamari",
+      geraet: "Ernte/Roh", pack: "aquaticPlanet", kcalAusgang: 800, qualitaet: 2,
+      haltbarkeit: 0,   zutaten: ["Glühtintenfisch (Schlachtung)"],
+      tipp: "Rohzutat für Nigiri – oder direkt essen (Standard-Qualität)."
     }
   ],
 

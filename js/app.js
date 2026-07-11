@@ -430,8 +430,8 @@ function renderTierBerechnung(id) {
   const tierState = state.ausgewaehlteTiere[id] || { haben: 0, wollen: 0 };
   const wollen = tierState.wollen;
 
-  // Ställe
-  const staelle = wollen > 0 ? Math.ceil(wollen / tier.maxProStall) : 0;
+  // Ställe (bei unbekannter Stallgröße: keine Hochrechnung erfinden)
+  const staelle = wollen > 0 && tier.maxProStall ? Math.ceil(wollen / tier.maxProStall) : 0;
 
   // Ressourcenbedarf
   const nahrungItems = tier.nahrung.map(n => {
@@ -459,8 +459,8 @@ function renderTierBerechnung(id) {
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px">
       <div style="background:var(--bg-base);border-radius:6px;padding:8px 10px">
         <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px">🏠 STÄLLE</div>
-        <div style="font-size:18px;font-weight:700;color:var(--accent)">${staelle}</div>
-        <div style="font-size:10px;color:var(--text-dim)">max. ${tier.maxProStall}/Stall</div>
+        <div style="font-size:18px;font-weight:700;color:var(--accent)">${staelle || "?"}</div>
+        <div style="font-size:10px;color:var(--text-dim)">${tier.maxProStall ? "max. " + tier.maxProStall + "/Stall" : "Stallgröße unbekannt"}</div>
       </div>
       <div style="background:var(--bg-base);border-radius:6px;padding:8px 10px">
         <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px">🍽️ NAHRUNGSBEDARF</div>
@@ -508,7 +508,7 @@ function renderTiere() {
             <div class="tier-name">${zeigeName(tier)}</div>
             <div class="tier-englisch">${zweitName(tier) ? zweitName(tier) + " · " : ""}${packBadge(tier.pack)}</div>
             <div style="font-size:11px;color:var(--text-dim);margin-top:2px">
-              🏠 ${tier.lebensraum} · max. ${tier.maxProStall} pro Stall
+              🏠 ${tier.lebensraum} · ${tier.maxProStall ? "max. " + tier.maxProStall + " pro Stall" : "Stallgröße noch unbekannt"}
             </div>
           </div>
         </div>
@@ -524,7 +524,7 @@ function renderTiere() {
           <div class="io-row">
             <span class="io-label">🥚 Ei:</span>
             <div class="io-items">
-              <div class="io-item">${tier.eiinkubation} Zyklen Inkubation</div>
+              <div class="io-item">${tier.eiinkubation ? tier.eiinkubation + " Zyklen Inkubation" : "–"}</div>
             </div>
           </div>
           ${variantenHTML}
@@ -845,7 +845,9 @@ function renderRezepte() {
     { id: "Elektrogrill",     icon: "🔥", tipp: "60W · Basis für viele Zwischen-Rezepte" },
     { id: "Gasherd",          icon: "🍽️", tipp: "Kein Strom · Benötigt Erdgas oder Wasserstoff" },
     { id: "Fritteuse",        icon: "🛢️", tipp: "60W · Nur mit Frosty Planet Pack" },
-    { id: "Smoker",           icon: "💨", tipp: "Kein Strom · Nur mit Prehistoric Planet Pack · Benötigt Holz/Torf" }
+    { id: "Smoker",           icon: "💨", tipp: "Kein Strom · Nur mit Prehistoric Planet Pack · Benötigt Holz/Torf" },
+    { id: "Sushi-Bar",        icon: "🍣", tipp: "Nur mit Aquatic Planet Pack" },
+    { id: "Ernte/Roh",        icon: "🥡", tipp: "Direkt essbar ohne Kochgerät" }
   ];
 
   const aktiveRezepte = ONI.rezepte.filter(r => state.aktivePacks.has(r.pack));
@@ -981,7 +983,7 @@ function renderPflanzDetailKarten() {
           </div>
           <div class="detail-item">
             <div class="detail-key">🌡️ Temperatur</div>
-            <div class="detail-val">${p.temperatur.min}°C – ${p.temperatur.max}°C</div>
+            <div class="detail-val">${p.temperatur ? p.temperatur.min + "°C – " + p.temperatur.max + "°C" : "folgt (AP8)"}</div>
           </div>
         </div>
         <div style="font-size:12px;margin-bottom:8px">
@@ -1117,7 +1119,13 @@ function renderDuplikanten() {
     return `
       <div class="card dupe-karte ${istKrank ? "dupe-krank" : ""}" style="padding:14px">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-          <span style="font-size:26px">${istKrank ? "🤒" : "🧑‍🚀"}</span>
+          <span style="position:relative;flex-shrink:0">
+            <img src="img/game/Duplicant.png" alt="Duplikant" width="34" height="34"
+                 style="object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6))"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+            <span style="font-size:26px;display:none">🧑‍🚀</span>
+            ${istKrank ? '<span style="position:absolute;right:-6px;bottom:-4px;font-size:14px">🤒</span>' : ""}
+          </span>
           <input type="text" class="dupe-name-input" value="${d.name.replace(/"/g, "&quot;")}"
                  maxlength="30" onchange="dupeName('${d.id}', this.value)" title="Name ändern">
           <button class="ke-del" onclick="dupeEntfernen('${d.id}')" title="Duplikant entfernen">🗑</button>

@@ -1214,7 +1214,7 @@ const ONI = {
       englisch: "Lumb",
       pack: "prehistoricPlanet",
       icon: "🐘",
-      img: "",
+      img: BASE_IMG + "Lumb.png",
       lebensraum: "Land",
       maxProStall: 4,
       eiinkubation: 25,
